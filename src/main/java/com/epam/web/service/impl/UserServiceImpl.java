@@ -7,10 +7,8 @@ import com.epam.web.service.ServiceException;
 import com.epam.web.service.UserService;
 import com.epam.web.util.PasswordEncrypter;
 import com.epam.web.validator.UserValidator;
-
 import java.util.Optional;
 
-//todo validator
 public class UserServiceImpl implements UserService {
     private static final UserDao USER_DAO_IMPL = UserDaoImpl.getInstance();
     private static UserServiceImpl instance = new UserServiceImpl();
