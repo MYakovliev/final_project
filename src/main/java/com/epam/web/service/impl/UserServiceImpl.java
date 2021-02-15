@@ -6,35 +6,46 @@ import com.epam.web.entity.User;
 import com.epam.web.service.ServiceException;
 import com.epam.web.service.UserService;
 import com.epam.web.util.PasswordEncrypter;
+import com.epam.web.validator.UserValidator;
 
 import java.util.Optional;
+
 //todo validator
 public class UserServiceImpl implements UserService {
     private static final UserDao USER_DAO_IMPL = UserDaoImpl.getInstance();
     private static UserServiceImpl instance = new UserServiceImpl();
+    private static UserValidator validator = new UserValidator();
 
-    private UserServiceImpl(){
+    private UserServiceImpl() {
     }
 
-    public static UserServiceImpl getInstance(){
+    public static UserServiceImpl getInstance() {
         return instance;
     }
 
     public User login(String login, String password) throws ServiceException {
+        if (!(validator.isValidLogin(login) && validator.isValidPassword(password))) {
+            throw new ServiceException("wrong data in form(s)");
+        }
         Optional<String> optionalPassword = PasswordEncrypter.encrypt(password);
-        if (!optionalPassword.isPresent()){
+        if (!optionalPassword.isPresent()) {
             throw new ServiceException("Unknown algorithm for encrypting password");
         }
         Optional<User> optionalUser = USER_DAO_IMPL.login(login, password);
-        if (!optionalUser.isPresent()){
+        if (!optionalUser.isPresent()) {
             throw new ServiceException("invalid login or password");
         }
         return optionalUser.get();
+
     }
 
     public void register(String name, String mail, String login, String password) throws ServiceException {
+        if (!(validator.isValidLogin(login) && validator.isValidPassword(password)
+                && validator.isValidMail(mail) && validator.isValidName(name))) {
+            throw new ServiceException("wrong data in form(s)");
+        }
         Optional<String> optionalPassword = PasswordEncrypter.encrypt(password);
-        if (!optionalPassword.isPresent()){
+        if (!optionalPassword.isPresent()) {
             throw new ServiceException("Unknown algorithm for encrypting password");
         }
         USER_DAO_IMPL.register(name, mail, login, optionalPassword.get());

@@ -7,7 +7,6 @@ import com.epam.web.service.UserService;
 import com.epam.web.service.impl.UserServiceImpl;
 import com.epam.web.util.JspPath;
 import com.epam.web.util.SessionAttribute;
-import com.epam.web.validator.RegistrationValidator;
 import com.epam.web.util.RequestParameter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpSession;
 
 public class RegisterCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
-    private static RegistrationValidator validator = new RegistrationValidator();
     private static UserService userServiceImpl = UserServiceImpl.getInstance();
 
     @Override
