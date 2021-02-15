@@ -1,0 +1,6 @@
+2021.09.02  23:02:12 [main] FATAL com.epam.web.pool.ConnectionCreator - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+2021.09.02  23:02:48 [main] FATAL com.epam.web.pool.ConnectionCreator - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+2021.09.02  23:03:21 [main] FATAL com.epam.web.pool.ConnectionCreator - java.lang.ClassNotFoundException: com.mysql.cj.jdbc.Driver
+2021.11.02  01:09:02 [main] DEBUG com.epam.web.pool.ConnectionCreator - connection given
+2021.11.02  01:09:25 [main] DEBUG com.epam.web.pool.ConnectionCreator - connection com.mysql.cj.jdbc.ConnectionImpl@76b1e9b8 given
+2021.11.02  01:13:24 [main] INFO  com.epam.web.pool.ConnectionPool - Connection's been given
