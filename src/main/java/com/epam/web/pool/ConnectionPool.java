@@ -67,13 +67,22 @@ public class ConnectionPool {
         }
     }
 
-//    public void destroyPool(){
-//        for (int i = 0; i < freeConnections.size(); i++) {
-//            try {
-//                ((ProxyConnection)freeConnections.take()).reallyClose();
-//            } catch (InterruptedException | SQLException e) {
-//                logger.error(e);
-//            }
-//        }
-//    }
+    public void destroyPool(){
+        try {
+            for (Connection connection : freeConnections) {
+                ((ProxyConnection)connection).reallyClose();
+            }
+            freeConnections.clear();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+        try {
+            for (Connection connection : givenConnections) {
+                ((ProxyConnection)connection).reallyClose();
+            }
+            givenConnections.clear();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+    }
 }

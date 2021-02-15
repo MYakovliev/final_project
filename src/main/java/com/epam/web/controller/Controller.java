@@ -1,6 +1,7 @@
 package com.epam.web.controller;
 
 import com.epam.web.command.ActionCommand;
+import com.epam.web.pool.ConnectionPool;
 import com.epam.web.util.RequestParameter;
 import com.epam.web.command.CommandType;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +18,7 @@ public class Controller extends HttpServlet {
 
 
     public void init() {
+        ConnectionPool.getInstance();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,5 +40,6 @@ public class Controller extends HttpServlet {
     }
 
     public void destroy() {
+        ConnectionPool.getInstance().destroyPool();
     }
 }

@@ -7,6 +7,7 @@ import com.epam.web.service.impl.UserServiceImpl;
 import com.epam.web.util.JspPath;
 import com.epam.web.entity.User;
 import com.epam.web.util.RequestParameter;
+import com.epam.web.util.SessionAttribute;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,21 +23,16 @@ public class LoginCommand implements ActionCommand {
         String path = JspPath.LOGIN;
         String login = request.getParameter(RequestParameter.LOGIN);
         String password = request.getParameter(RequestParameter.PASSWORD);
-        logger.debug("there are two parameters {} and {}", login, password);
+//        logger.debug("there are two parameters {} and {}", login, password);
         try {
             User user = userServiceImpl.login(login, password);
             HttpSession session = request.getSession();
-            session.setAttribute("user", user);
+            session.setAttribute(SessionAttribute.USER, user);
             path = JspPath.MAIN;
             request.setAttribute("name", user.getName());
         } catch (ServiceException e) {
             logger.error(e);
         }
-
-//        if (dao.contains(new User(mail, password))){
-//            request.setAttribute(RequestParameter.MAIL, mail);
-//            path = JspPath.MAIN;
-//    }
         return path;
     }
 }
