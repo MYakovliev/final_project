@@ -32,6 +32,7 @@ public class UserDaoImpl implements UserDao {
         Optional<User> user = Optional.empty();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(LOGIN_STATEMENT)) {
+            logger.debug("password is {}", password);
             statement.setString(1, login);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
