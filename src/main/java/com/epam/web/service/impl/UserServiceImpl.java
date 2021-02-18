@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
         return instance;
     }
 
+    @Override
     public User login(String login, String password) throws ServiceException {
         if (!(validator.isValidLogin(login) && validator.isValidPassword(password))) {
             throw new ServiceException("wrong data in form(s)");
@@ -50,6 +51,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
     public void register(String name, String mail, String login, String password) throws ServiceException {
         if (!(validator.isValidLogin(login) && validator.isValidPassword(password)
                 && validator.isValidMail(mail) && validator.isValidName(name))) {
@@ -69,17 +71,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void makeBid(User user, BigDecimal bid, Lot lot) throws ServiceException {
-        try{
-            if (user.getBalance().compareTo(bid) > 0 && lot.getCurrentCost().compareTo(bid) < 0){
-                if (!lot.getBuyer().equals(user)){
+        try {
+            if (user.getBalance().compareTo(bid) > 0 && lot.getCurrentCost().compareTo(bid) < 0) {
+                if (!lot.getBuyer().equals(user)) {
                     dao.makeBid(user, bid, lot);
                 } else {
                     throw new ServiceException("this user is already a buyer");
                 }
-            } else{
+            } else {
                 throw new ServiceException("this user have no enough money");
             }
-        } catch (DaoException e){
+        } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
         }
