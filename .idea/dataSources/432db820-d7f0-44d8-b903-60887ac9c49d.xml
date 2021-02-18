@@ -912,104 +912,162 @@ SELECT|sys.sys_config
       <ObjectGrants>SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,RELOAD,SHUTDOWN,PROCESS,FILE,REFERENCES,INDEX,ALTER,SHOW DATABASES,SUPER,CREATE TEMPORARY TABLES,LOCK TABLES,EXECUTE,REPLICATION SLAVE,REPLICATION CLIENT,CREATE VIEW,SHOW VIEW,CREATE ROUTINE,ALTER ROUTINE,CREATE USER,EVENT,TRIGGER,CREATE TABLESPACE,CREATE ROLE,DROP ROLE!
 </ObjectGrants>
     </user>
-    <table id="285" parent="2" name="orders"/>
-    <table id="286" parent="2" name="roles"/>
-    <table id="287" parent="2" name="users"/>
-    <column id="288" parent="285" name="idorders">
+    <table id="285" parent="2" name="lots"/>
+    <table id="286" parent="2" name="orders"/>
+    <table id="287" parent="2" name="roles"/>
+    <table id="288" parent="2" name="users"/>
+    <column id="289" parent="285" name="idlots">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="289" parent="285" name="seller">
+    <column id="290" parent="285" name="name">
+      <Position>2</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="291" parent="285" name="description">
+      <Position>3</Position>
+      <DataType>longtext|0s</DataType>
+    </column>
+    <column id="292" parent="285" name="start_time">
+      <Position>4</Position>
+      <DataType>timestamp|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="293" parent="285" name="end_time">
+      <Position>5</Position>
+      <DataType>timestamp|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="294" parent="285" name="bid">
+      <Position>6</Position>
+      <DataType>decimal(10,2 digit)|0s</DataType>
+    </column>
+    <index id="295" parent="285" name="idlots_UNIQUE">
+      <ColNames>idlots</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="296" parent="285" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>idlots</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="297" parent="285" name="idlots_UNIQUE">
+      <ColNames>idlots</ColNames>
+      <UnderlyingIndexName>idlots_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="298" parent="286" name="idorders">
+      <Position>1</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="299" parent="286" name="seller">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="290" parent="285" name="buyer">
+    <column id="300" parent="286" name="buyer">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="291" parent="285" name="description">
+    <column id="301" parent="286" name="lot">
       <Position>4</Position>
-      <DataType>longtext|0s</DataType>
+      <DataType>int|0s</DataType>
     </column>
-    <index id="292" parent="285" name="seller_idx">
+    <index id="302" parent="286" name="seller_idx">
       <ColNames>seller
 buyer</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="293" parent="285" name="buyer_idx">
+    <index id="303" parent="286" name="buyer_idx">
       <ColNames>buyer</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="294" parent="285" name="PRIMARY">
+    <index id="304" parent="286" name="lot_idx">
+      <ColNames>lot</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="305" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idorders</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="295" parent="285" name="seller">
+    <foreign-key id="306" parent="286" name="seller">
       <ColNames>seller</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>idusers</RefColNames>
     </foreign-key>
-    <foreign-key id="296" parent="285" name="buyer">
+    <foreign-key id="307" parent="286" name="buyer">
       <ColNames>buyer</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>idusers</RefColNames>
     </foreign-key>
-    <column id="297" parent="286" name="idroles">
+    <foreign-key id="308" parent="286" name="lot">
+      <ColNames>lot</ColNames>
+      <RefTableName>lots</RefTableName>
+      <RefColNames>idlots</RefColNames>
+    </foreign-key>
+    <column id="309" parent="287" name="idroles">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="298" parent="286" name="role">
+    <column id="310" parent="287" name="role">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <key id="299" parent="286" name="PRIMARY">
+    <key id="311" parent="287" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idroles</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="300" parent="287" name="idusers">
+    <column id="312" parent="288" name="idusers">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="301" parent="287" name="name">
+    <column id="313" parent="288" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <column id="302" parent="287" name="mail">
+    <column id="314" parent="288" name="mail">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <column id="303" parent="287" name="login">
+    <column id="315" parent="288" name="login">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <column id="304" parent="287" name="password">
+    <column id="316" parent="288" name="password">
       <Position>5</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <column id="305" parent="287" name="role">
+    <column id="317" parent="288" name="balance">
       <Position>6</Position>
+      <DataType>decimal(10,2 digit)|0s</DataType>
+      <DefaultExpression>0.00</DefaultExpression>
+    </column>
+    <column id="318" parent="288" name="role">
+      <Position>7</Position>
       <DataType>int|0s</DataType>
       <DefaultExpression>3</DefaultExpression>
     </column>
-    <index id="306" parent="287" name="role_idx">
+    <index id="319" parent="288" name="role_idx">
       <ColNames>role</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="307" parent="287" name="PRIMARY">
+    <key id="320" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idusers</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="308" parent="287" name="role">
+    <foreign-key id="321" parent="288" name="role">
       <ColNames>role</ColNames>
       <RefTableName>roles</RefTableName>
       <RefColNames>idroles</RefColNames>

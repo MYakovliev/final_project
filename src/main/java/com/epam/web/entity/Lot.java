@@ -1,16 +1,31 @@
 package com.epam.web.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Lot {
+    private int id;
     private String name;
     private String description;
     private Date finishTime;
+    private BigDecimal currentCost;
+    private User seller;
+    private User buyer;
 
-    public Lot(String name, String description, Date finishTime) {
+    public Lot(int id, String name, String description, Date finishTime, BigDecimal currentCost, User seller) {
         this.name = name;
         this.description = description;
         this.finishTime = finishTime;
+        this.currentCost = currentCost;
+        this.seller = seller;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -37,33 +52,28 @@ public class Lot {
         this.finishTime = finishTime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Lot lot = (Lot) o;
-
-        if (name != null ? !name.equals(lot.name) : lot.name != null) return false;
-        if (description != null ? !description.equals(lot.description) : lot.description != null) return false;
-        return finishTime != null ? finishTime.equals(lot.finishTime) : lot.finishTime == null;
+    public BigDecimal getCurrentCost() {
+        return currentCost;
     }
 
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (finishTime != null ? finishTime.hashCode() : 0);
-        return result;
+    public void setCurrentCost(BigDecimal currentCost) {
+        this.currentCost = currentCost;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Lot{");
-        sb.append("name='").append(name).append('\'');
-        sb.append(", description='").append(description).append('\'');
-        sb.append(", finishTime=").append(finishTime);
-        sb.append('}');
-        return sb.toString();
+    public User getSeller() {
+        return seller;
     }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
+
+    public User getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
+    }
+
 }

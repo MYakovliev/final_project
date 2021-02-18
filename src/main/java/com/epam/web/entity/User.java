@@ -1,16 +1,19 @@
 package com.epam.web.entity;
 
 
+import java.math.BigDecimal;
+
 public class User {
     private String mail;
     private String name;
+    private BigDecimal balance = BigDecimal.valueOf(0.00);
     private UserRole userRole;
 
-    public User(String name, String mail, UserRole userRole) {
+    public User(String name, String mail, UserRole userRole, BigDecimal balance) {
         this.name = name;
         this.mail = mail;
         this.userRole = userRole;
-
+        this.balance = balance;
     }
 
     public User(String name, String mail){
@@ -42,6 +45,14 @@ public class User {
         this.userRole = userRole;
     }
 
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,6 +62,7 @@ public class User {
 
         if (mail != null ? !mail.equals(user.mail) : user.mail != null) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (balance != null ? !balance.equals(user.balance) : user.balance != null) return false;
         return userRole == user.userRole;
     }
 
@@ -58,6 +70,7 @@ public class User {
     public int hashCode() {
         int result = mail != null ? mail.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (balance != null ? balance.hashCode() : 0);
         result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
         return result;
     }
@@ -67,6 +80,7 @@ public class User {
         final StringBuilder sb = new StringBuilder("User{");
         sb.append("mail='").append(mail).append('\'');
         sb.append(", name='").append(name).append('\'');
+        sb.append(", balance=").append(balance);
         sb.append(", userRole=").append(userRole);
         sb.append('}');
         return sb.toString();
