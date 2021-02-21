@@ -4,11 +4,6 @@
     <title>Main</title>
 </head>
 <body>
-<form action="controller" method="get">
-    Hello, ${name}
-    <hr/>
-        <input type="hidden" name="command" value="logout">
-        <input type="submit" name="logoutBtn" value="log out">
-</form>
+<jsp:include page="support/header.jsp"/>
 </body>
 </html>

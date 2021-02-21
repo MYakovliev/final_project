@@ -52,13 +52,13 @@ public class ConnectionPool {
     public void releaseConnection(Connection connection) {
         if (!(connection instanceof ProxyConnection)) {
             logger.error("connection is not proxy");
-            // throw new ConnectionPoolException("connection is not proxy");
+//             throw new ConnectionPoolException("connection is not proxy");
         }
-        if (!givenConnections.remove(connection)) {
+        else if (!givenConnections.remove(connection)) {
             logger.error("Couldn't remove connection from given");
-            // throw new ConnectionPoolException("Couldn't remove connection from given");
+//             throw new ConnectionPoolException("Couldn't remove connection from given");
         }
-        if (!freeConnections.offer(connection)) {
+        else if (!freeConnections.offer(connection)) {
             try {
                 ((ProxyConnection) connection).reallyClose();
             } catch (SQLException e) {

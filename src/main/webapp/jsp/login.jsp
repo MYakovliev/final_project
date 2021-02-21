@@ -28,7 +28,7 @@
             </form>
             <form action="controller" method="post">
                 <input type="hidden" name="command" value="to_registration">
-                <input type="submit" name="but" value="register"/>
+                <input type="submit" name="but" value="register">
             </form>
         </div>
     </div>

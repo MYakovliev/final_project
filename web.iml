@@ -41,5 +41,6 @@
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.14.0" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:jstl:1.2" level="project" />
     <orderEntry type="library" name="Maven: com.oracle:ojdbc8:21.1" level="project" />
+    <orderEntry type="library" name="font-awesome" level="application" />
   </component>
 </module>

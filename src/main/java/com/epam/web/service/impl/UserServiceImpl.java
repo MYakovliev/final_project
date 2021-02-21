@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         if (!optionalPassword.isPresent()) {
             throw new ServiceException("Unknown algorithm for encrypting password");
         }
-        Optional<User> optionalUser = Optional.empty();
+        Optional<User> optionalUser;
         try {
             optionalUser = dao.login(login, optionalPassword.get());
         } catch (DaoException e) {

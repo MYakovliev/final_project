@@ -8,6 +8,7 @@ public class User {
     private String name;
     private BigDecimal balance = BigDecimal.valueOf(0.00);
     private UserRole userRole;
+    private String avatar;
 
     public User(String name, String mail, UserRole userRole, BigDecimal balance) {
         this.name = name;
@@ -19,6 +20,14 @@ public class User {
     public User(String name, String mail){
         this.name = name;
         this.mail = mail;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getMail() {

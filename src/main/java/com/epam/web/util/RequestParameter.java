@@ -11,5 +11,7 @@ public class RequestParameter {
 
     public static final String NAME = "name";
 
+    public static final String LANGUAGE = "lang";
+
     private RequestParameter(){}
 }
