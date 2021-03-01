@@ -12,9 +12,9 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger();
+    private static final int MIN_POOL_SIZE = Integer.parseInt(DatabaseResourceManager.getParameter("minPoolSize"));
+    private static final int MAX_POOL_SIZE = Integer.parseInt(DatabaseResourceManager.getParameter("maxPoolSize"));
     private static ConnectionPool instance = new ConnectionPool();
-    private static final int MIN_POOL_SIZE = 8;
-    private static final int MAX_POOL_SIZE = 16;
     private BlockingQueue<Connection> freeConnections = new LinkedBlockingDeque<>(MIN_POOL_SIZE);
     private Queue<Connection> givenConnections = new ArrayDeque<>(MAX_POOL_SIZE);
 
@@ -52,13 +52,9 @@ public class ConnectionPool {
     public void releaseConnection(Connection connection) {
         if (!(connection instanceof ProxyConnection)) {
             logger.error("connection is not proxy");
-//             throw new ConnectionPoolException("connection is not proxy");
-        }
-        else if (!givenConnections.remove(connection)) {
+        } else if (!givenConnections.remove(connection)) {
             logger.error("Couldn't remove connection from given");
-//             throw new ConnectionPoolException("Couldn't remove connection from given");
-        }
-        else if (!freeConnections.offer(connection)) {
+        } else if (!freeConnections.offer(connection)) {
             try {
                 ((ProxyConnection) connection).reallyClose();
             } catch (SQLException e) {
@@ -67,21 +63,14 @@ public class ConnectionPool {
         }
     }
 
-    public void destroyPool(){
+    public void destroyPool() {
         try {
-            for (Connection connection : freeConnections) {
-                ((ProxyConnection)connection).reallyClose();
+            for (int i = 0; i < freeConnections.size() + givenConnections.size(); i++) {
+                Connection connection = freeConnections.take();
+                ((ProxyConnection) connection).reallyClose();
             }
             freeConnections.clear();
-        } catch (SQLException e) {
-            logger.error(e);
-        }
-        try {
-            for (Connection connection : givenConnections) {
-                ((ProxyConnection)connection).reallyClose();
-            }
-            givenConnections.clear();
-        } catch (SQLException e) {
+        } catch (SQLException | InterruptedException e) {
             logger.error(e);
         }
     }
