@@ -1,6 +1,7 @@
 package com.epam.web.controller;
 
 import com.epam.web.command.ActionCommand;
+import com.epam.web.command.CommandResult;
 import com.epam.web.pool.ConnectionPool;
 import com.epam.web.util.RequestParameter;
 import com.epam.web.command.CommandType;
@@ -12,9 +13,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "controller", value = "/controller")
+@WebServlet(name = "controller", urlPatterns = {"/controller", "*.do"})
 public class Controller extends HttpServlet {
-    private static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
 
     public void init() {
@@ -35,8 +36,13 @@ public class Controller extends HttpServlet {
         logger.debug(command);
         CommandType commandType = CommandType.valueOf(command.toUpperCase());
         ActionCommand actionCommand = commandType.getCommand();
-        String path = actionCommand.execute(request);
-        request.getRequestDispatcher(path).forward(request, response);
+        CommandResult commandResult = actionCommand.execute(request);
+        logger.debug("{} and redirect is {}", commandResult.getPage(), commandResult.isRedirect());
+        if (commandResult.isRedirect()) {
+            response.sendRedirect(getServletContext().getContextPath() + commandResult.getPage());
+        } else {
+            getServletContext().getRequestDispatcher(commandResult.getPage()).forward(request, response);
+        }
     }
 
     public void destroy() {

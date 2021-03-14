@@ -8,5 +8,7 @@ public class JspPath {
 
     public static final String MAIN = "/jsp/main.jsp";
 
+    public static final String LOT = "/jsp/lot.jsp";
+
     private JspPath(){}
 }

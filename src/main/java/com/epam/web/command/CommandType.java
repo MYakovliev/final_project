@@ -28,6 +28,16 @@ public enum CommandType {
         {
             this.command = new ToLogin();
         }
+    },
+    CHANGE_LANGUAGE{
+        {
+            this.command = new ChangeLanguageCommand();
+        }
+    },
+    MAKE_BID{
+        {
+            this.command = new MakeBidCommand();
+        }
     };
 
     ActionCommand command;
