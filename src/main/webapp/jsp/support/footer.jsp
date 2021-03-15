@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: nicki
@@ -9,20 +10,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <fmt:setLocale value="${sessionScope.lang}"/>
+    <fmt:setBundle basename="locale.locale"/>
+    <title><fmt:message key="footer.title"/></title>
     <link href="<c:url value="/css/footer.css"/>" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 <footer class="footer">
     <div class="footer__addr">
-        <h1 class="footer__logo">Thank you for visiting</h1>
+        <h1 class="footer__logo"><fmt:message key="footer.thanks"/></h1>
 
-        <h2>Contact</h2>
+        <h2><fmt:message key="footer.contact"/></h2>
 
         <address>
-            3rd Builders street, home 25<br>
+            <fmt:message key="footer.address"/><br>
 
-            <a class="footer__btn" href="mailto:example@gmail.com">Email Us</a>
+            <a class="footer__btn" href="mailto:example@gmail.com"><fmt:message key="footer.emailus"/></a>
         </address>
     </div>
 
@@ -91,7 +94,7 @@
         </li>
     </ul>
     <div class="legal">
-        <p>&copy; 2021 All rights reserved.</p>
+        <p>&copy; 2021 <fmt:message key="footer.rights"/></p>
     </div>
 </footer>
 </body>

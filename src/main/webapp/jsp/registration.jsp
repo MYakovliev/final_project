@@ -12,7 +12,9 @@
 <fmt:setBundle basename="locale"/>
 <html>
 <head>
-    <title>Registration</title>
+    <fmt:setLocale value="${sessionScope.lang}"/>
+    <fmt:setBundle basename="locale.locale"/>
+    <title><fmt:message key="registration.title"/></title>
     <link href="<c:url value="/css/registration.css"/>" type="text/css" rel="stylesheet"/>
 
 </head>
@@ -20,31 +22,19 @@
 <div class="form">
     <form class="register-form" action="register.do" method="post">
         <input type="hidden" name="command" value="register"/>
-        <input type="text" placeholder="login" name="login"/>
-        <input type="text" placeholder="name" name="name"/>
-        <input type="password" placeholder="password" name="password" required pattern=".{8, 40}"/>
-        <input type="text" placeholder="email address" name="mail" required pattern="[^$@!]{4,20}@\w+\.\w+"/>
+        <input type="text" placeholder="<fmt:message key="registration.login"/>" name="login"/>
+        <input type="text" placeholder="<fmt:message key="registration.name"/>" name="name"/>
+        <input type="password" placeholder="<fmt:message key="registration.password"/>" name="password" required pattern=".{8, 40}"/>
+        <input type="text" placeholder="<fmt:message key="registration.email"/>" name="mail" required pattern="[^$@!]{4,20}@\w+\.\w+"/>
         <select name="role">
-            <option value="" selected disabled hidden>choose role</option>
-            <option name="role" value="buyer">Buyer</option>
-            <option name="role" value="seller">Seller</option>
+            <option value="" selected disabled hidden><fmt:message key="registration.chooserole"/></option>
+            <option name="role" value="buyer"><fmt:message key="registration.buyerrole"/></option>
+            <option name="role" value="seller"><fmt:message key="registration.sellerrole"/></option>
         </select>
-        <input type="submit" name="btn" value="sign up"/>
-        <p class="message">Already registered? <a href="controller?command=to_login">Sign In</a></p>
-        <p class="message">Don't want to log in?<a href="controller?command=to_main">Back to main</a></p>
+        <input type="submit" name="btn" value="<fmt:message key="registration.button"/>"/>
+        <p class="message"><fmt:message key="registration.asktosignin"/> <a href="controller?command=to_login"><fmt:message key="registration.signin"/></a></p>
+        <p class="message"><fmt:message key="registration.asktomain"/> <a href="controller?command=to_main"><fmt:message key="registration.backtomain"/></a></p>
     </form>
 </div>
-<%--<form action="controller" method="get">--%>
-<%--    <input type="hidden" name="command" value="register"/>--%>
-<%--    <input type="text" name="mail" value="mail@gmail.com" required pattern="[^$@!]{4,20}@\w+\.\w+"/> <br/>--%>
-<%--    <input type="password" name="password" value="password" required pattern=".{8, 40}"/><br/>--%>
-<%--    <input type="text" name="name" value="name"/><br/>--%>
-<%--    <input type="text" name="login" value="login"/><br/>--%>
-<%--    <input type="submit" name="but" value="sign up"/>--%>
-<%--</form>--%>
-<%--<form action="controller" method="get">--%>
-<%--    <input type="hidden" name="command" value="to_login">--%>
-<%--    <input type="submit" name="but" value="sign in">--%>
-<%--</form>--%>
 </body>
 </html>

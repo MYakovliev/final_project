@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: nicki
@@ -8,7 +9,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Profile</title>
+    <fmt:setLocale value="${sessionScope.lang}"/>
+    <fmt:setBundle basename="locale.locale"/>
+    <title><fmt:message key="profile.title"/></title>
 </head>
 <body>
 
