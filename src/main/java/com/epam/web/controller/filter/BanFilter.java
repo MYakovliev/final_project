@@ -25,9 +25,11 @@ public class BanFilter implements Filter {
         User user = (User) session.getAttribute(SessionAttribute.USER);
         if (user != null) {
             boolean isBanned = UserServiceImpl.getInstance().isBanned(user.getId());
-            if (isBanned){
-                logger.debug("You're banned");
-                request.setAttribute(RequestParameter.COMMAND, CommandType.TO_BAN.toString());
+            if (isBanned) {
+                String command = (String) request.getAttribute(RequestParameter.COMMAND);
+                if (CommandType.valueOf(command) != CommandType.LOGOUT) {
+                    request.setAttribute(RequestParameter.COMMAND, CommandType.TO_BAN.toString());
+                }
             }
         }
         chain.doFilter(request, response);
