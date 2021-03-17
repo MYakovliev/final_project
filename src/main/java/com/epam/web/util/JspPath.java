@@ -10,5 +10,7 @@ public class JspPath {
 
     public static final String LOT = "/jsp/lot.jsp";
 
+    public static final String BAN = "/jsp/ban.jsp";
+
     private JspPath(){}
 }

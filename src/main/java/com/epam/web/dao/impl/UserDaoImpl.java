@@ -45,6 +45,7 @@ public class UserDaoImpl implements UserDao {
     private static final String FIND_ALL_USERS_STATEMENT =
             "SELECT idusers, name, mail, balance, roles.role, avatar FROM users " +
                     "INNER JOIN roles ON users.role = roles.idroles";
+    private static final String BAN_STATEMENT = "SELECT isBanned FROM users WHERE idusers=?";
 
     private UserDaoImpl() {
     }
@@ -165,6 +166,23 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(e);
         }
         return users;
+    }
+
+    @Override
+    public boolean isBanned(long userId) throws DaoException {
+        boolean result = false;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(BAN_STATEMENT)) {
+            statement.setLong(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                result = resultSet.getBoolean(1);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        }
+        return result;
     }
 
     private User createUser(ResultSet resultSet) throws SQLException {

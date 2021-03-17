@@ -18,4 +18,6 @@ public interface UserService {
     List<User> findUserByName(String name) throws ServiceException;
 
     List<User> findBuyersHistory(long lotId) throws ServiceException;
+
+    boolean isBanned(long userId);
 }

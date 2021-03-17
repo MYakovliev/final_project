@@ -29,6 +29,16 @@ public enum CommandType {
             this.command = new ToLogin();
         }
     },
+    TO_MAIN{
+        {
+            this.command = new ToMain();
+        }
+    },
+    TO_BAN{
+        {
+            this.command = new ToBan();
+        }
+    },
     CHANGE_LANGUAGE{
         {
             this.command = new ChangeLanguageCommand();
@@ -39,6 +49,7 @@ public enum CommandType {
             this.command = new MakeBidCommand();
         }
     };
+
 
     ActionCommand command;
 

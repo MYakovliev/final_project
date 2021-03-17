@@ -37,7 +37,6 @@ public class Controller extends HttpServlet {
         CommandType commandType = CommandType.valueOf(command.toUpperCase());
         ActionCommand actionCommand = commandType.getCommand();
         CommandResult commandResult = actionCommand.execute(request);
-        logger.debug("{} and redirect is {}", commandResult.getPage(), commandResult.isRedirect());
         if (commandResult.isRedirect()) {
             response.sendRedirect(getServletContext().getContextPath() + commandResult.getPage());
         } else {

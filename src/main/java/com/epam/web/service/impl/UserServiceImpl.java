@@ -111,6 +111,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isBanned(long userId){
+        boolean result = false;
+        try {
+            result = dao.isBanned(userId);
+        } catch (DaoException e){
+            logger.error(e);
+        }
+        return result;
+    }
+
+    @Override
     public void makeBid(User buyer, String stringBid, Lot lot) throws ServiceException {
         if (buyer == null) {
             throw new ServiceException("you have to log in");

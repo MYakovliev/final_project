@@ -4,7 +4,7 @@
     <head>
         <title>JSP - Hello World</title>
     </head>
-    <body>>
+    <body>
         <jsp:forward page="/jsp/main.jsp"/>
     </body>
 </html>
