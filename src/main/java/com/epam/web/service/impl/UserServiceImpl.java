@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
         try {
             if (buyer.getBalance().compareTo(bid) > 0 && lot.getCurrentCost().compareTo(bid) < 0) {
                 if (!(lot.getBuyerId() == buyer.getId())) {
-                    dao.makeBid(buyer, bid, lot);
+                    dao.makeBid(buyer.getId(), bid, lot);
                     lot.setCurrentCost(bid);
                     lot.setBuyerId(buyer.getId());
                 } else {

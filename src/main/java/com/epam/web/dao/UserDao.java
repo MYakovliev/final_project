@@ -13,7 +13,7 @@ public interface UserDao {
 
     void register(String name, String mail, String login, String password, UserRole role) throws DaoException;
 //fixme
-    void makeBid(User user, BigDecimal bid, Lot lot) throws DaoException;
+    void makeBid(long userId, BigDecimal bid, Lot lot) throws DaoException;
 
     Optional<User> findUserById(int id) throws DaoException;
 

@@ -89,7 +89,7 @@ public class UserDaoImpl implements UserDao {
     }
 //fixme use update bid status
     @Override
-    public void makeBid(User user, BigDecimal bid, Lot lot) throws DaoException {
+    public void makeBid(long userId, BigDecimal bid, Lot lot) throws DaoException {
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(MAKE_BID_STATEMENT)) {
             statement.setString(1, String.valueOf(bid));

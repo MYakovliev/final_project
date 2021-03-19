@@ -5,6 +5,8 @@ public class RequestParameter {
 
     public static final String MAIL = "mail";
 
+    public static final String LOT_LIST = "lot_list";
+
     public static final String LOGIN = "login";
 
     public static final String PASSWORD = "password";

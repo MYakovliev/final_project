@@ -1,0 +1,32 @@
+.main_block{
+    display: flex;
+    flex-wrap: wrap;
+}
+.lot_block{
+    background:transparent;
+    border : 1px solid #43A047;
+    border-radius:10px;
+    margin:10px auto 10px auto;
+    display: block;
+    height: auto;
+}
+.lot_block img{
+    height: 260px;
+    width: 440px;
+}
+.lot_name{
+    border-top-right-radius:inherit;
+    border-top-left-radius:inherit;
+    text-align:center;
+    background-color: #43A047;
+    font-size: 30px;
+}
+.time{
+    text-align:center;
+    font-size: 25px;
+    background-color: #EF3B3A;
+}
+.lot_cost{
+    text-align:center;
+    font-size: 50px;
+}

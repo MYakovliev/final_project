@@ -14,4 +14,6 @@ public interface LotService {
     List<Lot> findWonLotByBuyerId(long buyerId) throws ServiceException;
 
     List<Lot> findLotBySellerId(long sellerId) throws ServiceException;
+
+    List<Lot> findAll() throws ServiceException;
 }

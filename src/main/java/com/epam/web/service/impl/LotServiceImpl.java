@@ -98,4 +98,16 @@ public class LotServiceImpl implements LotService {
         }
         return lot;
     }
+
+    @Override
+    public List<Lot> findAll() throws ServiceException {
+        List<Lot> lot;
+        try {
+            lot = dao.findAll();
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException(e);
+        }
+        return lot;
+    }
 }
