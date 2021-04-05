@@ -19,17 +19,7 @@
 <footer class="footer">
     <div class="footer__addr">
         <h1 class="footer__logo"><fmt:message key="footer.thanks"/></h1>
-
-        <h2><fmt:message key="footer.contact"/></h2>
-
-        <address>
-            <fmt:message key="footer.address"/><br>
-
-            <a class="footer__btn" href="mailto:example@gmail.com"><fmt:message key="footer.emailus"/></a>
-        </address>
-    </div>
-    <div class="legal">
-        <p>&copy; 2021 <fmt:message key="footer.rights"/></p>
+        <p class="legal">&copy; <fmt:message key="footer.rights"/></p>
     </div>
 </footer>
 </body>

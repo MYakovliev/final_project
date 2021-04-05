@@ -24,7 +24,7 @@
         <input type="text" placeholder="<fmt:message key="registration.name"/>" name="name"/>
         <input type="password" placeholder="<fmt:message key="registration.password"/>" name="password" required pattern=".{8, 40}"/>
         <input type="text" placeholder="<fmt:message key="registration.email"/>" name="mail" required pattern="[^$@!]{4,20}@\w+\.\w+"/>
-        <select name="role">
+        <select name="role" required>
             <option value="" selected disabled hidden><fmt:message key="registration.chooserole"/></option>
             <option name="role" value="buyer"><fmt:message key="registration.buyerrole"/></option>
             <option name="role" value="seller"><fmt:message key="registration.sellerrole"/></option>

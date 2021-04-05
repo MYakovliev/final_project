@@ -28,7 +28,7 @@ public class LoginCommand implements ActionCommand {
             User user = userServiceImpl.login(login, password);
             HttpSession session = request.getSession();
             session.setAttribute(SessionAttribute.USER, user);
-            path = JspPath.MAIN;
+            path = JspPath.LOTS;
         } catch (ServiceException e) {
             logger.error(e);
         }

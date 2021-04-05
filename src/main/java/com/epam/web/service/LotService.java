@@ -9,11 +9,13 @@ public interface LotService {
 
     Lot findLotById(long id) throws ServiceException;
 
-    List<Lot> findLotByName(String name) throws ServiceException;
+    List<Lot> findLotByName(String name, int pageNumber, int amountPerPage) throws ServiceException;
 
-    List<Lot> findWonLotByBuyerId(long buyerId) throws ServiceException;
+    List<Lot> findWonLotByBuyerId(long buyerId, int pageNumber, int amountPerPage) throws ServiceException;
 
-    List<Lot> findLotBySellerId(long sellerId) throws ServiceException;
+    List<Lot> findLotBySellerId(long sellerId, int pageNumber, int amountPerPage) throws ServiceException;
 
-    List<Lot> findAll() throws ServiceException;
+    List<Lot> findActive(int pageNumber, int amountPerPage) throws ServiceException;
+
+    List<Lot> findAll(int pageNumber, int amountPerPage) throws ServiceException;
 }

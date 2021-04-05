@@ -6,7 +6,7 @@
                              http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
     <tlib-version>1.0</tlib-version>
     <short-name>tag</short-name>
-    <uri>custom</uri>
+    <uri>/WEB-INF/tld/custom.tld</uri>
     <tag>
         <name>access</name>
         <tag-class>com.epam.web.tag.RoleAccessTag</tag-class>

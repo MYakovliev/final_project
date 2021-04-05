@@ -1,6 +1,5 @@
 package com.epam.web.dao;
 
-import com.epam.web.entity.Lot;
 import com.epam.web.entity.User;
 import com.epam.web.entity.UserRole;
 
@@ -12,16 +11,16 @@ public interface UserDao {
     Optional<User> login(String login, String password) throws DaoException;
 
     void register(String name, String mail, String login, String password, UserRole role) throws DaoException;
-//fixme
-    void makeBid(long userId, BigDecimal bid, Lot lot) throws DaoException;
+
+    void makeBid(long userId, BigDecimal bid, long lot) throws DaoException;
 
     Optional<User> findUserById(int id) throws DaoException;
 
-    List<User> findAll() throws DaoException;
+    List<User> findAll(int start, int finish) throws DaoException;
 
-    List<User> findUserByName(String name) throws DaoException;
+    List<User> findUserByName(String name, int start, int finish) throws DaoException;
 
-    List<User> findBuyersHistory(long lotId) throws DaoException;
+    List<User> findBuyersHistory(long lotId, int start, int finish) throws DaoException;
 
     boolean isBanned(long userId) throws DaoException;
 }

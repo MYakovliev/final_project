@@ -18,6 +18,7 @@ public class LotDaoImpl implements LotDao {
     private static final Logger logger = LogManager.getLogger();
     private static final LotDao instance = new LotDaoImpl();
     private static final ConnectionPool pool = ConnectionPool.getInstance();
+    private static final String ANY_AMOUNT_SQL_CHARACTER = "%";
     private static final String ADD_LOT_PICTURE = "INSERT INTO lot_images(lot_id, image) VALUES(?,?)";
     private static final String ADD_NEW_LOT_STATEMENT =
             "INSERT INTO lots(name, description, start_time, end_time, bid, seller) VALUES (?,?,?,?,?,?)";
@@ -26,16 +27,17 @@ public class LotDaoImpl implements LotDao {
     private static final String FIND_LOT_PICTURES_BY_ID_STATEMENT =
             "SELECT image FROM lot_images WHERE lot_id=?";
     private static final String FIND_LOT_BY_NAME_STATEMENT =
-            "SELECT idlots, name, description, bid, end_time, seller FROM lots WHERE name=?";
-
+            "SELECT idlots, name, description, bid, end_time, seller FROM lots WHERE name LIKE ? LIMIT ?, ?";
     private static final String FIND_WON_LOT_BY_BUYER_ID_STATEMENT =
             "SELECT DISTINCT idlots, name, description, lots.bid, end_time, seller " +
-                    "FROM bid_history INNER JOIN lots ON bid_history.id_lot = lots.idlots " +
-                    "WHERE id_buyer=? AND status=(SELECT idstatus FROM status WHERE status.status='WON')";
+                    "FROM lots INNER JOIN bid_history ON bid_history.id_lot = lots.idlots " +
+                    "WHERE id_buyer=? AND status=(SELECT idstatus FROM status WHERE status.status='WON') LIMIT ?, ?";
     private static final String FIND_LOT_BY_SELLER_ID_STATEMENT =
-            "SELECT idlots, name, description, bid, end_time, seller FROM lots WHERE seller=?";
+            "SELECT idlots, name, description, bid, end_time, seller FROM lots WHERE seller=? LIMIT ?, ?";
     private static final String FIND_ALL_LOT_STATEMENT =
-            "SELECT idlots, name, description, bid, end_time, seller FROM lots";
+            "SELECT idlots, name, description, bid, end_time, seller FROM lots LIMIT ?,?";
+    private static final String FIND_ACTIVE_LOT_STATEMENT =
+            "SELECT idlots, name, description, bid, end_time, seller FROM lots WHERE end_time < NOW() LIMIT ?,?";
 
     private LotDaoImpl() {
     }
@@ -48,40 +50,54 @@ public class LotDaoImpl implements LotDao {
     @Override
     public Optional<Lot> createNewLot(String name, String description, BigDecimal startBid, Timestamp startTime, Timestamp finishTime, long sellerId, List<String> images) throws DaoException {
         Optional<Lot> lot = Optional.empty();
-        try (Connection connection = pool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(ADD_NEW_LOT_STATEMENT, Statement.RETURN_GENERATED_KEYS)) {
+        Connection connection = null;
+        try {
+            connection = pool.getConnection();
             connection.setAutoCommit(false);
-            Savepoint savepoint = connection.setSavepoint();
+            PreparedStatement statement = connection.prepareStatement(ADD_NEW_LOT_STATEMENT, Statement.RETURN_GENERATED_KEYS);
+
             statement.setString(1, name);
             statement.setString(2, description);
             statement.setTimestamp(3, startTime);
             statement.setTimestamp(4, finishTime);
             statement.setBigDecimal(5, startBid);
             statement.setLong(6, sellerId);
-            long id = statement.executeUpdate();
-            PreparedStatement preparedStatement = null;
-            try {
-                for (String image : images) {
-                    preparedStatement = connection.prepareStatement(ADD_LOT_PICTURE);
-                    preparedStatement.setLong(1, id);
-                    preparedStatement.setString(2, image);
-                    preparedStatement.executeUpdate();
-                    preparedStatement.close();
-                }
-                connection.commit();
-                lot = Optional.of(new Lot(id, name, description, finishTime, startBid, sellerId, images));
-            } catch (SQLException e) {
-                logger.error(e);
-                connection.rollback(savepoint);
-            } finally {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            long id = 0;
+            if (generatedKeys.next()) {
+                id = generatedKeys.getLong(1);
+            }
+            statement.close();
+            for (String image : images) {
+                statement = connection.prepareStatement(ADD_LOT_PICTURE);
+                statement.setLong(1, id);
+                statement.setString(2, image);
+                statement.executeUpdate();
+                statement.close();
+            }
+
+            lot = Optional.of(new Lot(id, name, description, finishTime, startBid, sellerId, images));
+            connection.commit();
+        } catch (SQLException | ConnectionPoolException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    logger.error(ex);
+                    throw new DaoException(ex);
                 }
             }
-            connection.setAutoCommit(true);
-        } catch (SQLException | ConnectionPoolException e) {
             logger.error(e);
             throw new DaoException(e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new DaoException(e);
+                }
+            }
         }
         return lot;
     }
@@ -104,10 +120,12 @@ public class LotDaoImpl implements LotDao {
     }
 
     @Override
-    public List<Lot> findAll() throws DaoException {
+    public List<Lot> findAll(int start, int finish) throws DaoException {
         List<Lot> lots = new ArrayList<>();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_LOT_STATEMENT)) {
+            statement.setInt(1, start);
+            statement.setInt(2, finish);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
@@ -123,11 +141,13 @@ public class LotDaoImpl implements LotDao {
     }
 
     @Override
-    public List<Lot> findLotByName(String name) throws DaoException {
+    public List<Lot> findLotByName(String name, int start, int finish) throws DaoException {
         List<Lot> lots = new ArrayList<>();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_LOT_BY_NAME_STATEMENT)) {
-            statement.setString(1, name);
+            statement.setString(1, (ANY_AMOUNT_SQL_CHARACTER + name + ANY_AMOUNT_SQL_CHARACTER));
+            statement.setInt(2, start);
+            statement.setInt(3, finish);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
@@ -143,11 +163,13 @@ public class LotDaoImpl implements LotDao {
     }
 
     @Override
-    public List<Lot> findWonLotByBuyerId(long buyerId) throws DaoException {
+    public List<Lot> findWonLotByBuyerId(long buyerId, int start, int finish) throws DaoException {
         List<Lot> lots = new ArrayList<>();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_WON_LOT_BY_BUYER_ID_STATEMENT)) {
             statement.setLong(1, buyerId);
+            statement.setInt(2, start);
+            statement.setInt(3, finish);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
@@ -163,11 +185,34 @@ public class LotDaoImpl implements LotDao {
     }
 
     @Override
-    public List<Lot> findLotBySellerId(long sellerId) throws DaoException {
+    public List<Lot> findLotBySellerId(long sellerId, int start, int finish) throws DaoException {
         List<Lot> lots = new ArrayList<>();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_LOT_BY_SELLER_ID_STATEMENT)) {
             statement.setLong(1, sellerId);
+            statement.setInt(2, start);
+            statement.setInt(3, finish);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                long id = resultSet.getLong(1);
+                List<String> images = findLotImages(connection, id);
+                Lot lot = createLot(resultSet, images);
+                lots.add(lot);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        }
+        return lots;
+    }
+
+    @Override
+    public List<Lot> findActive(int start, int finish) throws DaoException {
+        List<Lot> lots = new ArrayList<>();
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ACTIVE_LOT_STATEMENT)) {
+            statement.setInt(1, start);
+            statement.setInt(2, finish);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);

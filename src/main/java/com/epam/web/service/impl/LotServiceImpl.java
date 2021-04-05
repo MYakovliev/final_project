@@ -64,10 +64,12 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public List<Lot> findLotByName(String name) throws ServiceException {
+    public List<Lot> findLotByName(String name, int pageNumber, int amountPerPage) throws ServiceException {
         List<Lot> lot;
         try {
-            lot = dao.findLotByName(name);
+            int start = (pageNumber - 1) * amountPerPage;
+            int finish = pageNumber * amountPerPage;
+            lot = dao.findLotByName(name, start, finish);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -76,10 +78,12 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public List<Lot> findWonLotByBuyerId(long buyerId) throws ServiceException {
+    public List<Lot> findWonLotByBuyerId(long buyerId, int pageNumber, int amountPerPage) throws ServiceException {
         List<Lot> lot;
         try {
-            lot = dao.findWonLotByBuyerId(buyerId);
+            int start = (pageNumber - 1) * amountPerPage;
+            int finish = pageNumber * amountPerPage;
+            lot = dao.findWonLotByBuyerId(buyerId, start, finish);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -88,10 +92,12 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public List<Lot> findLotBySellerId(long sellerId) throws ServiceException {
+    public List<Lot> findLotBySellerId(long sellerId, int pageNumber, int amountPerPage) throws ServiceException {
         List<Lot> lot;
         try {
-            lot = dao.findLotBySellerId(sellerId);
+            int start = (pageNumber - 1) * amountPerPage;
+            int finish = pageNumber * amountPerPage;
+            lot = dao.findLotBySellerId(sellerId, start, finish);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -100,10 +106,26 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public List<Lot> findAll() throws ServiceException {
+    public List<Lot> findActive(int pageNumber, int amountPerPage) throws ServiceException {
         List<Lot> lot;
         try {
-            lot = dao.findAll();
+            int start = (pageNumber - 1) * amountPerPage;
+            int finish = pageNumber * amountPerPage;
+            lot = dao.findActive(start, finish);
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException(e);
+        }
+        return lot;
+    }
+
+    @Override
+    public List<Lot> findAll(int pageNumber, int amountPerPage) throws ServiceException {
+        List<Lot> lot;
+        try {
+            int start = (pageNumber - 1) * amountPerPage;
+            int finish = pageNumber * amountPerPage;
+            lot = dao.findAll(start, finish);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

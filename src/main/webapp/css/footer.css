@@ -6,9 +6,11 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 230px;
+    height: auto;
 }
+
 .footer__addr {
+    float: right;
     margin-left: 2ex;
     margin-bottom: 2em;
 }
@@ -20,30 +22,9 @@
     font-size: 1.5rem;
 }
 
-.footer__addr h2 {
-    margin-top: 1.3em;
-    font-size: 15px;
-    font-weight: 400;
-}
-
-.footer__btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 36px;
-    max-width: max-content;
-    background-color: green;
-    border-radius: 100px;
-    color: #2f2f2f;
-    line-height: 0;
-    margin: 0.6em 0;
-    font-size: 1rem;
-    padding: 0 1.3em;
-}
-
-
 @media screen and (min-width: 24.375em) {
-    .legal .legal__links {
+    .legal {
+        float: right;
         margin-left: auto;
     }
 }

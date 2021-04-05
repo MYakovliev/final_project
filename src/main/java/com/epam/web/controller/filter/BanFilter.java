@@ -16,12 +16,10 @@ import java.io.IOException;
 
 @WebFilter(filterName = "banFilter", urlPatterns = {"/*"})
 public class BanFilter implements Filter {
-    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpSession session = ((HttpServletRequest) request).getSession();
-        logger.debug("It's ban filter");
         User user = (User) session.getAttribute(SessionAttribute.USER);
         if (user != null) {
             boolean isBanned = UserServiceImpl.getInstance().isBanned(user.getId());

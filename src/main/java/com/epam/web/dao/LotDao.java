@@ -12,11 +12,13 @@ public interface LotDao {
 
     Optional<Lot> findLotById(long id) throws DaoException;
 
-    List<Lot> findAll() throws DaoException;
+    List<Lot> findAll(int start, int finish) throws DaoException;
 
-    List<Lot> findLotByName(String name) throws DaoException;
+    List<Lot> findLotByName(String name, int start, int finish) throws DaoException;
 
-    List<Lot> findWonLotByBuyerId(long buyerId) throws DaoException;
+    List<Lot> findWonLotByBuyerId(long buyerId, int start, int finish) throws DaoException;
 
-    List<Lot> findLotBySellerId(long sellerId) throws DaoException;
+    List<Lot> findLotBySellerId(long sellerId, int start, int finish) throws DaoException;
+
+    List<Lot> findActive(int start, int finish) throws DaoException;
 }

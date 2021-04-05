@@ -80,17 +80,19 @@ public class UserServiceImpl implements UserService {
             logger.error(e);
             throw new ServiceException(e);
         }
-        if (!optionalUser.isPresent()){
+        if (!optionalUser.isPresent()) {
             throw new ServiceException("there's no such user");
         }
         return optionalUser.get();
     }
 
     @Override
-    public List<User> findUserByName(String name) throws ServiceException {
+    public List<User> findUserByName(String name, int pageNumber, int amountPerPage) throws ServiceException {
         List<User> users;
         try {
-            users = dao.findUserByName(name);
+            int start = (pageNumber - 1) * amountPerPage;
+            int finish = pageNumber * amountPerPage;
+            users = dao.findUserByName(name, start, finish);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -99,10 +101,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findBuyersHistory(long lotId) throws ServiceException {
+    public List<User> findBuyersHistory(long lotId, int pageNumber, int amountPerPage) throws ServiceException {
         List<User> users;
         try {
-            users = dao.findBuyersHistory(lotId);
+            int start = (pageNumber - 1) * amountPerPage;
+            int finish = pageNumber * amountPerPage;
+            users = dao.findBuyersHistory(lotId, start, finish);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -111,14 +115,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isBanned(long userId){
+    public boolean isBanned(long userId) {
         boolean result = false;
         try {
             result = dao.isBanned(userId);
-        } catch (DaoException e){
+        } catch (DaoException e) {
             logger.error(e);
         }
         return result;
+    }
+
+    @Override
+    public List<User> findAll(int pageNumber, int amountPerPage) throws ServiceException {
+        List<User> users;
+        try {
+            int start = (pageNumber - 1) * amountPerPage;
+            int finish = pageNumber * amountPerPage;
+            users = dao.findAll(start, finish);
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException(e);
+        }
+        return users;
     }
 
     @Override
@@ -135,13 +153,9 @@ public class UserServiceImpl implements UserService {
         BigDecimal bid = new BigDecimal(stringBid);
         try {
             if (buyer.getBalance().compareTo(bid) > 0 && lot.getCurrentCost().compareTo(bid) < 0) {
-                if (!(lot.getBuyerId() == buyer.getId())) {
-                    dao.makeBid(buyer.getId(), bid, lot);
-                    lot.setCurrentCost(bid);
-                    lot.setBuyerId(buyer.getId());
-                } else {
-                    throw new ServiceException("this user is already a buyer");
-                }
+                dao.makeBid(buyer.getId(), bid, lot.getId());
+                lot.setCurrentCost(bid);
+                lot.setBuyerId(buyer.getId());
             } else {
                 throw new ServiceException("this user have no enough money");
             }

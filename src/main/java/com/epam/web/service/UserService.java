@@ -15,9 +15,11 @@ public interface UserService {
 
     User findUserById(int id) throws ServiceException;
 
-    List<User> findUserByName(String name) throws ServiceException;
+    List<User> findUserByName(String name, int pageNumber, int amountPerPage) throws ServiceException;
 
-    List<User> findBuyersHistory(long lotId) throws ServiceException;
+    List<User> findBuyersHistory(long lotId, int pageNumber, int amountPerPage) throws ServiceException;
 
     boolean isBanned(long userId);
+
+    List<User> findAll(int pageNumber, int amountPerPage) throws ServiceException;
 }

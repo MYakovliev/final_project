@@ -2,54 +2,22 @@ package com.epam.web.command;
 
 import com.epam.web.command.impl.*;
 
-//TODO add commands
+//TODO add commands and change to commands
 public enum CommandType {
-    REGISTER {
-        {
-            this.command = new RegisterCommand();
-        }
-    },
-    LOGIN {
-        {
-            this.command = new LoginCommand();
-        }
-    },
-    LOGOUT {
-        {
-            this.command = new LogoutCommand();
-        }
-    },
-    TO_REGISTRATION {
-        {
-            this.command = new ToRegistration();
-        }
-    },
-    TO_LOGIN{
-        {
-            this.command = new ToLogin();
-        }
-    },
-    TO_MAIN{
-        {
-            this.command = new ToMain();
-        }
-    },
-    TO_BAN{
-        {
-            this.command = new ToBan();
-        }
-    },
-    CHANGE_LANGUAGE{
-        {
-            this.command = new ChangeLanguageCommand();
-        }
-    },
-    MAKE_BID{
-        {
-            this.command = new MakeBidCommand();
-        }
-    };
+    REGISTER(new RegisterCommand()),
+    LOGIN(new LoginCommand()),
+    LOGOUT(new LogoutCommand()),
+    TO_ADMIN(new ToAdmin()),
+    TO_REGISTRATION(new ToRegistration()),
+    TO_LOGIN(new ToLogin()),
+    TO_MAIN(new ToMain()),
+    TO_BAN(new ToBan()),
+    CHANGE_LANGUAGE(new ChangeLanguageCommand()),
+    MAKE_BID(new MakeBidCommand());
 
+    CommandType(ActionCommand command) {
+        this.command = command;
+    }
 
     ActionCommand command;
 

@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="commons-fileupload-1">
+    <CLASSES>
+      <root url="file://D:/commons-fileupload-1.4-bin" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://D:/commons-fileupload-1.4-bin/apidocs" />
+      <root url="file://D:/commons-fileupload-1.4-bin/site/apidocs" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="file://D:/commons-fileupload-1.4-bin" />
+    </SOURCES>
+    <jarDirectory url="file://D:/commons-fileupload-1.4-bin" recursive="false" />
+    <jarDirectory url="file://D:/commons-fileupload-1.4-bin" recursive="false" type="SOURCES" />
+  </library>
+</component>
