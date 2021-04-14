@@ -87,13 +87,15 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(e);
         }
     }
-//fixme just fix me scope
+
     @Override
     public void makeBid(long userId, BigDecimal bid, long lotId) throws DaoException {
-        try (Connection connection = pool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_BID_STATUS_STATEMENT)) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = pool.getConnection();
+            statement = connection.prepareStatement(UPDATE_BID_STATUS_STATEMENT);
             connection.setAutoCommit(false);
-            Savepoint savepoint = connection.setSavepoint();
             statement.setLong(1, lotId);
             statement.executeUpdate();
             PreparedStatement preparedStatement = null;
@@ -117,7 +119,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findUserById(int id) throws DaoException {
+    public Optional<User> findUserById(long id) throws DaoException {
         Optional<User> user = Optional.empty();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_USERS_BY_ID_STATEMENT)) {
@@ -134,10 +136,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findAll(int start, int finish) throws DaoException {
+    public List<User> findAll(int start, int amount) throws DaoException {
         List<User> users = new ArrayList<>();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_USERS_STATEMENT)) {
+            statement.setInt(1, start);
+            statement.setInt(2, amount);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 users.add(createUser(resultSet));
@@ -150,13 +154,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findUserByName(String name, int start, int finish) throws DaoException {
+    public List<User> findUserByName(String name, int start, int amount) throws DaoException {
         List<User> users = new ArrayList<>();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_USERS_BY_NAME_STATEMENT)) {
             statement.setString(1, (ANY_AMOUNT_SQL_CHARACTER + name + ANY_AMOUNT_SQL_CHARACTER));
             statement.setInt(2, start);
-            statement.setInt(3, finish);
+            statement.setInt(3, amount);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 users.add(createUser(resultSet));
@@ -169,13 +173,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findBuyersHistory(long lotId, int start, int finish) throws DaoException {
+    public List<User> findBuyersHistory(long lotId, int start, int amount) throws DaoException {
         List<User> users = new ArrayList<>();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BUYER_BY_LOT_ID_STATEMENT)) {
             statement.setLong(1, lotId);
             statement.setInt(2, start);
-            statement.setInt(3, finish);
+            statement.setInt(3, amount);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 users.add(createUser(resultSet));

@@ -1,15 +1,7 @@
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: nicki
-  Date: 2/25/2021
-  Time: 9:40 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<c:set var="page" value="${}" scope="session"/>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<c:set var="page" value="${'/jsp/profile.jsp'}" scope="session"/>
 <html>
 <head>
     <fmt:setLocale value="${sessionScope.lang}"/>
@@ -17,6 +9,9 @@
     <title><fmt:message key="profile.title"/></title>
 </head>
 <body>
-
+<img src="${user.avatar}"/>
+${user.name}
+<c:if test="${user.id} == ${sessionScope.user.id}"><a href="${pageContext.request.contextPath}/controller?command='to_edit_user'">Edit</a></c:if>
+${won_lots}      ${compete_lots}
 </body>
 </html>

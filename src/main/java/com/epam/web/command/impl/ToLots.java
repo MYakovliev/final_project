@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class ToMain implements ActionCommand {
+public class ToLots implements ActionCommand {
     private static LotService service = LotServiceImpl.getInstance();
     private static AmountService amountService = AmountServiceImpl.getInstance();
     private static final Logger logger = LogManager.getLogger();
@@ -30,15 +30,22 @@ public class ToMain implements ActionCommand {
         String currentPage = (String) session.getAttribute(SessionAttribute.CURRENT_PAGE);
         CommandResult result = CommandResult.createForwardCommandResult(currentPage);
         try {
-            Integer pageNumber = (Integer) request.getAttribute(RequestParameter.PAGE);
-            if (pageNumber == null){
-                pageNumber = 1;
+            String lotPageNumberString = request.getParameter(RequestParameter.LOT_PAGING);
+            int lotPageNumber;
+            if (lotPageNumberString==null){
+                lotPageNumber = 1;
+            } else {
+                lotPageNumber = Integer.parseInt(lotPageNumberString);
             }
             int amount = amountService.findActiveLotAmount();
+            logger.debug("active lots: {}", amount);
             int pageAmount = (amount - 1 + AMOUNT_PER_PAGE) / AMOUNT_PER_PAGE;
-            List<Lot> lots = service.findActive(pageNumber, AMOUNT_PER_PAGE);
+            List<Lot> lots = service.findActive(lotPageNumber, AMOUNT_PER_PAGE);
             request.setAttribute(RequestParameter.LOT_LIST, lots);
-            request.setAttribute(RequestParameter.PAGE_AMOUNT, pageAmount);
+            request.setAttribute(RequestParameter.LOT_PAGE_AMOUNT, pageAmount);
+            request.setAttribute(RequestParameter.LOT_ACTIVE_PAGE, lotPageNumber);
+            request.setAttribute(RequestParameter.COMMAND, "to_lots");
+            logger.debug(lots);
             result = CommandResult.createForwardCommandResult(JspPath.LOTS);
         } catch (ServiceException e) {
             logger.error(e);

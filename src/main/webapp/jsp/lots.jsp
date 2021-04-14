@@ -8,14 +8,14 @@
     <fmt:setLocale value="${sessionScope.lang}"/>
     <fmt:setBundle basename="locale.locale"/>
     <title><fmt:message key="lots.title"/></title>
-    <script src="<c:url value="/js/time_counter.js"/>"></script>
     <link href="<c:url value="/css/lots.css"/>" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 <jsp:include page="support/header.jsp"/>
-<tag:access role="seller"><a href="${pageContext.request.contextPath}/controller?command=add_lot">Add Lot</a></tag:access>
+<tag:access role="seller"><a href="${pageContext.request.contextPath}/controller?command=to_lot_edit">Add
+    Lot</a></tag:access>
 <div class="main_block">
-    <c:forEach var="lot" items="${requestScope.lot_list}">
+    <c:forEach var="lot" items="${lot_list}">
         <div class="lot_block"
              onclick="location.href='${pageContext.request.contextPath}/controller?command=to_lot&lot_id=${lot.id}'">
             <div class="lot_name">${lot.name}</div>
@@ -25,6 +25,38 @@
         </div>
     </c:forEach>
 </div>
+</table>
+<nav aria-label="Navigation for countries">
+    <ul class="pagination">
+        <c:if test="${lot_active_page != 1}">
+            <li class="page-item"><a class="page-link"
+                                     href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page-1}">Previous</a>
+            </li>
+        </c:if>
+
+        <c:forEach begin="1" end="${lot_page_amount}" var="i">
+            <c:choose>
+                <c:when test="${lot_active_page eq i}">
+                    <li class="page-item active"><a class="page-link">
+                            ${i} <span class="sr-only">(current)</span></a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item"><a class="page-link"
+                                             href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${i}">${i}</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+
+        <c:if test="${lot_active_page lt lot_page_amount}">
+            <li class="page-item"><a class="page-link"
+                                     href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page+1}">Next</a>
+            </li>
+        </c:if>
+    </ul>
+</nav>
+<script src="<c:url value="/js/time_counter.js"/>"></script>
 <jsp:include page="support/footer.jsp"/>
 </body>
 </html>

@@ -14,13 +14,13 @@ public interface UserDao {
 
     void makeBid(long userId, BigDecimal bid, long lot) throws DaoException;
 
-    Optional<User> findUserById(int id) throws DaoException;
+    Optional<User> findUserById(long id) throws DaoException;
 
-    List<User> findAll(int start, int finish) throws DaoException;
+    List<User> findAll(int start, int amount) throws DaoException;
 
-    List<User> findUserByName(String name, int start, int finish) throws DaoException;
+    List<User> findUserByName(String name, int start, int amount) throws DaoException;
 
-    List<User> findBuyersHistory(long lotId, int start, int finish) throws DaoException;
+    List<User> findBuyersHistory(long lotId, int start, int amount) throws DaoException;
 
     boolean isBanned(long userId) throws DaoException;
 }

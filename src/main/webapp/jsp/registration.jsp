@@ -31,7 +31,7 @@
         </select>
         <input type="submit" name="btn" value="<fmt:message key="registration.button"/>"/>
         <p class="message"><fmt:message key="registration.asktosignin"/> <a href="controller?command=to_login"><fmt:message key="registration.signin"/></a></p>
-        <p class="message"><fmt:message key="registration.asktomain"/> <a href="controller?command=to_main"><fmt:message key="registration.backtomain"/></a></p>
+        <p class="message"><fmt:message key="registration.asktomain"/> <a href="controller?command=to_lots"><fmt:message key="registration.backtomain"/></a></p>
     </form>
 </div>
 </body>

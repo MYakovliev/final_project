@@ -27,33 +27,51 @@ public class ToAdmin implements ActionCommand {
     private static final UserService userService = UserServiceImpl.getInstance();
     private static final LotService lotService = LotServiceImpl.getInstance();
     private static final AmountService amountService = AmountServiceImpl.getInstance();
+    private static final int AMOUNT_PER_PAGE = 5;
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String page = (String) session.getAttribute(SessionAttribute.CURRENT_PAGE);
         CommandResult result;
-//        if (((User) session.getAttribute(SessionAttribute.USER)).getUserRole() == UserRole.ADMIN) {
-//            try {
-//                Integer pageNumber = (Integer) request.getAttribute(RequestParameter.PAGE);
-//                if (pageNumber == null){
-//                    pageNumber = 1;
-//                }
-//
-//                List<User> users = userService.findAll();
-//                List<Lot> lots = lotService.findAll();
-//                request.setAttribute(RequestParameter.USERS_LIST, users);
-//                request.setAttribute(RequestParameter.LOT_LIST, lots);
-//                result = CommandResult.createRedirectCommandResult(JspPath.ADMIN);
-//            } catch (ServiceException e){
-//                logger.error(e);
-//                String page = (String) session.getAttribute(SessionAttribute.CURRENT_PAGE);
-//                result = CommandResult.createForwardCommandResult(page);
-//            }
-//        } else {
-//            String page = (String) session.getAttribute(SessionAttribute.CURRENT_PAGE);
+        if (((User) session.getAttribute(SessionAttribute.USER)).getUserRole() == UserRole.ADMIN) {
+            try {
+                String lotPageNumberString = request.getParameter(RequestParameter.LOT_PAGING);
+                int lotPageNumber;
+                if (lotPageNumberString==null){
+                    lotPageNumber = 1;
+                } else {
+                    lotPageNumber = Integer.parseInt(lotPageNumberString);
+                }
+                String userPageNumberString = request.getParameter(RequestParameter.USER_PAGING);
+                int userPageNumber;
+                if (userPageNumberString==null){
+                    userPageNumber = 1;
+                } else {
+                    userPageNumber = Integer.parseInt(userPageNumberString);
+                }
+
+                int userAmount = amountService.findAllUserAmount();
+                int lotAmount = amountService.findAllLotAmount();
+                int userPageAmount = (userAmount - 1 + AMOUNT_PER_PAGE) / AMOUNT_PER_PAGE;
+                int lotPageAmount = (lotAmount - 1 + AMOUNT_PER_PAGE) / AMOUNT_PER_PAGE;
+                List<User> users = userService.findAll(userPageNumber, AMOUNT_PER_PAGE);
+                List<Lot> lots = lotService.findAll(lotPageNumber, AMOUNT_PER_PAGE);
+                request.setAttribute(RequestParameter.USERS_LIST, users);
+                request.setAttribute(RequestParameter.LOT_LIST, lots);
+                request.setAttribute(RequestParameter.LOT_PAGE_AMOUNT, lotPageAmount);
+                request.setAttribute(RequestParameter.USER_PAGE_AMOUNT, userPageAmount);
+                request.setAttribute(RequestParameter.LOT_ACTIVE_PAGE, lotPageNumber);
+                request.setAttribute(RequestParameter.USER_ACTIVE_PAGE, userPageNumber);
+                request.setAttribute(RequestParameter.COMMAND, "to_admin");
+                result = CommandResult.createForwardCommandResult(JspPath.ADMIN);
+            } catch (ServiceException e){
+                logger.error(e);
+                result = CommandResult.createForwardCommandResult(page);
+            }
+        } else {
             result = CommandResult.createForwardCommandResult(page);
-//        }
+        }
         return result;
     }
 }

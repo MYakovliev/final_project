@@ -13,7 +13,7 @@ public interface UserService {
 
     void makeBid(User user, String bid, Lot lot) throws ServiceException;
 
-    User findUserById(int id) throws ServiceException;
+    User findUserById(long id) throws ServiceException;
 
     List<User> findUserByName(String name, int pageNumber, int amountPerPage) throws ServiceException;
 

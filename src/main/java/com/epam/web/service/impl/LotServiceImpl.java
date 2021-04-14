@@ -31,10 +31,15 @@ public class LotServiceImpl implements LotService {
     @Override
     public Lot createNewLot(String name, String description, String startBid, Timestamp startTime, Timestamp finishTime, long sellerId, List<String> images) throws ServiceException {
         Optional<Lot> lot;
+        logger.debug("{}, {}, {}, {}, {}, {}, {}",name, description, startBid, startTime, finishTime, sellerId, images);
+        if (startTime == null) {
+            startTime = new Timestamp(System.currentTimeMillis());
+        }
         if (!(LotValidator.isValidName(name) && LotValidator.isValidTime(startTime, finishTime)
                 && UserValidator.isValidBid(startBid))) {
             throw new ServiceException("wrong data in form(s)");
         }
+        logger.debug("{}, {}, {}, {}, {}, {}, {}",name, description, startBid, startTime, finishTime, sellerId, images);
         try {
             BigDecimal startBidDecimal = new BigDecimal(startBid);
             lot = dao.createNewLot(name, description, startBidDecimal, startTime, finishTime, sellerId, images);
@@ -42,7 +47,7 @@ public class LotServiceImpl implements LotService {
             logger.error(e);
             throw new ServiceException(e);
         }
-        if (!lot.isPresent()){
+        if (!lot.isPresent()) {
             throw new ServiceException("failed to create a lot");
         }
         return lot.get();
@@ -50,15 +55,15 @@ public class LotServiceImpl implements LotService {
 
     @Override
     public Lot findLotById(long id) throws ServiceException {
-        Optional<Lot> lot;
+        Optional<Lot> lot = Optional.empty();
         try {
             lot = dao.findLotById(id);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
         }
-        if (!lot.isPresent()){
-            throw new ServiceException("failed to create a lot");
+        if (!lot.isPresent()) {
+            throw new ServiceException("failed to find a lot");
         }
         return lot.get();
     }
@@ -68,8 +73,7 @@ public class LotServiceImpl implements LotService {
         List<Lot> lot;
         try {
             int start = (pageNumber - 1) * amountPerPage;
-            int finish = pageNumber * amountPerPage;
-            lot = dao.findLotByName(name, start, finish);
+            lot = dao.findLotByName(name, start, amountPerPage);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -82,8 +86,7 @@ public class LotServiceImpl implements LotService {
         List<Lot> lot;
         try {
             int start = (pageNumber - 1) * amountPerPage;
-            int finish = pageNumber * amountPerPage;
-            lot = dao.findWonLotByBuyerId(buyerId, start, finish);
+            lot = dao.findWonLotByBuyerId(buyerId, start, amountPerPage);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -96,8 +99,7 @@ public class LotServiceImpl implements LotService {
         List<Lot> lot;
         try {
             int start = (pageNumber - 1) * amountPerPage;
-            int finish = pageNumber * amountPerPage;
-            lot = dao.findLotBySellerId(sellerId, start, finish);
+            lot = dao.findLotBySellerId(sellerId, start, amountPerPage);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -110,8 +112,7 @@ public class LotServiceImpl implements LotService {
         List<Lot> lot;
         try {
             int start = (pageNumber - 1) * amountPerPage;
-            int finish = pageNumber * amountPerPage;
-            lot = dao.findActive(start, finish);
+            lot = dao.findActive(start, amountPerPage);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -124,8 +125,7 @@ public class LotServiceImpl implements LotService {
         List<Lot> lot;
         try {
             int start = (pageNumber - 1) * amountPerPage;
-            int finish = pageNumber * amountPerPage;
-            lot = dao.findAll(start, finish);
+            lot = dao.findAll(start, amountPerPage);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

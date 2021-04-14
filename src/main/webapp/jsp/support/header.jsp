@@ -1,7 +1,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="tag" uri="custom_tag" %>
-<%-- todo use bundle
+<%@ taglib prefix="tag" uri="/WEB-INF/tld/custom.tld" %>
+<%--
   Created by IntelliJ IDEA.
   User: nicki
   Date: 2/21/2021
@@ -22,7 +22,7 @@
 </head>
 <body>
 <div class="topnav" id="topnavElement">
-    <a class="active" href="${pageContext.request.contextPath}/controller?command=to_main"><fmt:message key="header.home"/></a>
+    <a class="active" href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message key="header.home"/></a>
     <a href="#footer"><fmt:message key="header.contact"/></a>
     <tag:access role="admin"><a href="${pageContext.request.contextPath}/controller?command=to_admin"><fmt:message key="header.adminpage"/></a></tag:access>
     <tag:access role="seller"><a href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message key="header.mylots"/></a></tag:access>
@@ -64,7 +64,6 @@
                     <div class="languages">
                         <a id="en" href="${pageContext.request.contextPath}/controller?command=change_language&lang=en">EN</a>
                         <a id="ru" href="${pageContext.request.contextPath}/controller?command=change_language&lang=ru">RU</a>
-                        <a id="be" href="${pageContext.request.contextPath}/controller?command=change_language&lang=be">BE</a>
                     </div>
                 </div>
             </div>

@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(int id) throws ServiceException {
+    public User findUserById(long id) throws ServiceException {
         Optional<User> optionalUser;
         try {
             optionalUser = dao.findUserById(id);
@@ -91,8 +91,7 @@ public class UserServiceImpl implements UserService {
         List<User> users;
         try {
             int start = (pageNumber - 1) * amountPerPage;
-            int finish = pageNumber * amountPerPage;
-            users = dao.findUserByName(name, start, finish);
+            users = dao.findUserByName(name, start, amountPerPage);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -105,8 +104,7 @@ public class UserServiceImpl implements UserService {
         List<User> users;
         try {
             int start = (pageNumber - 1) * amountPerPage;
-            int finish = pageNumber * amountPerPage;
-            users = dao.findBuyersHistory(lotId, start, finish);
+            users = dao.findBuyersHistory(lotId, start, amountPerPage);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -130,8 +128,7 @@ public class UserServiceImpl implements UserService {
         List<User> users;
         try {
             int start = (pageNumber - 1) * amountPerPage;
-            int finish = pageNumber * amountPerPage;
-            users = dao.findAll(start, finish);
+            users = dao.findAll(start, amountPerPage);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
