@@ -22,11 +22,15 @@
 </head>
 <body>
 <div class="topnav" id="topnavElement">
-    <a class="active" href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message key="header.home"/></a>
+    <a class="active" href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message
+            key="header.home"/></a>
     <a href="#footer"><fmt:message key="header.contact"/></a>
-    <tag:access role="admin"><a href="${pageContext.request.contextPath}/controller?command=to_admin"><fmt:message key="header.adminpage"/></a></tag:access>
-    <tag:access role="seller"><a href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message key="header.mylots"/></a></tag:access>
-    <tag:access role="buyer"><a href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message key="header.mylots"/></a></tag:access>
+    <tag:access role="admin"><a href="${pageContext.request.contextPath}/controller?command=to_admin"><fmt:message
+            key="header.adminpage"/></a></tag:access>
+    <tag:access role="seller"><a href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message
+            key="header.mylots"/></a></tag:access>
+    <tag:access role="buyer"><a href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message
+            key="header.mylots"/></a></tag:access>
     <div class="topnav-right">
         <div class="buttons">
             <c:choose>
@@ -39,10 +43,13 @@
                     </a>
                 </c:when>
                 <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/controller?command=to_profile">
-                            ${sessionScope.user.name}
-                        <img src="${pageContext.request.contextPath}/${sessionScope.user.avatar}" class="avatar" alt="Avatar"/>
-                    </a>
+                <a href="${pageContext.request.contextPath}/controller?command=to_profile&user_id=${sessionScope.user.id}">
+                        ${sessionScope.user.name}
+                    <img src="${pageContext.request.contextPath}/${sessionScope.user.avatar}" class="avatar"
+                         alt="Avatar"/>
+                </a>
+
+                    <a href="${pageContext.request.contextPath}/controller?command=to_payment">${sessionScope.user.balance}</a>
                     <a href="${pageContext.request.contextPath}/controller?command=logout">
                         <fmt:message key="header.signout"/>
                     </a>

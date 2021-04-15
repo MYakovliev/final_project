@@ -10,14 +10,16 @@ public class User {
     private BigDecimal balance;
     private UserRole userRole;
     private String avatar;
+    private boolean banned;
 
-    public User(long id, String name, String mail, BigDecimal balance, UserRole userRole, String avatar) {
+    public User(long id, String name, String mail, BigDecimal balance, UserRole userRole, String avatar, boolean banned) {
         this.id = id;
         this.name = name;
         this.mail = mail;
         this.userRole = userRole;
         this.balance = balance;
         this.avatar = avatar;
+        this.banned = banned;
     }
 
     public User(){}
@@ -70,6 +72,14 @@ public class User {
         this.balance = balance;
     }
 
+    public boolean isBanned() {
+        return banned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,6 +88,7 @@ public class User {
         User user = (User) o;
 
         if (id != user.id) return false;
+        if (banned != user.banned) return false;
         if (mail != null ? !mail.equals(user.mail) : user.mail != null) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (balance != null ? !balance.equals(user.balance) : user.balance != null) return false;
@@ -93,6 +104,7 @@ public class User {
         result = 31 * result + (balance != null ? balance.hashCode() : 0);
         result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
         result = 31 * result + (avatar != null ? avatar.hashCode() : 0);
+        result = 31 * result + (banned ? 1 : 0);
         return result;
     }
 
@@ -105,6 +117,7 @@ public class User {
         sb.append(", balance=").append(balance);
         sb.append(", userRole=").append(userRole);
         sb.append(", avatar='").append(avatar).append('\'');
+        sb.append(", banned=").append(banned);
         sb.append('}');
         return sb.toString();
     }

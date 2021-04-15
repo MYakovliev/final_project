@@ -21,7 +21,7 @@ public class UserDaoImpl implements UserDao {
     private static final UserDaoImpl instance = new UserDaoImpl();
     private static final ConnectionPool pool = ConnectionPool.getInstance();
     private static final String ANY_AMOUNT_SQL_CHARACTER = "%";
-    private static final String LOGIN_STATEMENT = "SELECT idusers, name, mail, balance, roles.role, avatar " +
+    private static final String LOGIN_STATEMENT = "SELECT idusers, name, mail, balance, roles.role, avatar, isBanned " +
             "FROM users INNER JOIN roles ON users.role = roles.idroles WHERE login=? AND password=?";
     private static final String REGISTRATION_STATEMENT =
             "INSERT INTO users (name, mail, login, password, role) " +
@@ -33,17 +33,17 @@ public class UserDaoImpl implements UserDao {
             "INSERT INTO bid_history (id_buyer, id_lot, bid, status) " +
                     "VALUES (?,?,?,(SELECT idstatus FROM status WHERE status.status='WINING'))";
     private static final String FIND_USERS_BY_ID_STATEMENT =
-            "SELECT idusers, name, mail, balance, roles.role, avatar " +
+            "SELECT idusers, name, mail, balance, roles.role, avatar, isBanned " +
                     "FROM users INNER JOIN roles ON users.role = roles.idroles WHERE idusers=?";
     private static final String FIND_USERS_BY_NAME_STATEMENT =
-            "SELECT idusers, name, mail, balance, roles.role, avatar " +
+            "SELECT idusers, name, mail, balance, roles.role, avatar, isBanned " +
                     "FROM users INNER JOIN roles ON users.role = roles.idroles WHERE name LIKE ? LIMIT ?, ?";
     private static final String FIND_BUYER_BY_LOT_ID_STATEMENT =
-            "SELECT idusers, name, mail, balance, roles.role, avatar FROM users " +
+            "SELECT idusers, name, mail, balance, roles.role, avatar, isBanned FROM users " +
                     "INNER JOIN bid_history ON bid_history.id_buyer = users.idusers " +
                     "INNER JOIN roles ON users.role = roles.idroles WHERE bid_history.id_lot=? LIMIT ?, ?";
     private static final String FIND_ALL_USERS_STATEMENT =
-            "SELECT idusers, name, mail, balance, roles.role, avatar FROM users " +
+            "SELECT idusers, name, mail, balance, roles.role, avatar, isBanned FROM users " +
                     "INNER JOIN roles ON users.role = roles.idroles LIMIT ?, ?";
     private static final String IS_BAN_STATEMENT = "SELECT isBanned FROM users WHERE idusers=?";
 
@@ -215,8 +215,9 @@ public class UserDaoImpl implements UserDao {
         BigDecimal balance = resultSet.getBigDecimal(4);
         String stringRole = resultSet.getString(5);
         String avatar = resultSet.getString(6);
+        boolean banned = resultSet.getBoolean(7);
         UserRole role = UserRole.valueOf(stringRole.toUpperCase());
-        User user = new User(id, name, mail, balance, role, avatar);
+        User user = new User(id, name, mail, balance, role, avatar, banned);
         return user;
     }
 }

@@ -33,45 +33,55 @@
         <c:forEach var="user" items="${requestScope.user_list}">
             <tr>
                 <td>
-                    <a href="${pageContext.request.contextPath}/controller?command=to_profile&id=${user.id}">${user.id}</a>
+                    <a href="${pageContext.request.contextPath}/controller?command=to_profile&user_id=${user.id}">${user.id}</a>
                 </td>
                 <td>${user.name}</td>
                 <td>${user.mail}</td>
                 <td>${user.balance}</td>
                 <td>${user.userRole}</td>
-                <td>ban/unBan</td>
+                <td><c:choose>
+                    <c:when test="${user.banned}"><a
+                            href="${pageContext.request.contextPath}/controller?command=unban_user&user_id=${user.id}">unban</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/controller?command=ban_user&user_id=${user.id}">ban</a>
+                    </c:otherwise>
+                </c:choose>
+                </td>
             </tr>
         </c:forEach>
     </table>
     <nav aria-label="Navigation for countries">
-        <ul class="pagination">
-            <c:if test="${user_active_page != 1}">
-                <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/controller?command=${command}&user_page=${user_active_page-1}">Previous</a>
-                </li>
-            </c:if>
+        <c:if test="${user_page_amount} mt 1 ">
+            <ul class="pagination">
+                <c:if test="${user_active_page != 1}">
+                    <li class="page-item"><a class="page-link"
+                                             href="${pageContext.request.contextPath}/controller?command=${command}&user_page=${user_active_page-1}">Previous</a>
+                    </li>
+                </c:if>
 
-            <c:forEach begin="1" end="${user_page_amount}" var="i">
-                <c:choose>
-                    <c:when test="${user_active_page eq i}">
-                        <li class="page-item active"><a class="page-link">
-                                ${i} <span class="sr-only">(current)</span></a>
-                        </li>
-                    </c:when>
-                    <c:otherwise>
-                        <li class="page-item"><a class="page-link"
-                                                 href="${pageContext.request.contextPath}/controller?command=${command}&user_page=${i}">${i}</a>
-                        </li>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
+                <c:forEach begin="1" end="${user_page_amount}" var="i">
+                    <c:choose>
+                        <c:when test="${user_active_page eq i}">
+                            <li class="page-item active"><a class="page-link">
+                                    ${i} <span class="sr-only">(current)</span></a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link"
+                                                     href="${pageContext.request.contextPath}/controller?command=${command}&user_page=${i}">${i}</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
 
-            <c:if test="${user_active_page lt user_page_amount}">
-                <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/controller?command=${command}&user_page=${user_active_page+1}">Next</a>
-                </li>
-            </c:if>
-        </ul>
+                <c:if test="${user_active_page lt user_page_amount}">
+                    <li class="page-item"><a class="page-link"
+                                             href="${pageContext.request.contextPath}/controller?command=${command}&user_page=${user_active_page+1}">Next</a>
+                    </li>
+                </c:if>
+            </ul>
+        </c:if>
     </nav>
 </div>
 
@@ -101,34 +111,36 @@
         </c:forEach>
     </table>
     <nav aria-label="Navigation for countries">
-        <ul class="pagination">
-            <c:if test="${lot_active_page != 1}">
-                <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page-1}">Previous</a>
-                </li>
-            </c:if>
+        <c:if test="${lot_page_amount} mt 1 ">
+            <ul class="pagination">
+                <c:if test="${lot_active_page != 1}">
+                    <li class="page-item"><a class="page-link"
+                                             href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page-1}">Previous</a>
+                    </li>
+                </c:if>
 
-            <c:forEach begin="1" end="${lot_page_amount}" var="i">
-                <c:choose>
-                    <c:when test="${lot_active_page eq i}">
-                        <li class="page-item active"><a class="page-link">
-                                ${i} <span class="sr-only">(current)</span></a>
-                        </li>
-                    </c:when>
-                    <c:otherwise>
-                        <li class="page-item"><a class="page-link"
-                                                 href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${i}">${i}</a>
-                        </li>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
+                <c:forEach begin="1" end="${lot_page_amount}" var="i">
+                    <c:choose>
+                        <c:when test="${lot_active_page eq i}">
+                            <li class="page-item active"><a class="page-link">
+                                    ${i} <span class="sr-only">(current)</span></a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link"
+                                                     href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${i}">${i}</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
 
-            <c:if test="${lot_active_page lt lot_page_amount}">
-                <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page+1}">Next</a>
-                </li>
-            </c:if>
-        </ul>
+                <c:if test="${lot_active_page lt lot_page_amount}">
+                    <li class="page-item"><a class="page-link"
+                                             href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page+1}">Next</a>
+                    </li>
+                </c:if>
+            </ul>
+        </c:if>
     </nav>
 </div>
 </body>

@@ -49,5 +49,9 @@
     <orderEntry type="library" name="jquery-ui" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="twitter-bootstrap" level="application" />
+    <orderEntry type="library" name="styles" level="application" />
+    <orderEntry type="library" name="jquery.payform" level="application" />
+    <orderEntry type="library" name="script" level="application" />
   </component>
 </module>

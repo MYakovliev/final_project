@@ -14,7 +14,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" type="text/css"
           rel="stylesheet"/>
-    <script src="<c:url value="/js/open_images.js"/>"></script>
+    <link href="<c:url value="/css/lot_edit.css"/>" type="text/css"
+          rel="stylesheet"/>
     <title>Lot_Edit</title>
 </head>
 <body>
@@ -25,19 +26,23 @@
     <textarea name="description">${lot.description}</textarea>
     <br/>
     <input type="number" min="0.01" step="0.01" name="bid" value="${lot.currentCost}" placeholder="Put your start bid"/>
+    <br/>
     <input type="datetime-local" value="${lot.startTime}" name="startTime"/>
     <input type="datetime-local" value="${lot.finishTime}" name="endTime"/>
-    <input type="file" name="image_path1" required />
-    <img src="${lot.images.get(0)}" alt="image" id="image_path1"/>
-    <input type="file" class="image_path2" name="image_path2"/>
-    <img name="image_path2" src="${lot.images.get(1)}"/>
-    <input type="file" name="image_path3"/>
-    <img name="image_path3" src="${lot.images.get(2)}"/>
-    <input type="file" name="image_path4"/>
-    <img name="image_path4" src="${lot.images.get(3)}"/>
-    <input type="file" name="image_path5"/>
-    <img name="image_path5" src="${lot.images.get(4)}"/>
+    <br/>
+    <img src="${lot.images.get(0)}" alt="image" id="image_path1Image" style="visibility: hidden"/>
+    <img id="image_path2Image" src="${lot.images.get(1)}" style="visibility: hidden"/>
+    <img id="image_path3Image" src="${lot.images.get(2)}" style="visibility: hidden"/>
+    <img id="image_path4Image" src="${lot.images.get(3)}" style="visibility: hidden"/>
+    <img id="image_path5Image" src="${lot.images.get(4)}" style="visibility: hidden"/>
+    <br/>
+    <input type="file" name="image_path1Input" required onchange="readURL(this, 'image_path1Image', 'image_path2Input')" />
+    <input type="file" id="image_path2Input" name="image_path2" style="visibility: hidden" onchange="readURL(this, 'image_path2Image', 'image_path3Input')"/>
+    <input type="file" name="image_path3" id="image_path3Input" style="visibility: hidden" onchange="readURL(this, 'image_path3Image', 'image_path4Input')"/>
+    <input type="file" name="image_path4" style="visibility: hidden" id="image_path4Input" onchange="readURL(this, 'image_path4Image', 'image_path5Input')"/>
+    <input type="file" name="image_path5" style="visibility: hidden" id="image_path5Input" onchange="readURL(this, 'image_path5Image', null)"/>
     <input type="submit" name="btn" value="Submit"/>
 </form>
+<script src="<c:url value="/js/open_images.js"/>"></script>
 </body>
 </html>

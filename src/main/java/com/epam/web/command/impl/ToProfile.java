@@ -2,7 +2,6 @@ package com.epam.web.command.impl;
 
 import com.epam.web.command.ActionCommand;
 import com.epam.web.command.CommandResult;
-import com.epam.web.entity.Lot;
 import com.epam.web.entity.User;
 import com.epam.web.service.ServiceException;
 import com.epam.web.service.UserService;

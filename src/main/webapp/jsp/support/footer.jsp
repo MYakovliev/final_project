@@ -18,8 +18,15 @@
 <body>
 <footer class="footer">
     <div class="footer__addr">
-        <h1 class="footer__logo"><fmt:message key="footer.thanks"/></h1>
-        <p class="legal">&copy; <fmt:message key="footer.rights"/></p>
+        <h1 class="footer__logo"><fmt:message key="footer.thanks"/></h1><br/>
+        <c:choose>
+            <c:when test="${sessionScope.user eq null}">
+                GUEST
+            </c:when>
+            <c:otherwise>
+                ${sessionScope.user.userRole}
+            </c:otherwise>
+        </c:choose>
     </div>
 </footer>
 </body>

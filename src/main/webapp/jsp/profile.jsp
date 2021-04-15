@@ -11,7 +11,8 @@
 <body>
 <img src="${user.avatar}"/>
 ${user.name}
-<c:if test="${user.id} == ${sessionScope.user.id}"><a href="${pageContext.request.contextPath}/controller?command='to_edit_user'">Edit</a></c:if>
+<c:if test="${user.id eq sessionScope.user.id}"><a href="${pageContext.request.contextPath}/controller?command='to_edit_user'">Edit</a></c:if>
+${user.mail}
 ${won_lots}      ${compete_lots}
 </body>
 </html>

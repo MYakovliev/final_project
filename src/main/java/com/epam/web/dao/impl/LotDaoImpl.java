@@ -71,14 +71,12 @@ public class LotDaoImpl implements LotDao {
                 id = generatedKeys.getLong(1);
             }
             statement.close();
+            statement = connection.prepareStatement(ADD_LOT_PICTURE);
             for (String image : images) {
-                statement = connection.prepareStatement(ADD_LOT_PICTURE);
                 statement.setLong(1, id);
                 statement.setString(2, image);
                 statement.executeUpdate();
-                statement.close();
             }
-
             lot = Optional.of(new Lot(id, name, description, startTime, finishTime, startBid, sellerId, images));
             connection.commit();
         } catch (SQLException | ConnectionPoolException e) {
@@ -105,6 +103,7 @@ public class LotDaoImpl implements LotDao {
                 try {
                     connection.close();
                 } catch (SQLException e) {
+                    logger.error(e);
                     throw new DaoException(e);
                 }
             }

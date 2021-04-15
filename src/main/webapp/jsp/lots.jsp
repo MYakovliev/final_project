@@ -27,34 +27,36 @@
 </div>
 </table>
 <nav aria-label="Navigation for countries">
-    <ul class="pagination">
-        <c:if test="${lot_active_page != 1}">
-            <li class="page-item"><a class="page-link"
-                                     href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page-1}">Previous</a>
-            </li>
-        </c:if>
+    <c:if test="${lot_page_amount} mt 1 ">
+        <ul class="pagination">
+            <c:if test="${lot_active_page != 1}">
+                <li class="page-item"><a class="page-link"
+                                         href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page-1}">Previous</a>
+                </li>
+            </c:if>
 
-        <c:forEach begin="1" end="${lot_page_amount}" var="i">
-            <c:choose>
-                <c:when test="${lot_active_page eq i}">
-                    <li class="page-item active"><a class="page-link">
-                            ${i} <span class="sr-only">(current)</span></a>
-                    </li>
-                </c:when>
-                <c:otherwise>
-                    <li class="page-item"><a class="page-link"
-                                             href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${i}">${i}</a>
-                    </li>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
+            <c:forEach begin="1" end="${lot_page_amount}" var="i">
+                <c:choose>
+                    <c:when test="${lot_active_page eq i}">
+                        <li class="page-item active"><a class="page-link">
+                                ${i} <span class="sr-only">(current)</span></a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="page-item"><a class="page-link"
+                                                 href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${i}">${i}</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
 
-        <c:if test="${lot_active_page lt lot_page_amount}">
-            <li class="page-item"><a class="page-link"
-                                     href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page+1}">Next</a>
-            </li>
-        </c:if>
-    </ul>
+            <c:if test="${lot_active_page lt lot_page_amount}">
+                <li class="page-item"><a class="page-link"
+                                         href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page+1}">Next</a>
+                </li>
+            </c:if>
+        </ul>
+    </c:if>
 </nav>
 <script src="<c:url value="/js/time_counter.js"/>"></script>
 <jsp:include page="support/footer.jsp"/>
