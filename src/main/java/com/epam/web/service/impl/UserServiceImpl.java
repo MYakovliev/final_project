@@ -138,14 +138,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void makeBid(User buyer, String stringBid, Lot lot) throws ServiceException {
-        if (buyer == null) {
-            throw new ServiceException("you have to log in");
-        }
-        if (buyer.getUserRole() != UserRole.BUYER) {
-            throw new ServiceException("you have no such rights, please log in as a buyer");
-        }
         if (!UserValidator.isValidBid(stringBid)) {
-            throw new ServiceException("incorrect bid");
+            throw new ServiceException("incorrect_bid");
         }
         BigDecimal bid = new BigDecimal(stringBid);
         try {
@@ -154,7 +148,7 @@ public class UserServiceImpl implements UserService {
                 lot.setCurrentCost(bid);
                 lot.setBuyerId(buyer.getId());
             } else {
-                throw new ServiceException("this user have no enough money");
+                throw new ServiceException("not_enough_money");
             }
         } catch (DaoException e) {
             logger.error(e);

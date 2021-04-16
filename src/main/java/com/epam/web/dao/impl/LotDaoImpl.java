@@ -39,6 +39,8 @@ public class LotDaoImpl implements LotDao {
     private static final String FIND_ACTIVE_LOT_STATEMENT =
             "SELECT idlots, name, description, bid, start_time, end_time, seller FROM lots" +
                     " WHERE end_time > NOW() AND NOW() > start_time LIMIT ?,?";
+    private static final String COMPARE_BID_STATEMENT =
+            "SELECT MAX(bid) FROM bid_history WHERE id_lot=?";
 
     private LotDaoImpl() {
     }
@@ -91,16 +93,17 @@ public class LotDaoImpl implements LotDao {
             }
             throw new DaoException(e);
         } finally {
-            if (statement!=null){
+
+            if (statement != null) {
                 try {
                     statement.close();
                 } catch (SQLException throwables) {
                     logger.error(throwables);
-                    throw new DaoException(throwables);
                 }
             }
             if (connection != null) {
                 try {
+                    connection.setAutoCommit(true);
                     connection.close();
                 } catch (SQLException e) {
                     logger.error(e);
@@ -120,7 +123,8 @@ public class LotDaoImpl implements LotDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 List<String> images = findLotImages(connection, id);
-                lot = Optional.of(createLot(resultSet, images));
+                lot = Optional.of(createLot(connection, resultSet, images));
+
             }
         } catch (SQLException | ConnectionPoolException e) {
             logger.error(e);
@@ -140,7 +144,7 @@ public class LotDaoImpl implements LotDao {
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
                 List<String> images = findLotImages(connection, id);
-                Lot lot = createLot(resultSet, images);
+                Lot lot = createLot(connection, resultSet, images);
                 lots.add(lot);
             }
         } catch (SQLException | ConnectionPoolException e) {
@@ -162,7 +166,7 @@ public class LotDaoImpl implements LotDao {
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
                 List<String> images = findLotImages(connection, id);
-                Lot lot = createLot(resultSet, images);
+                Lot lot = createLot(connection, resultSet, images);
                 lots.add(lot);
             }
         } catch (SQLException | ConnectionPoolException e) {
@@ -184,7 +188,7 @@ public class LotDaoImpl implements LotDao {
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
                 List<String> images = findLotImages(connection, id);
-                Lot lot = createLot(resultSet, images);
+                Lot lot = createLot(connection, resultSet, images);
                 lots.add(lot);
             }
         } catch (SQLException | ConnectionPoolException e) {
@@ -206,7 +210,7 @@ public class LotDaoImpl implements LotDao {
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
                 List<String> images = findLotImages(connection, id);
-                Lot lot = createLot(resultSet, images);
+                Lot lot = createLot(connection, resultSet, images);
                 lots.add(lot);
             }
         } catch (SQLException | ConnectionPoolException e) {
@@ -227,7 +231,7 @@ public class LotDaoImpl implements LotDao {
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
                 List<String> images = findLotImages(connection, id);
-                Lot lot = createLot(resultSet, images);
+                Lot lot = createLot(connection, resultSet, images);
                 lots.add(lot);
             }
         } catch (SQLException | ConnectionPoolException e) {
@@ -246,18 +250,32 @@ public class LotDaoImpl implements LotDao {
                 String imagePath = resultSet.getString(1);
                 images.add(imagePath);
             }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new SQLException(e);
         }
         return images;
     }
 
-    private Lot createLot(ResultSet resultSet, List<String> images) throws SQLException {
+    private BigDecimal compareBid(Connection connection, BigDecimal currentBid, long id) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(COMPARE_BID_STATEMENT)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                BigDecimal bid = resultSet.getBigDecimal(1);
+                if (bid != null) {
+                    if (bid.compareTo(currentBid) > 0) {
+                        currentBid = bid;
+                    }
+                }
+            }
+        }
+        return currentBid;
+    }
+
+    private Lot createLot(Connection connection, ResultSet resultSet, List<String> images) throws SQLException {
         long id = resultSet.getLong(1);
         String name = resultSet.getString(2);
         String description = resultSet.getString(3);
         BigDecimal bid = resultSet.getBigDecimal(4);
+        bid = compareBid(connection, bid, id);
         Timestamp startTime = resultSet.getTimestamp(5);
         Timestamp finishTime = resultSet.getTimestamp(6);
         long seller = resultSet.getLong(7);

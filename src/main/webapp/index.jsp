@@ -2,12 +2,18 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>JSP - Hello World</title>
-    </head>
-    <body>
-    <h3>Hello and Welcome</h3>
-    <a href="${pageContext.request.contextPath}/controller?command=to_lots">See the lots</a>
-    </body>
-    <link href="<c:url value="/css/ban.css"/>" type="text/css" rel="stylesheet"/>
+<head>
+    <title>JSP - Hello World</title>
+</head>
+<style>
+    body {
+        alignment: center;
+        background-color: blanchedalmond;
+        text-align: center;
+    }
+</style>
+<body>
+<h3>Hello and Welcome</h3>
+<a href="${pageContext.request.contextPath}/controller?command=to_lots">See the lots</a>
+</body>
 </html>

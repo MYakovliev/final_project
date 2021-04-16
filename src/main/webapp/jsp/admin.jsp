@@ -99,7 +99,9 @@
         </tr>
         <c:forEach var="lot" items="${requestScope.lot_list}">
             <tr>
-                <td>${lot.id}</td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/controller?command=to_lot&lot_id=${lot.id}">${lot.id}</a>
+                </td>
                 <td>${lot.name}</td>
                 <td>${lot.startTime}</td>
                 <td>${lot.finishTime}</td>

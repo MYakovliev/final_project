@@ -7,7 +7,7 @@
   Time: 9:40 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
     <fmt:setLocale value="${sessionScope.lang}"/>
@@ -17,10 +17,14 @@
 </head>
 <body>
 <jsp:include page="support/header.jsp"/>
-
+<c:out value="fff${error}"/>
+<c:if test="${error ne null}">
+<fmt:message key="lot.${error}"/>
+</c:if>
 <div class="content_container">
     <form action="${pageContext.request.contextPath}/controller" method="post">
         <input type="hidden" name="command" value="make_bid"/>
+        <input type="hidden" name="lot_id" value="${lot.id}">
         ${lot.name}<br/>
         ${lot.description}<br/>
         ${lot.currentCost}&dollar;<br/>
@@ -40,7 +44,7 @@
 <div class="main_block">
     <div class="container">
         <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
-        <img id="expandedImg" style="min-width: 40%; max-width: 50%;" onclick="magnify('expandedImg', 3)"
+        <img id="expandedImg" style="min-width: 40%; max-width: 100%;" onclick="magnify('expandedImg', 3)"
              alt="main_image">
     </div>
 </div>

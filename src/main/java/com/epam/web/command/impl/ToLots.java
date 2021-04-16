@@ -23,6 +23,7 @@ public class ToLots implements ActionCommand {
     private static AmountService amountService = AmountServiceImpl.getInstance();
     private static final Logger logger = LogManager.getLogger();
     private static final int AMOUNT_PER_PAGE = 20;
+    private static final String COMMAND_TO_PAGING = "to_lots";
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
@@ -31,6 +32,7 @@ public class ToLots implements ActionCommand {
         CommandResult result = CommandResult.createForwardCommandResult(currentPage);
         try {
             String lotPageNumberString = request.getParameter(RequestParameter.LOT_PAGING);
+            String error = request.getParameter("error");
             int lotPageNumber;
             if (lotPageNumberString==null){
                 lotPageNumber = 1;
@@ -42,9 +44,10 @@ public class ToLots implements ActionCommand {
             int pageAmount = (amount - 1 + AMOUNT_PER_PAGE) / AMOUNT_PER_PAGE;
             List<Lot> lots = service.findActive(lotPageNumber, AMOUNT_PER_PAGE);
             request.setAttribute(RequestParameter.LOT_LIST, lots);
+            request.setAttribute("error", error);
             request.setAttribute(RequestParameter.LOT_PAGE_AMOUNT, pageAmount);
             request.setAttribute(RequestParameter.LOT_ACTIVE_PAGE, lotPageNumber);
-            request.setAttribute(RequestParameter.COMMAND, "to_lots");
+            request.setAttribute(RequestParameter.COMMAND, COMMAND_TO_PAGING);
             result = CommandResult.createForwardCommandResult(JspPath.LOTS);
         } catch (ServiceException e) {
             logger.error(e);

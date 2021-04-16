@@ -26,17 +26,17 @@
             key="header.home"/></a>
     <a href="#footer"><fmt:message key="header.contact"/></a>
     <tag:access role="admin"><a href="${pageContext.request.contextPath}/controller?command=to_admin"><fmt:message
-            key="header.adminpage"/></a></tag:access>
+            key="header.admin_page"/></a></tag:access>
     <tag:access role="seller"><a href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message
-            key="header.mylots"/></a></tag:access>
+            key="header.my_lots"/></a></tag:access>
     <tag:access role="buyer"><a href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message
-            key="header.mylots"/></a></tag:access>
+            key="header.my_lots"/></a></tag:access>
     <div class="topnav-right">
         <div class="buttons">
             <c:choose>
                 <c:when test="${sessionScope.user == null}">
                     <a href="${pageContext.request.contextPath}/controller?command=to_login">
-                        <fmt:message key="header.signin"/>
+                        <fmt:message key="header.sign_in"/>
                     </a>
                     <a href="${pageContext.request.contextPath}/controller?command=to_registration">
                         <fmt:message key="header.signup"/>
@@ -51,7 +51,7 @@
 
                     <a href="${pageContext.request.contextPath}/controller?command=to_payment">${sessionScope.user.balance}</a>
                     <a href="${pageContext.request.contextPath}/controller?command=logout">
-                        <fmt:message key="header.signout"/>
+                        <fmt:message key="header.sign_out"/>
                     </a>
                 </c:otherwise>
             </c:choose>
@@ -66,7 +66,7 @@
 
             <div id="modal" class="modal">
                 <div class="modal__content">
-                    <h1><fmt:message key="header.changelanguage"/></h1>
+                    <h1><fmt:message key="header.change_language"/></h1>
                     <a href="#" class="modal__close">&times;</a>
                     <div class="languages">
                         <a id="en" href="${pageContext.request.contextPath}/controller?command=change_language&lang=en">EN</a>

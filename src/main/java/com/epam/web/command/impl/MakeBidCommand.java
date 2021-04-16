@@ -21,9 +21,16 @@ import javax.servlet.http.HttpSession;
 public class MakeBidCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static UserService service = UserServiceImpl.getInstance();
+    private static final String NOT_BUYER = "not_buyer";
+    private static final String NOT_LOG_IN_ERROR = "not_logged_in";
+    private static final String COMMAND_TO_REDIRECT = "/controller?command=to_lot&lot_id=%d&error=%s";
+
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
+        long id = Long.parseLong(request.getParameter(RequestParameter.LOT_ID));
+        String error = null;
+
         HttpSession session = request.getSession();
         Object userObject = session.getAttribute(SessionAttribute.USER);
         if (userObject != null) {
@@ -34,12 +41,16 @@ public class MakeBidCommand implements ActionCommand {
                     String bid = request.getParameter(RequestParameter.BID);
                     service.makeBid(user, bid, lot);
                 } catch (ServiceException e) {
+                    error = e.getMessage();
                     logger.error(e);
                 }
+            } else {
+                error = NOT_BUYER;
             }
         } else {
-            CommandResult.createForwardCommandResult(JspPath.LOTS);
+            error = NOT_LOG_IN_ERROR;
         }
-        return CommandResult.createRedirectCommandResult(JspPath.LOT);
+        String command = String.format(COMMAND_TO_REDIRECT, id, error);
+        return CommandResult.createRedirectCommandResult(command);
     }
 }

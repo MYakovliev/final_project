@@ -94,27 +94,46 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement statement = null;
         try {
             connection = pool.getConnection();
-            statement = connection.prepareStatement(UPDATE_BID_STATUS_STATEMENT);
             connection.setAutoCommit(false);
+            statement = connection.prepareStatement(UPDATE_BID_STATUS_STATEMENT);
             statement.setLong(1, lotId);
             statement.executeUpdate();
-            PreparedStatement preparedStatement = null;
-            try {
-                preparedStatement = connection.prepareStatement(MAKE_BID_STATEMENT);
-                preparedStatement.setLong(1, userId);
-                preparedStatement.setLong(2, lotId);
-                preparedStatement.setBigDecimal(3, bid);
-                preparedStatement.executeUpdate();
-                connection.commit();
-            } finally {
-                connection.setAutoCommit(true);
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            }
+            statement.close();
+            statement = connection.prepareStatement(MAKE_BID_STATEMENT);
+            statement.setLong(1, userId);
+            statement.setLong(2, lotId);
+            statement.setBigDecimal(3, bid);
+            statement.executeUpdate();
+            connection.commit();
         } catch (SQLException | ConnectionPoolException e) {
             logger.error(e);
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    logger.error(ex);
+                    throw new DaoException(ex);
+                }
+            }
             throw new DaoException(e);
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException throwables) {
+                    logger.error(throwables);
+                    throw new DaoException(throwables);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                    connection.close();
+                } catch (SQLException e) {
+                    logger.error(e);
+                    throw new DaoException(e);
+                }
+            }
         }
     }
 

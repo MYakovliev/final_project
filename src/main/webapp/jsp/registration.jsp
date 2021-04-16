@@ -25,13 +25,13 @@
         <input type="password" placeholder="<fmt:message key="registration.password"/>" name="password" required pattern=".{8, 40}"/>
         <input type="text" placeholder="<fmt:message key="registration.email"/>" name="mail" required pattern="[^$@!]{4,20}@\w+\.\w+"/>
         <select name="role" required>
-            <option value="" selected disabled hidden><fmt:message key="registration.chooserole"/></option>
-            <option name="role" value="buyer"><fmt:message key="registration.buyerrole"/></option>
-            <option name="role" value="seller"><fmt:message key="registration.sellerrole"/></option>
+            <option value="" selected disabled hidden><fmt:message key="registration.choose_role"/></option>
+            <option name="role" value="buyer"><fmt:message key="registration.buyer_role"/></option>
+            <option name="role" value="seller"><fmt:message key="registration.seller_role"/></option>
         </select>
         <input type="submit" name="btn" value="<fmt:message key="registration.button"/>"/>
-        <p class="message"><fmt:message key="registration.asktosignin"/> <a href="controller?command=to_login"><fmt:message key="registration.signin"/></a></p>
-        <p class="message"><fmt:message key="registration.asktomain"/> <a href="controller?command=to_lots"><fmt:message key="registration.backtomain"/></a></p>
+        <p class="message"><fmt:message key="registration.ask_to_sign_in"/> <a href="controller?command=to_login"><fmt:message key="registration.sign_in"/></a></p>
+        <p class="message"><fmt:message key="registration.ask_to_main"/> <a href="controller?command=to_lots"><fmt:message key="registration.back_to_main"/></a></p>
     </form>
 </div>
 </body>

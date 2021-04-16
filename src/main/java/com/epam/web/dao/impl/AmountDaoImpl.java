@@ -25,7 +25,8 @@ public class AmountDaoImpl implements AmountDao {
     private static final String FIND_ALL_USERS_STATEMENT = "SELECT COUNT(*) FROM users ";
     private static final String FIND_USERS_BY_NAME_STATEMENT = "SELECT COUNT(*) FROM users WHERE name=?";
     private static final String FIND_BUYER_BY_LOT_ID_STATEMENT = "SELECT COUNT(*) FROM bid_history WHERE id_lot=?";
-    private static final String FIND_ACTIVE_LOT_STATEMENT = "SELECT COUNT(*) FROM lots WHERE end_time < NOW()";
+    private static final String FIND_ACTIVE_LOT_STATEMENT =
+            "SELECT COUNT(*) FROM lots WHERE end_time > NOW() AND NOW() > start_time";
 
 
     private AmountDaoImpl() {

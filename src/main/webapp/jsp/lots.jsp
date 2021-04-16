@@ -12,8 +12,16 @@
 </head>
 <body>
 <jsp:include page="support/header.jsp"/>
-<tag:access role="seller"><a href="${pageContext.request.contextPath}/controller?command=to_lot_edit">Add
-    Lot</a></tag:access>
+<div class="add_lot">
+    <tag:access role="seller">
+        <a href="${pageContext.request.contextPath}/controller?command=to_lot_edit">Add Lot</a>
+    </tag:access>
+</div>
+<form action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="search_lot_by_name">
+    <input name="search" type="text" placeholder="search">
+    <button type="submit">&hookleftarrow;</button>
+</form>
 <div class="main_block">
     <c:forEach var="lot" items="${lot_list}">
         <div class="lot_block"
