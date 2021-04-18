@@ -29,9 +29,9 @@ public class AdminDaoImpl implements AdminDao {
     public void ban(long userId) throws DaoException {
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SET_BAN_STATUS_USER_BY_ID_STATEMENT)) {
-            statement.setString(1, String.valueOf(1));
-            statement.setString(2, String.valueOf(userId));
-            statement.executeQuery();
+            statement.setBoolean(1, true);
+            statement.setLong(2, userId);
+            statement.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
             logger.error(e);
             throw new DaoException(e);
@@ -42,9 +42,9 @@ public class AdminDaoImpl implements AdminDao {
     public void unban(long userId) throws DaoException {
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SET_BAN_STATUS_USER_BY_ID_STATEMENT)) {
-            statement.setString(1, String.valueOf(0));
-            statement.setString(2, String.valueOf(userId));
-            statement.executeQuery();
+            statement.setBoolean(1, false);
+            statement.setLong(2, userId);
+            statement.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
             logger.error(e);
             throw new DaoException(e);

@@ -7,7 +7,7 @@
   Time: 9:40 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <fmt:setLocale value="${sessionScope.lang}"/>
@@ -17,9 +17,8 @@
 </head>
 <body>
 <jsp:include page="support/header.jsp"/>
-<c:out value="fff${error}"/>
 <c:if test="${error ne null}">
-<fmt:message key="lot.${error}"/>
+    <fmt:message key="${error}"/>
 </c:if>
 <div class="content_container">
     <form action="${pageContext.request.contextPath}/controller" method="post">

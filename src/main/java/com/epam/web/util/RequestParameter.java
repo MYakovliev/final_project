@@ -26,6 +26,7 @@ public class RequestParameter {
     public static final String LOT_PAGE_AMOUNT = "lot_page_amount";
     public static final String USER_PAGE_AMOUNT = "user_page_amount";
     public static final String USER_ID = "user_id";
+    public static final String ERROR = "error";
 
     private RequestParameter(){}
 }

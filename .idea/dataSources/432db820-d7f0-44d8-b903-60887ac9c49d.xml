@@ -975,6 +975,7 @@ SELECT|sys.sys_config
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
     </column>
     <column id="304" parent="286" name="lot_id">
       <Position>2</Position>
@@ -982,7 +983,7 @@ SELECT|sys.sys_config
     </column>
     <column id="305" parent="286" name="image">
       <Position>3</Position>
-      <DataType>varchar(70)|0s</DataType>
+      <DataType>varchar(100)|0s</DataType>
     </column>
     <index id="306" parent="286" name="id_lot_idx">
       <ColNames>lot_id</ColNames>
@@ -1015,12 +1016,12 @@ SELECT|sys.sys_config
     </column>
     <column id="312" parent="287" name="start_time">
       <Position>4</Position>
-      <DataType>datetime|0s</DataType>
+      <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="313" parent="287" name="end_time">
       <Position>5</Position>
-      <DataType>datetime|0s</DataType>
+      <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="314" parent="287" name="bid">
@@ -1124,16 +1125,25 @@ SELECT|sys.sys_config
       <DataType>tinyint(1)|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <index id="336" parent="290" name="role_idx">
+    <index id="336" parent="290" name="login_UNIQUE">
+      <ColNames>login</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="337" parent="290" name="role_idx">
       <ColNames>role</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="337" parent="290" name="PRIMARY">
+    <key id="338" parent="290" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idusers</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="338" parent="290" name="role">
+    <key id="339" parent="290" name="login_UNIQUE">
+      <ColNames>login</ColNames>
+      <UnderlyingIndexName>login_UNIQUE</UnderlyingIndexName>
+    </key>
+    <foreign-key id="340" parent="290" name="role">
       <ColNames>role</ColNames>
       <RefTableName>roles</RefTableName>
       <RefColNames>idroles</RefColNames>

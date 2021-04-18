@@ -46,6 +46,8 @@ public class UserDaoImpl implements UserDao {
             "SELECT idusers, name, mail, balance, roles.role, avatar, isBanned FROM users " +
                     "INNER JOIN roles ON users.role = roles.idroles LIMIT ?, ?";
     private static final String IS_BAN_STATEMENT = "SELECT isBanned FROM users WHERE idusers=?";
+    private static final String CHANGE_USER_DATA_STATEMENT = "UPDATE users SET avatar=?, name=?, mail=? WHERE idusers=?";
+    private static final String CHANGE_PASSWORD_STATEMENT = "UPDATE users SET password=? WHERE idusers=? AND password=?";
 
     private UserDaoImpl() {
     }
@@ -75,13 +77,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void register(String name, String mail, String login, String password, UserRole role) throws DaoException {
         try (Connection connection = pool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(REGISTRATION_STATEMENT, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(REGISTRATION_STATEMENT)) {
             statement.setString(1, name);
             statement.setString(2, mail);
             statement.setString(3, login);
             statement.setString(4, password);
             statement.setString(5, role.toString());
-            statement.execute();
+            statement.executeQuery();
         } catch (SQLException | ConnectionPoolException e) {
             logger.error(e);
             throw new DaoException(e);
@@ -134,6 +136,35 @@ public class UserDaoImpl implements UserDao {
                     throw new DaoException(e);
                 }
             }
+        }
+    }
+
+    @Override
+    public void changeUserData(long userId, String avatar, String name, String mail) throws DaoException {
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(CHANGE_USER_DATA_STATEMENT)) {
+            statement.setString(1, avatar);
+            statement.setString(2, name);
+            statement.setString(3, mail);
+            statement.setLong(4, userId);
+            statement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public void changeUserPassword(long userId, String oldPassword, String newPassword) throws DaoException{
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(CHANGE_PASSWORD_STATEMENT)) {
+            statement.setString(1, newPassword);
+            statement.setLong(2, userId);
+            statement.setString(4, oldPassword);
+            statement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            logger.error(e);
+            throw new DaoException(e);
         }
     }
 

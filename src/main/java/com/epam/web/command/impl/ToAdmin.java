@@ -28,6 +28,7 @@ public class ToAdmin implements ActionCommand {
     private static final LotService lotService = LotServiceImpl.getInstance();
     private static final AmountService amountService = AmountServiceImpl.getInstance();
     private static final int AMOUNT_PER_PAGE = 5;
+    private static final String COMMAND_TO_PAGING = "to_admin";
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
@@ -38,6 +39,7 @@ public class ToAdmin implements ActionCommand {
             try {
                 String lotPageNumberString = request.getParameter(RequestParameter.LOT_PAGING);
                 int lotPageNumber;
+                logger.debug("lotPageNumber:{}", lotPageNumberString);
                 if (lotPageNumberString==null){
                     lotPageNumber = 1;
                 } else {
@@ -45,6 +47,7 @@ public class ToAdmin implements ActionCommand {
                 }
                 String userPageNumberString = request.getParameter(RequestParameter.USER_PAGING);
                 int userPageNumber;
+                logger.debug("userPageNumber:{}", userPageNumberString);
                 if (userPageNumberString==null){
                     userPageNumber = 1;
                 } else {
@@ -63,7 +66,7 @@ public class ToAdmin implements ActionCommand {
                 request.setAttribute(RequestParameter.USER_PAGE_AMOUNT, userPageAmount);
                 request.setAttribute(RequestParameter.LOT_ACTIVE_PAGE, lotPageNumber);
                 request.setAttribute(RequestParameter.USER_ACTIVE_PAGE, userPageNumber);
-                request.setAttribute(RequestParameter.COMMAND, "to_admin");
+                request.setAttribute(RequestParameter.COMMAND, COMMAND_TO_PAGING);
                 result = CommandResult.createForwardCommandResult(JspPath.ADMIN);
             } catch (ServiceException e){
                 logger.error(e);

@@ -1,5 +1,6 @@
 package com.epam.web.service;
 
+import com.epam.web.dao.DaoException;
 import com.epam.web.entity.Lot;
 import com.epam.web.entity.User;
 import com.epam.web.entity.UserRole;
@@ -14,6 +15,10 @@ public interface UserService {
     void makeBid(User user, String bid, Lot lot) throws ServiceException;
 
     User findUserById(long id) throws ServiceException;
+
+    void changeUserData(long userId, String avatar, String name, String mail) throws ServiceException;
+
+    void changeUserPassword(long userId, String oldPassword, String newPassword) throws ServiceException;
 
     List<User> findUserByName(String name, int pageNumber, int amountPerPage) throws ServiceException;
 

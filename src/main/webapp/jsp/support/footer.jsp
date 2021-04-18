@@ -27,6 +27,8 @@
                 ${sessionScope.user.userRole}
             </c:otherwise>
         </c:choose>
+        <br/>
+        Contact us: support@auction.by
     </div>
 </footer>
 </body>

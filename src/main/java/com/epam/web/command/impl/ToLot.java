@@ -23,12 +23,14 @@ public class ToLot implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String currentPage = (String) session.getAttribute(SessionAttribute.CURRENT_PAGE);
+        String error = request.getParameter(RequestParameter.ERROR);
         CommandResult result = CommandResult.createForwardCommandResult(currentPage);
         try {
             long id = Long.parseLong(request.getParameter(RequestParameter.LOT_ID));
             logger.debug("lot id:{}",id);
             Lot lot = service.findLotById(id);
             request.setAttribute(RequestParameter.LOT, lot);
+            request.setAttribute(RequestParameter.ERROR, error);
             result = CommandResult.createForwardCommandResult(JspPath.LOT);
         } catch (ServiceException e) {
             logger.error(e);

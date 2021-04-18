@@ -4,11 +4,16 @@ import com.epam.web.command.ActionCommand;
 import com.epam.web.command.CommandResult;
 import com.epam.web.util.RequestParameter;
 import com.epam.web.util.SessionAttribute;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class ChangeLanguageCommand implements ActionCommand {
+    private static final String REFERER = "referer";
+    private static final String START_OF_THE_COMMAND = "/controller";
+
     @Override
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -17,7 +22,8 @@ public class ChangeLanguageCommand implements ActionCommand {
         if (!currentLanguage.equals(newLanguage)){
             session.setAttribute(SessionAttribute.LOCAL_LANG, newLanguage);
         }
-        String path = (String) session.getAttribute(SessionAttribute.CURRENT_PAGE);
-        return CommandResult.createForwardCommandResult(path);
+        String referer = request.getHeader(REFERER);
+        String subReferer = referer.substring(referer.indexOf(START_OF_THE_COMMAND));
+        return CommandResult.createRedirectCommandResult(subReferer);
     }
 }

@@ -33,8 +33,11 @@ public class Controller extends HttpServlet {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         String command = request.getParameter(RequestParameter.COMMAND);
-        logger.debug(command);
         CommandType commandType = CommandType.valueOf(command.toUpperCase());
+        if (request.getAttribute(RequestParameter.COMMAND)==CommandType.TO_BAN){
+            commandType = CommandType.TO_BAN;
+        }
+        logger.debug(commandType.toString());
         ActionCommand actionCommand = commandType.getCommand();
         CommandResult commandResult = actionCommand.execute(request);
         if (commandResult.isRedirect()) {

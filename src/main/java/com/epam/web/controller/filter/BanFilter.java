@@ -7,6 +7,7 @@ import com.epam.web.util.RequestParameter;
 import com.epam.web.util.SessionAttribute;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -24,9 +25,9 @@ public class BanFilter implements Filter {
         if (user != null) {
             boolean isBanned = UserServiceImpl.getInstance().isBanned(user.getId());
             if (isBanned) {
-                String command = (String) request.getAttribute(RequestParameter.COMMAND);
-                if (CommandType.valueOf(command) != CommandType.LOGOUT) {
-                    request.setAttribute(RequestParameter.COMMAND, CommandType.TO_BAN.toString());
+                String command = request.getParameter(RequestParameter.COMMAND);
+                if (command != null && CommandType.valueOf(command.toUpperCase()) != CommandType.LOGOUT) {
+                    request.setAttribute(RequestParameter.COMMAND, CommandType.TO_BAN);
                 }
             }
         }

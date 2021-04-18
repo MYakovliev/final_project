@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String login, String password) throws ServiceException {
         if (!(UserValidator.isValidLogin(login) && UserValidator.isValidPassword(password))) {
-            throw new ServiceException("wrong data in form(s)");
+            throw new ServiceException("invalid_data_format");
         }
         Optional<String> optionalPassword = PasswordEncrypter.encrypt(password);
         if (!optionalPassword.isPresent()) {
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         if (!optionalUser.isPresent()) {
-            throw new ServiceException("invalid login or password");
+            throw new ServiceException("invalid_login_or_password");
         }
         return optionalUser.get();
 
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     public void register(String name, String mail, String login, String password, UserRole role) throws ServiceException {
         if (!(UserValidator.isValidLogin(login) && UserValidator.isValidPassword(password)
                 && UserValidator.isValidMail(mail) && UserValidator.isValidName(name))) {
-            throw new ServiceException("wrong data in form(s)");
+            throw new ServiceException("invalid_data_format");
         }
         Optional<String> optionalPassword = PasswordEncrypter.encrypt(password);
         if (!optionalPassword.isPresent()) {
@@ -81,9 +81,35 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         if (!optionalUser.isPresent()) {
-            throw new ServiceException("there's no such user");
+            throw new ServiceException("unknown_user");
         }
         return optionalUser.get();
+    }
+
+    @Override
+    public void changeUserData(long userId, String avatar, String name, String mail) throws ServiceException {
+        if (!(UserValidator.isValidMail(mail) && UserValidator.isValidName(name))){
+            throw new ServiceException("invalid_data_format");
+        }
+        try{
+            dao.changeUserData(userId, avatar, name, mail);
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void changeUserPassword(long userId, String oldPassword, String newPassword) throws ServiceException {
+        if (!(UserValidator.isValidPassword(oldPassword) && UserValidator.isValidPassword(newPassword))){
+            throw new ServiceException("invalid_data_format");
+        }
+        try{
+            dao.changeUserPassword(userId, oldPassword, newPassword);
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -142,14 +168,16 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("incorrect_bid");
         }
         BigDecimal bid = new BigDecimal(stringBid);
+        if (!(lot.getCurrentCost().compareTo(bid) < 0)) {
+            throw new ServiceException("small_bid");
+        }
+        if (!(buyer.getBalance().compareTo(bid) > 0)) {
+            throw new ServiceException("not_enough_money");
+        }
         try {
-            if (buyer.getBalance().compareTo(bid) > 0 && lot.getCurrentCost().compareTo(bid) < 0) {
-                dao.makeBid(buyer.getId(), bid, lot.getId());
-                lot.setCurrentCost(bid);
-                lot.setBuyerId(buyer.getId());
-            } else {
-                throw new ServiceException("not_enough_money");
-            }
+            dao.makeBid(buyer.getId(), bid, lot.getId());
+            lot.setCurrentCost(bid);
+            lot.setBuyerId(buyer.getId());
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

@@ -18,13 +18,18 @@
 <body>
 <div class="login-page">
     <div class="form">
+        <c:if test="${error ne null}">
+            <fmt:message key="${error}"/>
+        </c:if>
         <form class="login-form" action="login.do" method="post">
             <input type="hidden" name="command" value="login"/>
             <input type="text" placeholder="<fmt:message key="login.login"/>" name="login"/>
             <input type="password" placeholder="<fmt:message key="login.password"/>" name="password"/>
             <input type="submit" name="btn" value="<fmt:message key="login.button"/>"/>
-            <p class="message"><fmt:message key="login.ask_to_signup"/> <a href="controller?command=to_registration" ><fmt:message key="login.signup"/></a></p>
-            <p class="message"><fmt:message key="login.ask_to_main"/> <a href="controller?command=to_lots" ><fmt:message key="login.back_to_main"/></a></p>
+            <p class="message"><fmt:message key="login.ask_to_signup"/> <a
+                    href="controller?command=to_registration"><fmt:message key="login.signup"/></a></p>
+            <p class="message"><fmt:message key="login.ask_to_main"/> <a href="controller?command=to_lots"><fmt:message
+                    key="login.back_to_main"/></a></p>
         </form>
     </div>
 </div>

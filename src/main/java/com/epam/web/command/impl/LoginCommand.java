@@ -18,20 +18,22 @@ import javax.servlet.http.HttpSession;
 public class LoginCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static UserService userServiceImpl = UserServiceImpl.getInstance();
+    private static final String COMMAND_TO_REDIRECT = "/controller?command=to_lots";
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        String path = JspPath.LOGIN;
+        CommandResult result = CommandResult.createRedirectCommandResult(COMMAND_TO_REDIRECT);
         try {
             String login = request.getParameter(RequestParameter.LOGIN);
             String password = request.getParameter(RequestParameter.PASSWORD);
             User user = userServiceImpl.login(login, password);
             HttpSession session = request.getSession();
             session.setAttribute(SessionAttribute.USER, user);
-            path = JspPath.LOTS;
         } catch (ServiceException e) {
+            request.setAttribute(RequestParameter.ERROR, e.getMessage());
+            result = CommandResult.createForwardCommandResult(JspPath.LOGIN);
             logger.error(e);
         }
-        return CommandResult.createRedirectCommandResult(path);
+        return result;
     }
 }

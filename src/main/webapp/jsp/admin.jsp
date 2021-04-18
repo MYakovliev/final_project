@@ -41,10 +41,10 @@
                 <td>${user.userRole}</td>
                 <td><c:choose>
                     <c:when test="${user.banned}"><a
-                            href="${pageContext.request.contextPath}/controller?command=unban_user&user_id=${user.id}">unban</a>
+                            href="${pageContext.request.contextPath}/controller?command=unban_user&user_id=${user.id}&user_active_page=${user_active_page}&lot_active_page=${lot_active_page}">unban</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/controller?command=ban_user&user_id=${user.id}">ban</a>
+                        <a href="${pageContext.request.contextPath}/controller?command=ban_user&user_id=${user.id}&user_active_page=${user_active_page}&lot_active_page=${lot_active_page}">ban</a>
                     </c:otherwise>
                 </c:choose>
                 </td>

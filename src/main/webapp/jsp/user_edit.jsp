@@ -13,14 +13,14 @@
 </head>
 <body>
 <form action="${pageContext.request.contextPath}/upload/" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="command" value="change_user_detail"/>
+    <input type="hidden" name="command" value="change_user_data"/>
     <img src="${sessionScope.user.avatar}" id="img"/>
     <input type="file" name="avatar" onchange="readURL(this, 'img', null)"/>
     <input type="text" name="name" value="${sessionScope.user.name}">
     <input type="email" name="mail" value="${sessionScope.user.mail}">
     <input type="submit" name="btn" value="Submit"/>
 </form>
-<form action="/controller" method="post">
+<form action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="change_password">
     <input type="password" name="old_password"/>
     <input type="password" name="new_password"/>
