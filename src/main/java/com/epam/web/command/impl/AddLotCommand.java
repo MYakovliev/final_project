@@ -21,13 +21,13 @@ import java.util.List;
 public class AddLotCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static LotService service = LotServiceImpl.getInstance();
-
+    private static final String COMMAND_TO_REDIRECT = "/controller?command=to_lots";
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(SessionAttribute.USER);
-        CommandResult result = CommandResult.createForwardCommandResult(JspPath.LOTS);
+        CommandResult result = CommandResult.createForwardCommandResult(COMMAND_TO_REDIRECT);
         try {
             if (user.getUserRole() == UserRole.SELLER) {
                 String name = request.getParameter(RequestParameter.NAME);
@@ -45,10 +45,11 @@ public class AddLotCommand implements ActionCommand {
                 }
                 List<String> images = (List<String>) request.getAttribute(RequestParameter.IMAGE_PATH);
                 service.createNewLot(name, description, startBid, startTime, finishTime, user.getId(), images);
-                result = CommandResult.createRedirectCommandResult(JspPath.LOTS);
             }
         } catch (ServiceException e) {
             logger.error(e);
+            request.setAttribute(RequestParameter.ERROR, e.getMessage());
+            result = CommandResult.createForwardCommandResult(JspPath.LOT_EDIT);
         }
         return result;
     }

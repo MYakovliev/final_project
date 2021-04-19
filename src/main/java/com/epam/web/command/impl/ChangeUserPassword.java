@@ -17,6 +17,7 @@ public class ChangeUserPassword implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static UserService service = UserServiceImpl.getInstance();
     private static final String COMMAND_TO_REDIRECT = "/controller?command=to_profile&user_id=%d";
+    private static final String COMMAND_IF_ERROR = "/controller?command=to_user_edit&error=%s";
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
@@ -28,6 +29,7 @@ public class ChangeUserPassword implements ActionCommand {
             String newPassword = request.getParameter(RequestParameter.PASSWORD);
             service.changeUserPassword(user.getId(), oldPassword, newPassword);
         } catch (ServiceException e) {
+            result = CommandResult.createRedirectCommandResult(String.format(COMMAND_IF_ERROR, e.getMessage()));
             logger.error(e);
         }
         return result;

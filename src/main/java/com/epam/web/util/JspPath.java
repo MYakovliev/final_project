@@ -11,6 +11,8 @@ public class JspPath {
     public static final String ADMIN = "/jsp/admin.jsp";
     public static final String PROFILE = "/jsp/profile.jsp";
     public static final String USER_EDIT = "/jsp/user_edit.jsp";
+    public static final String PAYMENT = "/jsp/payment.jsp";
+    public static final String INDEX = "index.jsp";
 
     private JspPath(){}
 }

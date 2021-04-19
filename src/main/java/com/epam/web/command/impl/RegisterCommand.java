@@ -18,11 +18,13 @@ import javax.servlet.http.HttpSession;
 
 public class RegisterCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
+    private static final String COMMAND_TO_REDIRECT = "/controller?command=to_login";
     private static UserService userServiceImpl = UserServiceImpl.getInstance();
+
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        String path = JspPath.REGISTRATION;
+        CommandResult result = CommandResult.createForwardCommandResult(JspPath.REGISTRATION);
         try {
             String mail = request.getParameter(RequestParameter.MAIL);
             String password = request.getParameter(RequestParameter.PASSWORD);
@@ -30,10 +32,10 @@ public class RegisterCommand implements ActionCommand {
             UserRole role = UserRole.valueOf(request.getParameter(RequestParameter.ROLE).toUpperCase());
             String name = request.getParameter(RequestParameter.NAME);
             userServiceImpl.register(name, mail, login, password, role);
-            path = JspPath.LOGIN;
+            result = CommandResult.createRedirectCommandResult(COMMAND_TO_REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
         }
-        return CommandResult.createRedirectCommandResult(path);
+        return result;
     }
 }

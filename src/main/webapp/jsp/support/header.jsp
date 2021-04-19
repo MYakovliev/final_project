@@ -27,9 +27,9 @@
     <a href="#footer"><fmt:message key="header.contact"/></a>
     <tag:access role="admin"><a href="${pageContext.request.contextPath}/controller?command=to_admin"><fmt:message
             key="header.admin_page"/></a></tag:access>
-    <tag:access role="seller"><a href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message
+    <tag:access role="seller"><a href="${pageContext.request.contextPath}/controller?command=to_seller_lots"><fmt:message
             key="header.my_lots"/></a></tag:access>
-    <tag:access role="buyer"><a href="${pageContext.request.contextPath}/controller?command=to_lots"><fmt:message
+    <tag:access role="buyer"><a href="${pageContext.request.contextPath}/controller?command=to_buyer_lots"><fmt:message
             key="header.my_lots"/></a></tag:access>
     <div class="topnav-right">
         <div class="buttons">

@@ -34,13 +34,14 @@ public class ToAdmin implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String page = (String) session.getAttribute(SessionAttribute.CURRENT_PAGE);
-        CommandResult result;
-        if (((User) session.getAttribute(SessionAttribute.USER)).getUserRole() == UserRole.ADMIN) {
+        CommandResult result = CommandResult.createForwardCommandResult(page);
+        User user = (User) session.getAttribute(SessionAttribute.USER);
+        if (user != null && user.getUserRole() == UserRole.ADMIN) {
             try {
                 String lotPageNumberString = request.getParameter(RequestParameter.LOT_PAGING);
                 int lotPageNumber;
                 logger.debug("lotPageNumber:{}", lotPageNumberString);
-                if (lotPageNumberString==null){
+                if (lotPageNumberString == null) {
                     lotPageNumber = 1;
                 } else {
                     lotPageNumber = Integer.parseInt(lotPageNumberString);
@@ -48,7 +49,7 @@ public class ToAdmin implements ActionCommand {
                 String userPageNumberString = request.getParameter(RequestParameter.USER_PAGING);
                 int userPageNumber;
                 logger.debug("userPageNumber:{}", userPageNumberString);
-                if (userPageNumberString==null){
+                if (userPageNumberString == null) {
                     userPageNumber = 1;
                 } else {
                     userPageNumber = Integer.parseInt(userPageNumberString);
@@ -68,12 +69,10 @@ public class ToAdmin implements ActionCommand {
                 request.setAttribute(RequestParameter.USER_ACTIVE_PAGE, userPageNumber);
                 request.setAttribute(RequestParameter.COMMAND, COMMAND_TO_PAGING);
                 result = CommandResult.createForwardCommandResult(JspPath.ADMIN);
-            } catch (ServiceException e){
+            } catch (ServiceException e) {
                 logger.error(e);
                 result = CommandResult.createForwardCommandResult(page);
             }
-        } else {
-            result = CommandResult.createForwardCommandResult(page);
         }
         return result;
     }

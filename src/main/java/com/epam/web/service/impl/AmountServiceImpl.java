@@ -70,10 +70,10 @@ public class AmountServiceImpl implements AmountService {
     }
 
     @Override
-    public int findWonLotByBuyerIdAmount(long buyerId) throws ServiceException {
+    public int findLotByBuyerIdAmount(long buyerId) throws ServiceException {
         int amount;
         try {
-            amount = dao.findWonLotByBuyerIdAmount(buyerId);
+            amount = dao.findLotByBuyerIdAmount(buyerId);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

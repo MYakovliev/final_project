@@ -15,30 +15,34 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class ToLots implements ActionCommand {
+public class FindLotsByName implements ActionCommand {
     private static LotService service = LotServiceImpl.getInstance();
     private static AmountService amountService = AmountServiceImpl.getInstance();
     private static final Logger logger = LogManager.getLogger();
     private static final int AMOUNT_PER_PAGE = 20;
-    private static final String COMMAND_TO_PAGING = "to_lots";
+    private static final String COMMAND_TO_PAGING = "find_lots_by_name";
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        CommandResult result = CommandResult.createForwardCommandResult(JspPath.INDEX);
+        HttpSession session = request.getSession();
+        String currentPage = (String) session.getAttribute(SessionAttribute.CURRENT_PAGE);
+        CommandResult result = CommandResult.createForwardCommandResult(currentPage);
         try {
             String lotPageNumberString = request.getParameter(RequestParameter.LOT_PAGING);
             int lotPageNumber;
-            if (lotPageNumberString==null){
+            if (lotPageNumberString == null) {
                 lotPageNumber = 1;
             } else {
                 lotPageNumber = Integer.parseInt(lotPageNumberString);
             }
-            int amount = amountService.findActiveLotAmount();
+            String name = request.getParameter(RequestParameter.SEARCH);
+            int amount = amountService.findLotByNameAmount(name);
             logger.debug("active lots: {}", amount);
             int pageAmount = (amount - 1 + AMOUNT_PER_PAGE) / AMOUNT_PER_PAGE;
-            List<Lot> lots = service.findActive(lotPageNumber, AMOUNT_PER_PAGE);
+            List<Lot> lots = service.findLotByName(name, lotPageNumber, AMOUNT_PER_PAGE);
             request.setAttribute(RequestParameter.LOT_LIST, lots);
             request.setAttribute(RequestParameter.LOT_PAGE_AMOUNT, pageAmount);
             request.setAttribute(RequestParameter.LOT_ACTIVE_PAGE, lotPageNumber);

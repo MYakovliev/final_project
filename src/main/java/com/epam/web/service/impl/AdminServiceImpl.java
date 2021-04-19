@@ -3,7 +3,6 @@ package com.epam.web.service.impl;
 import com.epam.web.dao.AdminDao;
 import com.epam.web.dao.DaoException;
 import com.epam.web.dao.impl.AdminDaoImpl;
-import com.epam.web.entity.User;
 import com.epam.web.service.AdminService;
 import com.epam.web.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +35,16 @@ public class AdminServiceImpl implements AdminService {
     public void unban(long userId) throws ServiceException {
         try {
             dao.unban(userId);
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void submitWinner(long userId, long lotId) throws ServiceException {
+        try {
+            dao.submitWinner(userId, lotId);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

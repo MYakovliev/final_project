@@ -104,8 +104,27 @@ public class UserServiceImpl implements UserService {
         if (!(UserValidator.isValidPassword(oldPassword) && UserValidator.isValidPassword(newPassword))){
             throw new ServiceException("invalid_data_format");
         }
+        Optional<String> oldPass = PasswordEncrypter.encrypt(oldPassword);
+        Optional<String> newPass = PasswordEncrypter.encrypt(newPassword);
+        if (!(oldPass.isPresent() || newPass.isPresent())){
+            throw new ServiceException("Unknown algorithm for encrypting password");
+        }
         try{
-            dao.changeUserPassword(userId, oldPassword, newPassword);
+            dao.changeUserPassword(userId, oldPass.get(), newPass.get());
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void addBalance(long userId, String payment) throws ServiceException {
+        if (!UserValidator.isValidBid(payment)){
+            throw new ServiceException("invalid_data_format");
+        }
+        try{
+            BigDecimal paymentDecemal = new BigDecimal(payment);
+            dao.addBalance(userId, paymentDecemal);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

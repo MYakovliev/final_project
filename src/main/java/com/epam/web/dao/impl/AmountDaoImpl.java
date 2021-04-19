@@ -20,8 +20,7 @@ public class AmountDaoImpl implements AmountDao {
     private static final String ANY_AMOUNT_SQL_CHARACTER = "%";
     private static final String FIND_LOT_BY_NAME_STATEMENT = "SELECT COUNT(*) FROM lots WHERE name LIKE ?";
     private static final String FIND_LOT_BY_SELLER_ID_STATEMENT = "SELECT COUNT(*) FROM lots WHERE seller=?";
-    private static final String FIND_WON_LOT_BY_BUYER_ID_STATEMENT = "SELECT COUNT(*) FROM bid_history " +
-            "WHERE id_buyer=? AND status=(SELECT idstatus FROM status WHERE status.status='WON')";
+    private static final String FIND_WON_LOT_BY_BUYER_ID_STATEMENT = "SELECT COUNT(DISTINCT id_lot) FROM bid_history WHERE id_buyer=?";
     private static final String FIND_ALL_USERS_STATEMENT = "SELECT COUNT(*) FROM users ";
     private static final String FIND_USERS_BY_NAME_STATEMENT = "SELECT COUNT(*) FROM users WHERE name=?";
     private static final String FIND_BUYER_BY_LOT_ID_STATEMENT = "SELECT COUNT(*) FROM bid_history WHERE id_lot=?";
@@ -104,7 +103,7 @@ public class AmountDaoImpl implements AmountDao {
     }
 
     @Override
-    public int findWonLotByBuyerIdAmount(long buyerId) throws DaoException {
+    public int findLotByBuyerIdAmount(long buyerId) throws DaoException {
         int amount = 0;
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_WON_LOT_BY_BUYER_ID_STATEMENT)) {

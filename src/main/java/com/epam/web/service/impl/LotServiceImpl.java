@@ -82,11 +82,11 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public List<Lot> findWonLotByBuyerId(long buyerId, int pageNumber, int amountPerPage) throws ServiceException {
+    public List<Lot> findLotByBuyerId(long buyerId, int pageNumber, int amountPerPage) throws ServiceException {
         List<Lot> lot;
         try {
             int start = (pageNumber - 1) * amountPerPage;
-            lot = dao.findWonLotByBuyerId(buyerId, start, amountPerPage);
+            lot = dao.findLotByBuyerId(buyerId, start, amountPerPage);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

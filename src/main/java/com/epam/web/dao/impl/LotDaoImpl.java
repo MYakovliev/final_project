@@ -28,10 +28,10 @@ public class LotDaoImpl implements LotDao {
             "SELECT image FROM lot_images WHERE lot_id=?";
     private static final String FIND_LOT_BY_NAME_STATEMENT =
             "SELECT idlots, name, description, bid, start_time, end_time, seller FROM lots WHERE name LIKE ? LIMIT ?, ?";
-    private static final String FIND_WON_LOT_BY_BUYER_ID_STATEMENT =
+    private static final String FIND_LOT_BY_BUYER_ID_STATEMENT =
             "SELECT DISTINCT idlots, name, description, lots.bid, start_time, end_time, seller " +
                     "FROM lots INNER JOIN bid_history ON bid_history.id_lot = lots.idlots " +
-                    "WHERE id_buyer=? AND status=(SELECT idstatus FROM status WHERE status.status='WON') LIMIT ?, ?";
+                    "WHERE id_buyer=? LIMIT ?, ?";
     private static final String FIND_LOT_BY_SELLER_ID_STATEMENT =
             "SELECT idlots, name, description, bid, start_time, end_time, seller FROM lots WHERE seller=? LIMIT ?, ?";
     private static final String FIND_ALL_LOT_STATEMENT =
@@ -177,10 +177,10 @@ public class LotDaoImpl implements LotDao {
     }
 
     @Override
-    public List<Lot> findWonLotByBuyerId(long buyerId, int start, int amount) throws DaoException {
+    public List<Lot> findLotByBuyerId(long buyerId, int start, int amount) throws DaoException {
         List<Lot> lots = new ArrayList<>();
         try (Connection connection = pool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_WON_LOT_BY_BUYER_ID_STATEMENT)) {
+             PreparedStatement statement = connection.prepareStatement(FIND_LOT_BY_BUYER_ID_STATEMENT)) {
             statement.setLong(1, buyerId);
             statement.setInt(2, start);
             statement.setInt(3, amount);

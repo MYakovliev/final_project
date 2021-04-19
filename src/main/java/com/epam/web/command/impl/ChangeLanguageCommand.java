@@ -14,6 +14,7 @@ public class ChangeLanguageCommand implements ActionCommand {
     private static final String REFERER = "referer";
     private static final String START_OF_THE_COMMAND = "/controller";
 
+
     @Override
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();

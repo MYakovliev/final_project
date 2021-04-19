@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class LogoutCommand implements ActionCommand {
+    private static final String COMMAND_TO_REDIRECT = "/controller?command=to_lots";
+
     @Override
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.invalidate();
-        return CommandResult.createRedirectCommandResult(JspPath.LOTS);
+        return CommandResult.createRedirectCommandResult(COMMAND_TO_REDIRECT);
     }
 }

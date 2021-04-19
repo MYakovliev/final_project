@@ -20,6 +20,8 @@ public interface UserService {
 
     void changeUserPassword(long userId, String oldPassword, String newPassword) throws ServiceException;
 
+    void addBalance(long userId, String payment) throws ServiceException;
+
     List<User> findUserByName(String name, int pageNumber, int amountPerPage) throws ServiceException;
 
     List<User> findBuyersHistory(long lotId, int pageNumber, int amountPerPage) throws ServiceException;

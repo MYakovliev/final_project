@@ -48,6 +48,7 @@ public class UserDaoImpl implements UserDao {
     private static final String IS_BAN_STATEMENT = "SELECT isBanned FROM users WHERE idusers=?";
     private static final String CHANGE_USER_DATA_STATEMENT = "UPDATE users SET avatar=?, name=?, mail=? WHERE idusers=?";
     private static final String CHANGE_PASSWORD_STATEMENT = "UPDATE users SET password=? WHERE idusers=? AND password=?";
+    private static final String ADD_BALANCE_STATEMENT = "UPDATE users SET balance = ? WHERE idusers = ?";
 
     private UserDaoImpl() {
     }
@@ -161,6 +162,19 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, newPassword);
             statement.setLong(2, userId);
             statement.setString(4, oldPassword);
+            statement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public void addBalance(long userId, BigDecimal payment) throws DaoException {
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(ADD_BALANCE_STATEMENT)) {
+            statement.setBigDecimal(1, payment);
+            statement.setLong(2, userId);
             statement.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
             logger.error(e);

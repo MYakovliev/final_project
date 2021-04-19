@@ -16,7 +16,7 @@ public interface LotDao {
 
     List<Lot> findLotByName(String name, int start, int amount) throws DaoException;
 
-    List<Lot> findWonLotByBuyerId(long buyerId, int start, int amount) throws DaoException;
+    List<Lot> findLotByBuyerId(long buyerId, int start, int amount) throws DaoException;
 
     List<Lot> findLotBySellerId(long sellerId, int start, int amount) throws DaoException;
 

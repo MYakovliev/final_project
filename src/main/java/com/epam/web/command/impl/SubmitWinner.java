@@ -15,25 +15,21 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class BanUser implements ActionCommand {
+public class SubmitWinner implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static AdminService service = AdminServiceImpl.getInstance();
-    private static final String COMMAND_TO_LOTS = "/controller?command=to_lots";
-    private static final String COMMAND_TO_ADMIN = "/controller?command=to_admin&user_active_page=%d&lot_active_page=%d";
+    private static final String COMMAND_TO_REDIRECT = "/controller?command=to_lot&lot_id=%d";
+
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        CommandResult result = CommandResult.createRedirectCommandResult(COMMAND_TO_LOTS);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(SessionAttribute.USER);
+        long lotId = Long.parseLong(request.getParameter(RequestParameter.LOT_ID));
+        CommandResult result = CommandResult.createRedirectCommandResult(COMMAND_TO_REDIRECT);
         try {
-            if (user!=null && user.getUserRole() == UserRole.ADMIN) {
-                long id = Long.parseLong(request.getParameter(RequestParameter.USER_ID));
-                int userPageNumber = Integer.parseInt(request.getParameter(RequestParameter.USER_ACTIVE_PAGE));
-                int lotPageNumber = Integer.parseInt(request.getParameter(RequestParameter.LOT_ACTIVE_PAGE));
-                service.ban(id);
-                String command = String.format(COMMAND_TO_ADMIN, userPageNumber, lotPageNumber);
-                result = CommandResult.createRedirectCommandResult(command);
+            if (user != null && user.getUserRole() == UserRole.ADMIN) {
+                service.submitWinner(user.getId(), lotId);
             }
         } catch (ServiceException e) {
             logger.error(e);

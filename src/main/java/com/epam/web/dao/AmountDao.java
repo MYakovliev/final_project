@@ -9,7 +9,7 @@ public interface AmountDao {
 
     int findLotBySellerIdAmount(long sellerId) throws DaoException;
 
-    int findWonLotByBuyerIdAmount(long buyerId) throws DaoException;
+    int findLotByBuyerIdAmount(long buyerId) throws DaoException;
 
     int findAllUserAmount() throws DaoException;
 

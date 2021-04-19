@@ -9,7 +9,7 @@ public interface AmountService {
 
     int findLotBySellerIdAmount(long sellerId) throws ServiceException;
 
-    int findWonLotByBuyerIdAmount(long buyerId) throws ServiceException;
+    int findLotByBuyerIdAmount(long buyerId) throws ServiceException;
 
     int findAllUserAmount() throws ServiceException;
 

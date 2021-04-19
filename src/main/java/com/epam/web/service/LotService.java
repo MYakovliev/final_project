@@ -11,7 +11,7 @@ public interface LotService {
 
     List<Lot> findLotByName(String name, int pageNumber, int amountPerPage) throws ServiceException;
 
-    List<Lot> findWonLotByBuyerId(long buyerId, int pageNumber, int amountPerPage) throws ServiceException;
+    List<Lot> findLotByBuyerId(long buyerId, int pageNumber, int amountPerPage) throws ServiceException;
 
     List<Lot> findLotBySellerId(long sellerId, int pageNumber, int amountPerPage) throws ServiceException;
 

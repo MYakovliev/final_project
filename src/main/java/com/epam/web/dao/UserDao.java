@@ -18,6 +18,8 @@ public interface UserDao {
 
     void changeUserPassword(long userId, String oldPassword, String newPassword) throws DaoException;
 
+    void addBalance(long userId, BigDecimal payment) throws DaoException;
+
     Optional<User> findUserById(long id) throws DaoException;
 
     List<User> findAll(int start, int amount) throws DaoException;
