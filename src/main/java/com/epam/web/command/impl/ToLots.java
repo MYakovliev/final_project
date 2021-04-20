@@ -10,7 +10,6 @@ import com.epam.web.service.impl.AmountServiceImpl;
 import com.epam.web.service.impl.LotServiceImpl;
 import com.epam.web.util.JspPath;
 import com.epam.web.util.RequestParameter;
-import com.epam.web.util.SessionAttribute;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

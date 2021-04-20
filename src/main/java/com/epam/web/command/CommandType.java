@@ -2,7 +2,6 @@ package com.epam.web.command;
 
 import com.epam.web.command.impl.*;
 
-//TODO add commands
 public enum CommandType {
     REGISTER(new RegisterCommand()),
     LOGIN(new LoginCommand()),

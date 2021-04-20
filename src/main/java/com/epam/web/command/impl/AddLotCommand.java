@@ -29,7 +29,7 @@ public class AddLotCommand implements ActionCommand {
         User user = (User) session.getAttribute(SessionAttribute.USER);
         CommandResult result = CommandResult.createForwardCommandResult(COMMAND_TO_REDIRECT);
         try {
-            if (user.getUserRole() == UserRole.SELLER) {
+            if (user != null && user.getUserRole() == UserRole.SELLER) {
                 String name = request.getParameter(RequestParameter.NAME);
                 String description = request.getParameter(RequestParameter.DESCRIPTION);
                 String startBid = request.getParameter(RequestParameter.BID);
@@ -37,10 +37,10 @@ public class AddLotCommand implements ActionCommand {
                 String finishTimeString = request.getParameter(RequestParameter.END_TIME);
                 Timestamp startTime = null;
                 Timestamp finishTime = null;
-                if (!startTimeString.isEmpty()){
-                    startTime = Timestamp.valueOf(startTimeString.replace("T", " ")+":00");
+                if (!startTimeString.isEmpty()) {
+                    startTime = Timestamp.valueOf(startTimeString.replace("T", " ") + ":00");
                 }
-                if (!finishTimeString.isEmpty()){
+                if (!finishTimeString.isEmpty()) {
                     finishTime = Timestamp.valueOf(finishTimeString.replace("T", " ") + ":00");
                 }
                 List<String> images = (List<String>) request.getAttribute(RequestParameter.IMAGE_PATH);

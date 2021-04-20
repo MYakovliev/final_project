@@ -2,14 +2,11 @@ package com.epam.web.command.impl;
 
 import com.epam.web.command.ActionCommand;
 import com.epam.web.command.CommandResult;
-import com.epam.web.entity.Lot;
 import com.epam.web.entity.User;
 import com.epam.web.service.AmountService;
-import com.epam.web.service.LotService;
 import com.epam.web.service.ServiceException;
 import com.epam.web.service.UserService;
 import com.epam.web.service.impl.AmountServiceImpl;
-import com.epam.web.service.impl.LotServiceImpl;
 import com.epam.web.service.impl.UserServiceImpl;
 import com.epam.web.util.JspPath;
 import com.epam.web.util.RequestParameter;
@@ -21,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+// FIXME: 4/20/2021 add lots and redirect to admin
 public class FindUsersByName implements ActionCommand {
     private static UserService service = UserServiceImpl.getInstance();
     private static AmountService amountService = AmountServiceImpl.getInstance();
@@ -50,7 +48,7 @@ public class FindUsersByName implements ActionCommand {
             request.setAttribute(RequestParameter.LOT_PAGE_AMOUNT, pageAmount);
             request.setAttribute(RequestParameter.LOT_ACTIVE_PAGE, lotPageNumber);
             request.setAttribute(RequestParameter.COMMAND, COMMAND_TO_PAGING);
-            result = CommandResult.createForwardCommandResult(JspPath.LOTS);
+            result = CommandResult.createForwardCommandResult(JspPath.ADMIN);
         } catch (ServiceException e) {
             logger.error(e);
         }

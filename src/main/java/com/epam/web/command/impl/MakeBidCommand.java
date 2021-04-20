@@ -8,7 +8,6 @@ import com.epam.web.entity.UserRole;
 import com.epam.web.service.ServiceException;
 import com.epam.web.service.UserService;
 import com.epam.web.service.impl.UserServiceImpl;
-import com.epam.web.util.JspPath;
 import com.epam.web.util.RequestParameter;
 import com.epam.web.util.SessionAttribute;
 import org.apache.logging.log4j.LogManager;
