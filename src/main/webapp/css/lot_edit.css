@@ -1,4 +1,22 @@
+body{
+    background-color: blanchedalmond;
+}
 img{
-    width: 480px;
+    width: 240px;
     height: 240px;
+}
+.container{
+    padding:5px;
+    margin-top:25px;
+    background-color: #8DC26F;
+}
+input[type="submit"]{
+    background-color: #666aff;
+}
+textarea{
+    width:100%;
+    height:10%
+}
+.message{
+    text-align:center;
 }

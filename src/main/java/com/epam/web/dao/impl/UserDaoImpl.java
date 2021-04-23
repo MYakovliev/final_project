@@ -29,6 +29,8 @@ public class UserDaoImpl implements UserDao {
     private static final String UPDATE_BID_STATUS_STATEMENT =
             "UPDATE bid_history SET status=(SELECT idstatus FROM status WHERE status.status='LOSE') " +
                     "WHERE id_lot=? AND status=(SELECT idstatus FROM status WHERE status.status='WINING')";
+    private static final String FIND_CURRENT_WINNER = "SELECT id_buyer, bid FROM bid_history " +
+            "WHERE idbid_history=(SELECT MAX(idbid_history) FROM bid_history WHERE id_lot=?)";
     private static final String MAKE_BID_STATEMENT =
             "INSERT INTO bid_history (id_buyer, id_lot, bid, status) " +
                     "VALUES (?,?,?,(SELECT idstatus FROM status WHERE status.status='WINING'))";
@@ -48,7 +50,7 @@ public class UserDaoImpl implements UserDao {
     private static final String IS_BAN_STATEMENT = "SELECT isBanned FROM users WHERE idusers=?";
     private static final String CHANGE_USER_DATA_STATEMENT = "UPDATE users SET avatar=?, name=?, mail=? WHERE idusers=?";
     private static final String CHANGE_PASSWORD_STATEMENT = "UPDATE users SET password=? WHERE idusers=? AND password=?";
-    private static final String ADD_BALANCE_STATEMENT = "UPDATE users SET balance = ? WHERE idusers = ?";
+    private static final String CHANGE_BALANCE_STATEMENT = "UPDATE users SET balance = balance + ? WHERE idusers = ?";
 
     private UserDaoImpl() {
     }
@@ -102,10 +104,28 @@ public class UserDaoImpl implements UserDao {
             statement.setLong(1, lotId);
             statement.executeUpdate();
             statement.close();
+            statement = connection.prepareStatement(FIND_CURRENT_WINNER);
+            statement.setLong(1, lotId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                long id = resultSet.getLong(1);
+                BigDecimal winingBid = resultSet.getBigDecimal(2);
+                statement.close();
+                statement= connection.prepareStatement(CHANGE_BALANCE_STATEMENT);
+                statement.setBigDecimal(1, winingBid);
+                statement.setLong(2, id);
+                statement.executeUpdate();
+            }
+            statement.close();
             statement = connection.prepareStatement(MAKE_BID_STATEMENT);
             statement.setLong(1, userId);
             statement.setLong(2, lotId);
             statement.setBigDecimal(3, bid);
+            statement.executeUpdate();
+            statement.close();
+            statement = connection.prepareStatement(CHANGE_BALANCE_STATEMENT);
+            statement.setBigDecimal(1, bid.negate());
+            statement.setLong(2, userId);
             statement.executeUpdate();
             connection.commit();
         } catch (SQLException | ConnectionPoolException e) {
@@ -172,7 +192,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addBalance(long userId, BigDecimal payment) throws DaoException {
         try (Connection connection = pool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(ADD_BALANCE_STATEMENT)) {
+             PreparedStatement statement = connection.prepareStatement(CHANGE_BALANCE_STATEMENT)) {
             statement.setBigDecimal(1, payment);
             statement.setLong(2, userId);
             statement.executeUpdate();

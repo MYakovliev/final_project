@@ -18,6 +18,9 @@
 </head>
 <body>
 <div class="form">
+    <c:if test="${error ne null}">
+        <p class="error"><fmt:message key="${error}"/></p>
+    </c:if>
     <form class="register-form" action="register.do" method="post">
         <input type="hidden" name="command" value="register"/>
         <input type="text" placeholder="<fmt:message key="registration.login"/>" name="login"/>

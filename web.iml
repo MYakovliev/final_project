@@ -53,5 +53,7 @@
     <orderEntry type="library" name="styles" level="application" />
     <orderEntry type="library" name="jquery.payform" level="application" />
     <orderEntry type="library" name="script" level="application" />
+    <orderEntry type="library" name="popper.js" level="application" />
+    <orderEntry type="library" name="jquery-3.3.1" level="application" />
   </component>
 </module>

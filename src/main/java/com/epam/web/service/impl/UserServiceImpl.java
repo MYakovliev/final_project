@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -183,6 +184,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void makeBid(User buyer, String stringBid, Lot lot) throws ServiceException {
+        if (!lot.getFinishTime().after(new Date())){
+            throw new ServiceException("auction_is_closed");
+        }
         if (!UserValidator.isValidBid(stringBid)) {
             throw new ServiceException("incorrect_bid");
         }
@@ -197,6 +201,9 @@ public class UserServiceImpl implements UserService {
             dao.makeBid(buyer.getId(), bid, lot.getId());
             lot.setCurrentCost(bid);
             lot.setBuyerId(buyer.getId());
+            BigDecimal balance = buyer.getBalance();
+            balance = balance.subtract(bid);
+            buyer.setBalance(balance);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

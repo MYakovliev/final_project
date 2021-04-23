@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 
 public class Pay implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
@@ -28,6 +29,7 @@ public class Pay implements ActionCommand {
         try {
             String payment = request.getParameter(RequestParameter.BID);
             service.addBalance(user.getId(), payment);
+            user.setBalance(user.getBalance().add(new BigDecimal(payment)));
         } catch (ServiceException e) {
             logger.error(e);
             request.setAttribute(RequestParameter.ERROR, e.getMessage());

@@ -1,3 +1,19 @@
+.add_lot{
+    background-color: #a9db08;
+    width: 100%;
+    text-align: center;
+    font-size: medium;
+}
+.not_found{
+    text-align: center;
+    font-size: 50px;
+    margin-top:13%;
+    color:#4aff73;
+}
+.error{
+    color:red;
+    font-size:20px;
+}
 .main_block{
     display: flex;
     flex-wrap: wrap;

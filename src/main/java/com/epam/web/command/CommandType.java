@@ -24,8 +24,8 @@ public enum CommandType {
     UNBAN_USER(new UnbanUser()),
     CHANGE_USER_DATA(new ChangeUserData()),
     CHANGE_USER_PASSWORD(new ChangeUserPassword()),
-    SEARCH_LOTS_BY_NAME(new FindLotsByName()),
-    SEARCH_USERS_BY_NAME(new FindUsersByName()),
+    SEARCH_LOT_BY_NAME(new FindLotsByName()),
+    SEARCH_USER_BY_NAME(new FindUsersByName()),
     ADD_TO_BALANCE(new Pay()),
     SUBMIT_WINNER(new SubmitWinner()),
     TO_SELLER_LOTS(new ToSellerLots());

@@ -19,7 +19,7 @@
 <div class="login-page">
     <div class="form">
         <c:if test="${error ne null}">
-            <fmt:message key="${error}"/>
+            <p class="error"><fmt:message key="${error}"/></p>
         </c:if>
         <form class="login-form" action="login.do" method="post">
             <input type="hidden" name="command" value="login"/>

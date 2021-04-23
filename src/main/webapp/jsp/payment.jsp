@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 <link href="https://bootstraptema.ru/snippets/form/2017/styles.css" rel="stylesheet">
 <form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="deposit">
+    <input type="hidden" name="command" value="add_to_balance">
     <div class="container">
         <div class="row">
 
@@ -24,6 +24,15 @@
                 </div>
                 <div class="payment">
                     <form>
+                        <div class="form-group" id="money-amount">
+                            <label for="moneyAmount">Money</label>
+                            <input type="number" min="0.01" step="0.01" class="form-control" name="bid" id="moneyAmount"/>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
                         <div class="form-group owner">
                             <label for="owner">Owner</label>
                             <input type="text" class="form-control" id="owner" required pattern="\w{2,}\s\w{2,}">

@@ -7,6 +7,26 @@ body {
     font-family: Arial;
 }
 
+.time{
+    color:#ffda23;
+    font-size: 30px;
+}
+
+.content_container{
+    background-color:green;
+    text-align:center;
+    opacity:0.8;
+    padding:5px;
+}
+#lot_name{
+    color:aqua;
+    font-size:25px
+}
+#lot_cost{
+    color:chartreuse;
+    font-size:35px;
+}
+
 /* The grid: Four equal columns that floats next to each other */
 .column {
     float: left;

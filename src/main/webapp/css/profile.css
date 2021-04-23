@@ -1,0 +1,36 @@
+img{
+    width:50%
+}
+
+.name{
+    font-size:35px;
+    padding:5px;
+}
+.edit{
+    heigh:15px;
+    padding-left:60px;
+    padding-right:60px;
+    color:black;
+    background-color:#3535ff;
+}
+.block{
+    display: flex;
+    flex-wrap: wrap;
+}
+.mail{
+    margin-left:120px;
+}
+.won_lots{
+    width:50px;
+    heigh:50px;
+    margin:50px;
+    background-color:blue;
+    flex-wrap: nowrap;
+}
+.compete_lots{
+    margin:50px;
+    width:50px;
+    heigh:50px;
+    background-color:blue;
+    flex-wrap: nowrap;
+}

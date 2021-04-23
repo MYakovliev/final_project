@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 public class ToLot implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final LotService service = LotServiceImpl.getInstance();
-
+//todo add buyer history if admin
     @Override
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();

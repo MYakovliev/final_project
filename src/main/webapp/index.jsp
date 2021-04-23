@@ -7,6 +7,7 @@
 </head>
 <style>
     body {
+        margin-top: 25%;
         alignment: center;
         background-color: blanchedalmond;
         text-align: center;

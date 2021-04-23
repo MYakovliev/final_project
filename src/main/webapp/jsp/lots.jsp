@@ -2,24 +2,24 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" uri="/WEB-INF/tld/custom.tld" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<c:set var="page" value="${'/jsp/lots.jsp'}" scope="session"/>
 <html>
 <head>
     <fmt:setLocale value="${sessionScope.lang}"/>
     <fmt:setBundle basename="locale.locale"/>
     <title><fmt:message key="lots.title"/></title>
     <link href="<c:url value="/css/lots.css"/>" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous"/>
 </head>
-<body>
 <jsp:include page="support/header.jsp"/>
 <div class="add_lot">
     <tag:access role="seller">
         <a href="${pageContext.request.contextPath}/controller?command=to_lot_edit">Add Lot</a>
     </tag:access>
 </div>
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="search_lot_by_name">
-    <input name="search" type="text" placeholder="search">
+<form action="${pageContext.request.contextPath}/controller?command=search_lot_by_name" method="post">
+    <input name="search" type="text" placeholder="search" value="${search}"/>
     <button type="submit">&hookleftarrow;</button>
 </form>
 <div class="main_block">
@@ -34,6 +34,9 @@
     </c:forEach>
 </div>
 </table>
+<c:if test="${lot_list.size() == 0}">
+    <div class="not_found">404 Nothing found</div>
+</c:if>
 <nav aria-label="Navigation for countries">
     <c:if test="${lot_page_amount} mt 1 ">
         <ul class="pagination">

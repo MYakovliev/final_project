@@ -17,20 +17,20 @@
 </head>
 <body>
 <jsp:include page="support/header.jsp"/>
-<c:if test="${error ne null}">
-    <fmt:message key="${error}"/>
-</c:if>
 <div class="content_container">
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="command" value="make_bid"/>
-        <input type="hidden" name="lot_id" value="${lot.id}">
-        ${lot.name}<br/>
-        ${lot.description}<br/>
-        ${lot.currentCost}&dollar;<br/>
-        <p class="time">${lot.finishTime.time}</p>
-        <input type="number" min="0.01" step="0.01" name="bid"/>
-        <input type="submit" name="btn" value="make bid"/>
-    </form>
+    <c:if test="${error ne null}">
+        <p class="error"><fmt:message key="${error}"/></p>
+    </c:if>
+        <form action="${pageContext.request.contextPath}/controller" method="post">
+            <input type="hidden" name="command" value="make_bid"/>
+            <input type="hidden" name="lot_id" value="${lot.id}">
+            <span id="lot_name">${lot.name}</span><br/>
+            ${lot.description}<br/><br/><br/>
+            <span id="lot_cost">${lot.currentCost}&dollar;</span><br/>
+            <p class="time">${lot.finishTime.time}</p>
+            <input type="number" min="0.01" step="0.01" name="bid"/>
+            <input type="submit" name="btn" value="make bid"/>
+        </form>
 </div>
 <div class="row">
     <c:forEach var="picture" items="${lot.images}">

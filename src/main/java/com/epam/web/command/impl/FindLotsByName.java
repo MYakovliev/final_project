@@ -10,12 +10,10 @@ import com.epam.web.service.impl.AmountServiceImpl;
 import com.epam.web.service.impl.LotServiceImpl;
 import com.epam.web.util.JspPath;
 import com.epam.web.util.RequestParameter;
-import com.epam.web.util.SessionAttribute;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class FindLotsByName implements ActionCommand {
@@ -27,13 +25,11 @@ public class FindLotsByName implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String currentPage = (String) session.getAttribute(SessionAttribute.CURRENT_PAGE);
-        CommandResult result = CommandResult.createForwardCommandResult(currentPage);
+        CommandResult result = CommandResult.createForwardCommandResult(JspPath.INDEX);
         try {
             String lotPageNumberString = request.getParameter(RequestParameter.LOT_PAGING);
             int lotPageNumber;
-            if (lotPageNumberString == null) {
+            if (lotPageNumberString==null) {
                 lotPageNumber = 1;
             } else {
                 lotPageNumber = Integer.parseInt(lotPageNumberString);
@@ -46,6 +42,7 @@ public class FindLotsByName implements ActionCommand {
             request.setAttribute(RequestParameter.LOT_LIST, lots);
             request.setAttribute(RequestParameter.LOT_PAGE_AMOUNT, pageAmount);
             request.setAttribute(RequestParameter.LOT_ACTIVE_PAGE, lotPageNumber);
+            request.setAttribute(RequestParameter.SEARCH, name);
             request.setAttribute(RequestParameter.COMMAND, COMMAND_TO_PAGING);
             result = CommandResult.createForwardCommandResult(JspPath.LOTS);
         } catch (ServiceException e) {
