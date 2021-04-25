@@ -1,5 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="tag" uri="/WEB-INF/tld/custom.tld" %>
 <%--
   Created by IntelliJ IDEA.
   User: nicki
@@ -18,6 +19,13 @@
 <body>
 <jsp:include page="support/header.jsp"/>
 <div class="content_container">
+    <jsp:useBean id="today" class="java.util.Date"/>
+
+    <c:if test="${lot.finishTime.before(today) and lot.buyerId ne 0}">
+        <tag:access role="admin">
+        <a class="submitbtn" href="${pageContext.request.contextPath}/controller?command=submit_winner&lot_id=${lot.id}">&#10004;</a>
+        </tag:access>
+    </c:if>
     <a href="${pageContext.request.contextPath}/controller?command=to_profile&user_id=${lot.sellerId}">See the
         seller</a>
     <c:if test="${error ne null}">

@@ -93,7 +93,6 @@
 </div>
 
 <div id="Lots" class="tabcontent">
-    <jsp:useBean id="today" class="java.util.Date"/>
     <form action="${pageContext.request.contextPath}/controller?command=search_lot_by_name" method="post">
         <input name="search" type="text" placeholder="<fmt:message key="search"/>" value="${search}"/>
         <button type="submit">&hookleftarrow;</button>
@@ -107,7 +106,6 @@
             <th>current bid</th>
             <th>seller id</th>
             <th>buyer id</th>
-            <th>submit winner</th>
         </tr>
         <c:forEach var="lot" items="${requestScope.lot_list}">
             <tr>
@@ -127,11 +125,6 @@
                         ${lot.buyerId}
                     </c:otherwise>
                 </c:choose>
-                </td>
-                <td>
-                    <c:if test="${lot.finishTime.before(today) and lot.buyerId ne 0}">
-                        <a href="${pageContext.request.contextPath}/controller?command=submit_winner&lot_id=${lot.id}">&#10004;</a>
-                    </c:if>
                 </td>
             </tr>
         </c:forEach>

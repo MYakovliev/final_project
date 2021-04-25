@@ -107,6 +107,12 @@ tr:nth-child(even) {
     cursor: pointer;
 }
 
+.submitbtn{
+    color: black;
+    float: right;
+    font-size: 25px;
+}
+
 .container {
     position:relative;
 }
