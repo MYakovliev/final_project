@@ -43,7 +43,7 @@
         <ul class="pagination">
             <c:if test="${lot_active_page != 1}">
                 <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page-1}">Previous</a>
+                                         href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page-1}"><fmt:message key="paging.previous"/></a>
                 </li>
             </c:if>
 
@@ -64,7 +64,7 @@
 
             <c:if test="${lot_active_page lt lot_page_amount}">
                 <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page+1}">Next</a>
+                                         href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page+1}"><fmt:message key="paging.next"/></a>
                 </li>
             </c:if>
         </ul>

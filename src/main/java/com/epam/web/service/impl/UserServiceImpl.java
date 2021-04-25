@@ -8,6 +8,7 @@ import com.epam.web.entity.User;
 import com.epam.web.entity.UserRole;
 import com.epam.web.service.ServiceException;
 import com.epam.web.service.UserService;
+import com.epam.web.util.ErrorMessage;
 import com.epam.web.util.PasswordEncrypter;
 import com.epam.web.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String login, String password) throws ServiceException {
         if (!(UserValidator.isValidLogin(login) && UserValidator.isValidPassword(password))) {
-            throw new ServiceException("invalid_data_format");
+            throw new ServiceException(ErrorMessage.INVALID_DATA_FORMAT);
         }
         Optional<String> optionalPassword = PasswordEncrypter.encrypt(password);
         if (!optionalPassword.isPresent()) {
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         if (!optionalUser.isPresent()) {
-            throw new ServiceException("invalid_login_or_password");
+            throw new ServiceException(ErrorMessage.INVALID_LOGIN_OR_PASSWORD);
         }
         return optionalUser.get();
 
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
     public void register(String name, String mail, String login, String password, UserRole role) throws ServiceException {
         if (!(UserValidator.isValidLogin(login) && UserValidator.isValidPassword(password)
                 && UserValidator.isValidMail(mail) && UserValidator.isValidName(name))) {
-            throw new ServiceException("invalid_data_format");
+            throw new ServiceException(ErrorMessage.INVALID_DATA_FORMAT);
         }
         Optional<String> optionalPassword = PasswordEncrypter.encrypt(password);
         if (!optionalPassword.isPresent()) {
@@ -82,7 +83,7 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         if (!optionalUser.isPresent()) {
-            throw new ServiceException("unknown_user");
+            throw new ServiceException(ErrorMessage.UNKNOWN_USER);
         }
         return optionalUser.get();
     }
@@ -90,7 +91,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changeUserData(long userId, String avatar, String name, String mail) throws ServiceException {
         if (!(UserValidator.isValidMail(mail) && UserValidator.isValidName(name))){
-            throw new ServiceException("invalid_data_format");
+            throw new ServiceException(ErrorMessage.INVALID_DATA_FORMAT);
         }
         try{
             dao.changeUserData(userId, avatar, name, mail);
@@ -103,7 +104,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changeUserPassword(long userId, String oldPassword, String newPassword) throws ServiceException {
         if (!(UserValidator.isValidPassword(oldPassword) && UserValidator.isValidPassword(newPassword))){
-            throw new ServiceException("invalid_data_format");
+            throw new ServiceException(ErrorMessage.INVALID_DATA_FORMAT);
         }
         Optional<String> oldPass = PasswordEncrypter.encrypt(oldPassword);
         Optional<String> newPass = PasswordEncrypter.encrypt(newPassword);
@@ -121,7 +122,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addBalance(long userId, String payment) throws ServiceException {
         if (!UserValidator.isValidBid(payment)){
-            throw new ServiceException("invalid_data_format");
+            throw new ServiceException(ErrorMessage.INVALID_DATA_FORMAT);
         }
         try{
             BigDecimal paymentDecemal = new BigDecimal(payment);
@@ -158,12 +159,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isBanned(long userId) {
+    public boolean isBanned(long userId) throws ServiceException{
         boolean result = false;
         try {
             result = dao.isBanned(userId);
         } catch (DaoException e) {
             logger.error(e);
+            throw new ServiceException(e);
         }
         return result;
     }
@@ -195,17 +197,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public void makeBid(User buyer, String stringBid, Lot lot) throws ServiceException {
         if (!lot.getFinishTime().after(new Date())){
-            throw new ServiceException("auction_is_closed");
+            throw new ServiceException(ErrorMessage.AUCTION_IS_CLOSED);
         }
         if (!UserValidator.isValidBid(stringBid)) {
-            throw new ServiceException("incorrect_bid");
+            throw new ServiceException(ErrorMessage.INCORRECT_BID);
         }
         BigDecimal bid = new BigDecimal(stringBid);
         if (!(lot.getCurrentCost().compareTo(bid) < 0)) {
-            throw new ServiceException("small_bid");
+            throw new ServiceException(ErrorMessage.SMALL_BID);
         }
         if (!(buyer.getBalance().compareTo(bid) > 0)) {
-            throw new ServiceException("not_enough_money");
+            throw new ServiceException(ErrorMessage.NOT_ENOUGH_MONEY);
         }
         try {
             dao.makeBid(buyer.getId(), bid, lot.getId());

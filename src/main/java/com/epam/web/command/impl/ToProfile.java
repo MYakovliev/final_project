@@ -11,7 +11,7 @@ import com.epam.web.util.RequestParameter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
-//todo add counting
+
 public class ToProfile implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final UserService service = UserServiceImpl.getInstance();

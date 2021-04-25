@@ -10,6 +10,7 @@ import com.epam.web.service.ServiceException;
 import com.epam.web.service.UserService;
 import com.epam.web.service.impl.LotServiceImpl;
 import com.epam.web.service.impl.UserServiceImpl;
+import com.epam.web.util.ErrorMessage;
 import com.epam.web.util.RequestParameter;
 import com.epam.web.util.SessionAttribute;
 import org.apache.logging.log4j.LogManager;
@@ -23,8 +24,6 @@ public class MakeBidCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static UserService service = UserServiceImpl.getInstance();
     private static LotService lotService = LotServiceImpl.getInstance();
-    private static final String NOT_BUYER = "not_buyer";
-    private static final String NOT_LOG_IN_ERROR = "not_logged_in";
     private static final String COMMAND_TO_REDIRECT = "/controller?command=to_lot&lot_id=%d&error=%s";
 
 
@@ -47,10 +46,10 @@ public class MakeBidCommand implements ActionCommand {
                     logger.error(e);
                 }
             } else {
-                error = NOT_BUYER;
+                error = ErrorMessage.NOT_BUYER;
             }
         } else {
-            error = NOT_LOG_IN_ERROR;
+            error = ErrorMessage.NOT_LOGGED_IN;
         }
         String command = String.format(COMMAND_TO_REDIRECT, id, error);
         return CommandResult.createRedirectCommandResult(command);

@@ -34,7 +34,7 @@ public class ToBuyerLots implements ActionCommand {
         User user = (User) session.getAttribute(SessionAttribute.USER);
         try {
             String lotPageNumberString = request.getParameter(RequestParameter.LOT_PAGING);
-            String error = request.getParameter("error");
+            String error = request.getParameter(RequestParameter.ERROR);
             int lotPageNumber;
             if (lotPageNumberString==null){
                 lotPageNumber = 1;
@@ -46,7 +46,7 @@ public class ToBuyerLots implements ActionCommand {
             int pageAmount = (amount - 1 + AMOUNT_PER_PAGE) / AMOUNT_PER_PAGE;
             List<Lot> lots = service.findLotByBuyerId(user.getId(), lotPageNumber, AMOUNT_PER_PAGE);
             request.setAttribute(RequestParameter.LOT_LIST, lots);
-            request.setAttribute("error", error);
+            request.setAttribute(RequestParameter.ERROR, error);
             request.setAttribute(RequestParameter.LOT_PAGE_AMOUNT, pageAmount);
             request.setAttribute(RequestParameter.LOT_ACTIVE_PAGE, lotPageNumber);
             request.setAttribute(RequestParameter.COMMAND, COMMAND_TO_PAGING);

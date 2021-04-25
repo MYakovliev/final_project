@@ -34,7 +34,7 @@ public class SubmitWinner implements ActionCommand {
         try {
             if (user != null && user.getUserRole() == UserRole.ADMIN) {
                 Lot lot = lotService.findLotById(lotId);
-                service.submitWinner(lot.getBuyerId(), lotId);
+                service.submitWinner(lot.getBuyerId(), lot);
             }
         } catch (ServiceException e) {
             logger.error(e);

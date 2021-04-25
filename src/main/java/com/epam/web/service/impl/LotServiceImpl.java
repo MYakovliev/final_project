@@ -6,6 +6,7 @@ import com.epam.web.dao.impl.LotDaoImpl;
 import com.epam.web.entity.Lot;
 import com.epam.web.service.LotService;
 import com.epam.web.service.ServiceException;
+import com.epam.web.util.ErrorMessage;
 import com.epam.web.validator.LotValidator;
 import com.epam.web.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +35,7 @@ public class LotServiceImpl implements LotService {
         logger.debug("{}, {}, {}, {}, {}, {}, {}",name, description, startBid, startTime, finishTime, sellerId, images);
         if (!(LotValidator.isValidName(name) && LotValidator.isValidTime(startTime, finishTime)
                 && LotValidator.isValidDescription(description) && UserValidator.isValidBid(startBid))) {
-            throw new ServiceException("wrong data in form(s)");
+            throw new ServiceException(ErrorMessage.INVALID_DATA_FORMAT);
         }
         if (startTime == null) {
             startTime = new Timestamp(System.currentTimeMillis());
@@ -48,7 +49,7 @@ public class LotServiceImpl implements LotService {
             throw new ServiceException(e);
         }
         if (!lot.isPresent()) {
-            throw new ServiceException("failed to create a lot");
+            throw new ServiceException(ErrorMessage.FAILED_TO_CREATE_LOT);
         }
         return lot.get();
     }
@@ -63,7 +64,7 @@ public class LotServiceImpl implements LotService {
             throw new ServiceException(e);
         }
         if (!lot.isPresent()) {
-            throw new ServiceException("failed to find a lot");
+            throw new ServiceException(ErrorMessage.UNKNOWN_LOT);
         }
         return lot.get();
     }
@@ -140,6 +141,7 @@ public class LotServiceImpl implements LotService {
             result = dao.isLotSubmitted(lotId);
         } catch (DaoException e) {
             logger.error(e);
+            throw new ServiceException(e);
         }
         return result;
     }

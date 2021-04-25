@@ -6,6 +6,7 @@ import com.epam.web.entity.UserRole;
 import com.epam.web.service.ServiceException;
 import com.epam.web.service.UserService;
 import com.epam.web.service.impl.UserServiceImpl;
+import com.epam.web.util.ErrorMessage;
 import com.epam.web.util.JspPath;
 import com.epam.web.util.RequestParameter;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +18,6 @@ public class RegisterCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final String COMMAND_TO_REDIRECT = "/controller?command=login&login=%s&password=%s";
     private static UserService service = UserServiceImpl.getInstance();
-    private static final String TAKEN_LOGIN_ERROR = "taken_login";
 
 
     @Override
@@ -34,7 +34,7 @@ public class RegisterCommand implements ActionCommand {
                 service.register(name, mail, login, password, role);
                 result = CommandResult.createRedirectCommandResult(String.format(COMMAND_TO_REDIRECT, login, password));
             } else {
-                error = TAKEN_LOGIN_ERROR;
+                error = ErrorMessage.TAKEN_LOGIN;
                 logger.debug(error);
             }
         } catch (ServiceException e) {

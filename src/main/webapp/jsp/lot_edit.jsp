@@ -19,19 +19,21 @@
           rel="stylesheet"/>
     <link href="<c:url value="/css/lot_edit.css"/>" type="text/css"
           rel="stylesheet"/>
-    <title>Lot_Edit</title>
+    <title><fmt:message key="lot_edit.title"/></title>
 </head>
 <body>
 <form class="container" action="${pageContext.request.contextPath}/upload/" method="post" enctype="multipart/form-data">
     <input type="hidden" name="command" value="add_lot"/>
-    <input type="text" name="name" value="${lot.name}" placeholder="Name"/>
+    <input type="text" name="name" value="${lot.name}" placeholder="<fmt:message key="lot_edit.name"/>"/>
     <br/>
-    <textarea name="description" placeholder="Description">${lot.description}</textarea>
+    <textarea name="description" placeholder="<fmt:message key="lot_edit.description"/>">${lot.description}</textarea>
     <br/>
-    <input type="number" min="0.01" step="0.01" name="bid" value="${lot.currentCost}" placeholder="Put your start bid"/>
+    <input type="number" min="0.01" step="0.01" name="bid" value="${lot.currentCost}" placeholder="<fmt:message key="lot_edit.start_bid"/>"/>
     <br/>
-    <input type="datetime-local" value="${lot.startTime}" name="startTime"/>
-    <input type="datetime-local" value="${lot.finishTime}" name="endTime"/>
+    <label for="endTime"><fmt:message key="lot_edit.start_time"/></label>
+    <input id="startTime" type="datetime-local" value="${lot.startTime}" name="startTime"/>
+    <label for="endTime"><fmt:message key="lot_edit.end_time"/></label>
+    <input id="endTime" type="datetime-local" value="${lot.finishTime}" name="endTime"/>
     <br/>
     <img src="${lot.images.get(0)}" alt="image" id="image_path1Image" style="visibility: hidden"/>
     <img id="image_path2Image" src="${lot.images.get(1)}" style="visibility: hidden"/>
@@ -39,18 +41,23 @@
     <img id="image_path4Image" src="${lot.images.get(3)}" style="visibility: hidden"/>
     <img id="image_path5Image" src="${lot.images.get(4)}" style="visibility: hidden"/>
     <br/>
-    <input type="file" name="image_path1Input" required
+    <label for="1"><fmt:message key="lot_edit.upload_picture"/></label>
+    <input id="1" type="file" name="image_path1Input" required
            onchange="readURL(this, 'image_path1Image', 'image_path2Input')"/>
+    <label for="image_path2Input"><fmt:message key="lot_edit.upload_picture"/></label>
     <input type="file" id="image_path2Input" name="image_path2" style="visibility: hidden"
            onchange="readURL(this, 'image_path2Image', 'image_path3Input')"/>
+    <label for="image_path3Input"><fmt:message key="lot_edit.upload_picture"/></label>
     <input type="file" name="image_path3" id="image_path3Input" style="visibility: hidden"
            onchange="readURL(this, 'image_path3Image', 'image_path4Input')"/>
+    <label for="image_path4Input"><fmt:message key="lot_edit.upload_picture"/></label>
     <input type="file" name="image_path4" style="visibility: hidden" id="image_path4Input"
            onchange="readURL(this, 'image_path4Image', 'image_path5Input')"/>
+    <label for="image_path5Input"><fmt:message key="lot_edit.upload_picture"/></label>
     <input type="file" name="image_path5" style="visibility: hidden" id="image_path5Input"
            onchange="readURL(this, 'image_path5Image', null)"/>
     <br/>
-    <input type="submit" name="btn" value="Submit"/>
+    <input type="submit" name="btn" value="<fmt:message key="lot_edit.submit"/>"/>
     <p class="message"><a href="controller?command=to_lots">
         <fmt:message key="login.back_to_main"/></a>
     </p>

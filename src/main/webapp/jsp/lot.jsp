@@ -26,8 +26,9 @@
         <a class="submitbtn" href="${pageContext.request.contextPath}/controller?command=submit_winner&lot_id=${lot.id}">&#10004;</a>
         </tag:access>
     </c:if>
-    <a href="${pageContext.request.contextPath}/controller?command=to_profile&user_id=${lot.sellerId}">See the
-        seller</a>
+    <a href="${pageContext.request.contextPath}/controller?command=to_profile&user_id=${lot.sellerId}">
+        <fmt:message key="lot.to_seller"/>
+    </a>
     <c:if test="${error ne null}">
         <p class="error"><fmt:message key="${error}"/></p>
     </c:if>
@@ -39,11 +40,12 @@
         <span id="lot_cost">${lot.currentCost}&dollar;</span><br/>
         <p class="time">${lot.finishTime.time}</p>
         <input type="number" min="0.01" step="0.01" name="bid"/>
-        <input type="submit" name="btn" value="make bid"/>
+        <input type="submit" name="btn" value="<fmt:message key="lot.make_bid"/>"/>
     </form>
     <c:if test="${lot.buyerId ne 0}">
-        <a href="${pageContext.request.contextPath}/controller?command=to_profile&user_id=${lot.buyerId}">See current
-            buyer</a>
+        <a href="${pageContext.request.contextPath}/controller?command=to_profile&user_id=${lot.buyerId}">
+            <fmt:message key="lot.to_buyer"/>
+        </a>
     </c:if>
 </div>
 <div class="row">
@@ -65,7 +67,7 @@
     <table>
         <tr>
             <th>
-                buyer
+                <fmt:message key="lot.buyer_history"/>
             </th>
         </tr>
         <c:forEach var="user" items="${user_list}">

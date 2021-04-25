@@ -31,7 +31,7 @@
     </jsp-config>
     <error-page>
         <error-code>404</error-code>
-        <location>/jsp/error.jsp</location>
+        <location>/jsp/error404.jsp</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>

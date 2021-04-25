@@ -20,13 +20,9 @@
         ${user.name}
     </span>
     <c:if test="${user.id eq sessionScope.user.id}">
-        <a class="edit" href="${pageContext.request.contextPath}/controller?command=to_user_edit">Edit</a>
+        <a class="edit" href="${pageContext.request.contextPath}/controller?command=to_user_edit"><fmt:message key="profile.edit"/></a>
     </c:if>
     <span class="mail">${user.mail}</span><br/>
-    <div class="block">
-        <span class="won_lots">${won_lots}</span>
-        <span class="compete_lots">${compete_lots}</span>
-    </div>
 </div>
 </body>
 </html>

@@ -49,7 +49,7 @@
                          alt="Avatar"/>
                 </a>
 
-                    <a href="${pageContext.request.contextPath}/controller?command=to_payment">${sessionScope.user.balance}</a>
+                    <a href="${pageContext.request.contextPath}/controller?command=to_payment">${sessionScope.user.balance}&dollar;</a>
                     <a href="${pageContext.request.contextPath}/controller?command=logout">
                         <fmt:message key="header.sign_out"/>
                     </a>
@@ -69,8 +69,12 @@
                     <h1><fmt:message key="header.change_language"/></h1>
                     <a href="#" class="modal__close">&times;</a>
                     <div class="languages">
-                        <a id="en" href="${pageContext.request.contextPath}/controller?command=change_language&lang=en">EN</a>
-                        <a id="ru" href="${pageContext.request.contextPath}/controller?command=change_language&lang=ru">RU</a>
+                        <a id="en" href="${pageContext.request.contextPath}/controller?command=change_language&lang=en">
+                            <fmt:message key="english"/>
+                        </a>
+                        <a id="ru" href="${pageContext.request.contextPath}/controller?command=change_language&lang=ru">
+                            <fmt:message key="russian"/>
+                        </a>
                     </div>
                 </div>
             </div>
