@@ -70,10 +70,10 @@
                     <a href="#" class="modal__close">&times;</a>
                     <div class="languages">
                         <a id="en" href="${pageContext.request.contextPath}/controller?command=change_language&lang=en">
-                            <fmt:message key="english"/>
+                            <fmt:message key="ENGLISH"/>
                         </a>
                         <a id="ru" href="${pageContext.request.contextPath}/controller?command=change_language&lang=ru">
-                            <fmt:message key="russian"/>
+                            <fmt:message key="RUSSIAN"/>
                         </a>
                     </div>
                 </div>

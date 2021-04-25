@@ -47,10 +47,12 @@
                     <c:if test="${user.id ne sessionScope.user.id}">
                         <c:choose>
                             <c:when test="${user.banned}"><a
-                                    href="${pageContext.request.contextPath}/controller?command=unban_user&user_id=${user.id}&user_active_page=${user_active_page}&lot_active_page=${lot_active_page}">unban</a>
+                                    href="${pageContext.request.contextPath}/controller?command=unban_user&user_id=${user.id}&user_active_page=${user_active_page}&lot_active_page=${lot_active_page}"><fmt:message
+                                    key="admin.unban"/></a>
                             </c:when>
                             <c:otherwise>
-                                <a href="${pageContext.request.contextPath}/controller?command=ban_user&user_id=${user.id}&user_active_page=${user_active_page}&lot_active_page=${lot_active_page}">ban</a>
+                                <a href="${pageContext.request.contextPath}/controller?command=ban_user&user_id=${user.id}&user_active_page=${user_active_page}&lot_active_page=${lot_active_page}"><fmt:message
+                                        key="admin.ban"/></a>
                             </c:otherwise>
                         </c:choose>
                     </c:if>
@@ -63,7 +65,8 @@
             <ul class="pagination">
                 <c:if test="${user_active_page != 1}">
                     <li class="page-item"><a class="page-link"
-                                             href="${pageContext.request.contextPath}/controller?command=${user_pagingcommand}&user_page=${user_active_page-1}"><fmt:message key="paging.previous"/></a>
+                                             href="${pageContext.request.contextPath}/controller?command=${user_pagingcommand}&user_page=${user_active_page-1}"><fmt:message
+                            key="paging.previous"/></a>
                     </li>
                 </c:if>
 
@@ -84,7 +87,8 @@
 
                 <c:if test="${user_active_page lt user_page_amount}">
                     <li class="page-item"><a class="page-link"
-                                             href="${pageContext.request.contextPath}/controller?command=${user_paging_command}&user_page=${user_active_page+1}"><fmt:message key="paging.next"/></a>
+                                             href="${pageContext.request.contextPath}/controller?command=${user_paging_command}&user_page=${user_active_page+1}"><fmt:message
+                            key="paging.next"/></a>
                     </li>
                 </c:if>
             </ul>
@@ -135,7 +139,8 @@
             <ul class="pagination">
                 <c:if test="${lot_active_page != 1}">
                     <li class="page-item"><a class="page-link"
-                                             href="${pageContext.request.contextPath}/controller?command=${lot_paging_command}&lot_page=${lot_active_page-1}"><fmt:message key="paging.previous"/></a>
+                                             href="${pageContext.request.contextPath}/controller?command=${lot_paging_command}&lot_page=${lot_active_page-1}"><fmt:message
+                            key="paging.previous"/></a>
                     </li>
                 </c:if>
 
@@ -156,7 +161,8 @@
 
                 <c:if test="${lot_active_page lt lot_page_amount}">
                     <li class="page-item"><a class="page-link"
-                                             href="${pageContext.request.contextPath}/controller?command=${lot_paging_command}&lot_page=${lot_active_page+1}"><fmt:message key="paging.next"/></a>
+                                             href="${pageContext.request.contextPath}/controller?command=${lot_paging_command}&lot_page=${lot_active_page+1}"><fmt:message
+                            key="paging.next"/></a>
                     </li>
                 </c:if>
             </ul>

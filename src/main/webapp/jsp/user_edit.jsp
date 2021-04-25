@@ -31,8 +31,8 @@
     </form>
     <form action="${pageContext.request.contextPath}/controller" method="post">
         <input type="hidden" name="command" value="change_password">
-        <input type="password" name="old_password" placeholder="<fmt:message key="user_edit.old_password"/>"/>
-        <input type="password" name="new_password" placeholder="<fmt:message key="user_edit.new_password"/>"/>
+        <input type="password" name="old_password" placeholder="<fmt:message key="user_edit.old_password"/>" required/>
+        <input type="password" name="new_password" placeholder="<fmt:message key="user_edit.new_password"/>" required/>
         <input type="submit" value="<fmt:message key="user_edit.change"/>">
     </form>
     <p class="message"><a href="controller?command=to_lots">

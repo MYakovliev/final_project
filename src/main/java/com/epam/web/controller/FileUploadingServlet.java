@@ -17,6 +17,7 @@ import java.util.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import java.util.UUID;
 
@@ -42,22 +43,25 @@ public class FileUploadingServlet extends HttpServlet {
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
         }
-        request.getParts().stream().forEach(part -> {
-            try {
-                String path = part.getSubmittedFileName();
-                logger.debug("path:{}", path);
-                if (path != null && !path.isEmpty()) {
-                    String randFilename = UUID.randomUUID() + path.substring(path.lastIndexOf("."));//
-                    logger.debug("randFileName:{}", randFilename);
-                    String pathToFile = uploadFileDir + randFilename;
-                    part.write(pathToFile);
-                    String filePath = IMAGE_DIRECTORY_NAME + randFilename;
-                    images.add(filePath);
+        Collection<Part> parts = request.getParts();
+        if (parts.size() > 0) {
+            parts.stream().forEach(part -> {
+                try {
+                    String path = part.getSubmittedFileName();
+                    logger.debug("path:{}", path);
+                    if (path != null && !path.isEmpty()) {
+                        String randFilename = UUID.randomUUID() + path.substring(path.lastIndexOf("."));//
+                        logger.debug("randFileName:{}", randFilename);
+                        String pathToFile = uploadFileDir + randFilename;
+                        part.write(pathToFile);
+                        String filePath = IMAGE_DIRECTORY_NAME + randFilename;
+                        images.add(filePath);
+                    }
+                } catch (IOException e) {
+                    logger.error(e);
                 }
-            } catch (IOException e) {
-                logger.error(e);
-            }
-        });
+            });
+        }
         request.setAttribute(RequestParameter.IMAGE_PATH, images);
         process(request, response);
     }

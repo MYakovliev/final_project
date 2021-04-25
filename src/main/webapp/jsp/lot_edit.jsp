@@ -32,7 +32,7 @@
     <br/>
     <label for="endTime"><fmt:message key="lot_edit.start_time"/></label>
     <input id="startTime" type="datetime-local" value="${lot.startTime}" name="startTime"/>
-    <label for="endTime"><fmt:message key="lot_edit.end_time"/></label>
+    <label for="endTime"><fmt:message key="lot_edit.finish_time"/></label>
     <input id="endTime" type="datetime-local" value="${lot.finishTime}" name="endTime"/>
     <br/>
     <img src="${lot.images.get(0)}" alt="image" id="image_path1Image" style="visibility: hidden"/>

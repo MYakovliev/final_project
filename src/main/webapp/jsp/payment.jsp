@@ -78,7 +78,7 @@
                             <img src="https://bootstraptema.ru/snippets/form/2017/amex.jpg" id="amex">
                         </div>
                         <div class="form-group" id="pay-now">
-                            <button type="submit" class="btn btn-default" id="confirm-purchase"><fmt:message key="payment.confirm"/></button>
+                            <button type="submit" class="btn btn-default" id="confirm-purchase"><fmt:message key="payment.submit"/></button>
                         </div>
                     </form>
                 </div>

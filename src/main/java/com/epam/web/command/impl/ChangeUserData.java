@@ -27,7 +27,13 @@ public class ChangeUserData implements ActionCommand {
         User user = (User) session.getAttribute(SessionAttribute.USER);
         CommandResult result = CommandResult.createRedirectCommandResult(String.format(COMMAND_TO_REDIRECT, user.getId()));
         try {
-            String avatar = ((List<String>)request.getAttribute(RequestParameter.IMAGE_PATH)).get(0);
+            List<String> avatarList = ((List<String>)request.getAttribute(RequestParameter.IMAGE_PATH));
+            String avatar;
+            if (avatarList.size() == 0){
+                avatar = user.getAvatar();
+            } else {
+                avatar = avatarList.get(0);
+            }
             String name = request.getParameter(RequestParameter.NAME);
             String mail = request.getParameter(RequestParameter.MAIL);
             service.changeUserData(user.getId(), avatar, name, mail);

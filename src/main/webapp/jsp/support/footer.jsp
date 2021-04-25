@@ -28,7 +28,7 @@
             </c:otherwise>
         </c:choose>
         <br/>
-        <fmt:message key="footer.contanct"/> support@auction.by
+        <fmt:message key="footer.contact"/> support@auction.by
     </div>
 </footer>
 </body>
