@@ -43,7 +43,7 @@ public class UserDaoImpl implements UserDao {
     private static final String FIND_BUYER_BY_LOT_ID_STATEMENT =
             "SELECT idusers, name, mail, balance, roles.role, avatar, isBanned FROM users " +
                     "INNER JOIN bid_history ON bid_history.id_buyer = users.idusers " +
-                    "INNER JOIN roles ON users.role = roles.idroles WHERE bid_history.id_lot=? LIMIT ?, ?";
+                    "INNER JOIN roles ON users.role = roles.idroles WHERE bid_history.id_lot=?";
     private static final String FIND_ALL_USERS_STATEMENT =
             "SELECT idusers, name, mail, balance, roles.role, avatar, isBanned FROM users " +
                     "INNER JOIN roles ON users.role = roles.idroles LIMIT ?, ?";
@@ -51,6 +51,7 @@ public class UserDaoImpl implements UserDao {
     private static final String CHANGE_USER_DATA_STATEMENT = "UPDATE users SET avatar=?, name=?, mail=? WHERE idusers=?";
     private static final String CHANGE_PASSWORD_STATEMENT = "UPDATE users SET password=? WHERE idusers=? AND password=?";
     private static final String CHANGE_BALANCE_STATEMENT = "UPDATE users SET balance = balance + ? WHERE idusers = ?";
+    private static final String IS_TAKEN_LOGIN_STATEMENT = "SELECT * FROM users WHERE login=?";
 
     private UserDaoImpl() {
     }
@@ -58,6 +59,8 @@ public class UserDaoImpl implements UserDao {
     public static UserDaoImpl getInstance() {
         return instance;
     }
+
+
 
     @Override
     public Optional<User> login(String login, String password) throws DaoException {
@@ -257,13 +260,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findBuyersHistory(long lotId, int start, int amount) throws DaoException {
+    public List<User> findBuyersHistory(long lotId) throws DaoException {
         List<User> users = new ArrayList<>();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BUYER_BY_LOT_ID_STATEMENT)) {
             statement.setLong(1, lotId);
-            statement.setInt(2, start);
-            statement.setInt(3, amount);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 users.add(createUser(resultSet));
@@ -284,6 +285,23 @@ public class UserDaoImpl implements UserDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 result = resultSet.getBoolean(1);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public boolean isTaken(String login) throws DaoException {
+        boolean result = false;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(IS_TAKEN_LOGIN_STATEMENT)) {
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                result = true;
             }
         } catch (SQLException | ConnectionPoolException e) {
             logger.error(e);

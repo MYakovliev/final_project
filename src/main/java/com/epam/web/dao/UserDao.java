@@ -26,7 +26,9 @@ public interface UserDao {
 
     List<User> findUserByName(String name, int start, int amount) throws DaoException;
 
-    List<User> findBuyersHistory(long lotId, int start, int amount) throws DaoException;
+    List<User> findBuyersHistory(long lotId) throws DaoException;
 
     boolean isBanned(long userId) throws DaoException;
+
+    boolean isTaken(String login) throws DaoException;
 }

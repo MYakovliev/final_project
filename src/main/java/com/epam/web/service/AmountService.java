@@ -14,6 +14,4 @@ public interface AmountService {
     int findAllUserAmount() throws ServiceException;
 
     int findUserByNameAmount(String name) throws ServiceException;
-
-    int findBuyersHistoryAmount(long lotId) throws ServiceException;
 }

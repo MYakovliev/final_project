@@ -7,9 +7,9 @@ import java.util.regex.Pattern;
 
 
 public class LotValidator {
-    private static final Pattern NAME_PATTERN = Pattern.compile("[-=')\\s(\"\\w0-9]{4,45}");
+    private static final Pattern NAME_PATTERN = Pattern.compile("[-=:'\\.)\\s(\"\\w0-9]{4,45}");
     private static final int MAX_NAME_LENGTH = 40;
-    private static final int MAX_YEARS_AMOUNT_FOR_DELAYED_START = 2;
+    private static final int MAX_DESCRIPTION_LENGTH = 10000;
 
 
     public static boolean isValidName(String name) {
@@ -18,13 +18,19 @@ public class LotValidator {
         return result;
     }
 
+    public static boolean isValidDescription(String description) {
+        return description.length() <= MAX_DESCRIPTION_LENGTH;
+    }
+
     public static boolean isValidTime(Timestamp startTime, Timestamp finishTime) {
 
         boolean result = false;
+        Timestamp now = new Timestamp(new Date().getTime());
+        if (startTime == null) {
+            result = finishTime.after(now);
+        }
         if (startTime != null && finishTime != null) {
-            Timestamp now = new Timestamp(new Date().getTime());
-            now.setYear(now.getYear() + MAX_YEARS_AMOUNT_FOR_DELAYED_START);
-            result = startTime.before(now) && startTime.before(finishTime);
+            result = startTime.after(now) && startTime.before(finishTime);
         }
         return result;
     }

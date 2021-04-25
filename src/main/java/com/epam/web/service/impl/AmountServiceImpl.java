@@ -104,16 +104,4 @@ public class AmountServiceImpl implements AmountService {
         }
         return amount;
     }
-
-    @Override
-    public int findBuyersHistoryAmount(long lotId) throws ServiceException {
-        int amount;
-        try {
-            amount = dao.findBuyersHistoryAmount(lotId);
-        } catch (DaoException e) {
-            logger.error(e);
-            throw new ServiceException(e);
-        }
-        return amount;
-    }
 }

@@ -1,4 +1,5 @@
 img{
+    margin-top: 15px;
     width:50%
 }
 
@@ -18,6 +19,7 @@ img{
     flex-wrap: wrap;
 }
 .mail{
+    font-size: 55px;
     margin-left:120px;
 }
 .won_lots{
@@ -33,4 +35,10 @@ img{
     heigh:50px;
     background-color:blue;
     flex-wrap: nowrap;
+}
+.container{
+    background-color: blanchedalmond;
+    color: #8DC26F;
+    margin: 50px;
+    padding: 100px;
 }

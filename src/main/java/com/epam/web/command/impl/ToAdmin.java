@@ -61,13 +61,14 @@ public class ToAdmin implements ActionCommand {
                 int lotPageAmount = (lotAmount - 1 + AMOUNT_PER_PAGE) / AMOUNT_PER_PAGE;
                 List<User> users = userService.findAll(userPageNumber, AMOUNT_PER_PAGE);
                 List<Lot> lots = lotService.findAll(lotPageNumber, AMOUNT_PER_PAGE);
-                request.setAttribute(RequestParameter.USERS_LIST, users);
+                request.setAttribute(RequestParameter.USER_LIST, users);
                 request.setAttribute(RequestParameter.LOT_LIST, lots);
                 request.setAttribute(RequestParameter.LOT_PAGE_AMOUNT, lotPageAmount);
                 request.setAttribute(RequestParameter.USER_PAGE_AMOUNT, userPageAmount);
                 request.setAttribute(RequestParameter.LOT_ACTIVE_PAGE, lotPageNumber);
                 request.setAttribute(RequestParameter.USER_ACTIVE_PAGE, userPageNumber);
-                request.setAttribute(RequestParameter.COMMAND, COMMAND_TO_PAGING);
+                request.setAttribute(RequestParameter.USER_PAGING_COMMAND, COMMAND_TO_PAGING);
+                request.setAttribute(RequestParameter.LOT_PAGING_COMMAND, COMMAND_TO_PAGING);
                 result = CommandResult.createForwardCommandResult(JspPath.ADMIN);
             } catch (ServiceException e) {
                 logger.error(e);

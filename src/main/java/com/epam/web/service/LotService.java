@@ -18,4 +18,6 @@ public interface LotService {
     List<Lot> findActive(int pageNumber, int amountPerPage) throws ServiceException;
 
     List<Lot> findAll(int pageNumber, int amountPerPage) throws ServiceException;
+
+    boolean isLotSubmitted(long lotId) throws ServiceException;
 }

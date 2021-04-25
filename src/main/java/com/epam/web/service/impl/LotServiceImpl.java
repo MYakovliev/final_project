@@ -32,12 +32,12 @@ public class LotServiceImpl implements LotService {
     public Lot createNewLot(String name, String description, String startBid, Timestamp startTime, Timestamp finishTime, long sellerId, List<String> images) throws ServiceException {
         Optional<Lot> lot;
         logger.debug("{}, {}, {}, {}, {}, {}, {}",name, description, startBid, startTime, finishTime, sellerId, images);
+        if (!(LotValidator.isValidName(name) && LotValidator.isValidTime(startTime, finishTime)
+                && LotValidator.isValidDescription(description) && UserValidator.isValidBid(startBid))) {
+            throw new ServiceException("wrong data in form(s)");
+        }
         if (startTime == null) {
             startTime = new Timestamp(System.currentTimeMillis());
-        }
-        if (!(LotValidator.isValidName(name) && LotValidator.isValidTime(startTime, finishTime)
-                && UserValidator.isValidBid(startBid))) {
-            throw new ServiceException("wrong data in form(s)");
         }
         logger.debug("{}, {}, {}, {}, {}, {}, {}",name, description, startBid, startTime, finishTime, sellerId, images);
         try {
@@ -131,5 +131,10 @@ public class LotServiceImpl implements LotService {
             throw new ServiceException(e);
         }
         return lot;
+    }
+
+    @Override
+    public boolean isLotSubmitted(long lotId) throws ServiceException {
+        return false;
     }
 }

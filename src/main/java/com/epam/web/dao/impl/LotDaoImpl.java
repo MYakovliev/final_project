@@ -40,7 +40,14 @@ public class LotDaoImpl implements LotDao {
             "SELECT idlots, name, description, bid, start_time, end_time, seller FROM lots" +
                     " WHERE end_time > NOW() AND NOW() > start_time LIMIT ?,?";
     private static final String COMPARE_BID_STATEMENT =
-            "SELECT MAX(bid) FROM bid_history WHERE id_lot=?";
+            "SELECT MAX(bid), id_buyer FROM bid_history WHERE id_lot=?";
+    private static final String CHECK_BUYER_STATEMENT =
+            "SELECT id_buyer FROM bid_history WHERE id_lot=? " +
+                    "AND idbid_history=(SELECT MAX(idbid_history) FROM bid_history WHERE id_lot=?)";
+    private static final String IS_LOT_SUBMITTED_STATEMENT =
+            "SELECT status=(SELECT idstatus FROM status WHERE status.status = 'WON') FROM bid_history " +
+                    "WHERE idbid_history=(SELECT MAX(idbid_history) FROM bid_history WHERE id_lot=?)";
+
 
     private LotDaoImpl() {
     }
@@ -52,7 +59,7 @@ public class LotDaoImpl implements LotDao {
 
     @Override
     public Optional<Lot> createNewLot(String name, String description, BigDecimal startBid, Timestamp startTime, Timestamp finishTime, long sellerId, List<String> images) throws DaoException {
-        Optional<Lot> lot = Optional.empty();
+        Optional<Lot> lot;
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -97,8 +104,8 @@ public class LotDaoImpl implements LotDao {
             if (statement != null) {
                 try {
                     statement.close();
-                } catch (SQLException throwables) {
-                    logger.error(throwables);
+                } catch (SQLException throwable) {
+                    logger.error(throwable);
                 }
             }
             if (connection != null) {
@@ -241,6 +248,23 @@ public class LotDaoImpl implements LotDao {
         return lots;
     }
 
+    @Override
+    public boolean isLotSubmitted(long lotId) throws DaoException {
+        boolean result = false;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(IS_LOT_SUBMITTED_STATEMENT)) {
+            statement.setLong(1, lotId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                result = resultSet.getBoolean(1);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        }
+        return result;
+    }
+
     private List<String> findLotImages(Connection connection, long id) throws SQLException {
         List<String> images = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(FIND_LOT_PICTURES_BY_ID_STATEMENT)) {
@@ -270,6 +294,19 @@ public class LotDaoImpl implements LotDao {
         return currentBid;
     }
 
+    private long checkBuyer(Connection connection, long lotId) throws SQLException{
+        long buyerId = 0;
+        try (PreparedStatement statement = connection.prepareStatement(CHECK_BUYER_STATEMENT)) {
+            statement.setLong(1, lotId);
+            statement.setLong(2, lotId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                buyerId = resultSet.getLong(1);
+            }
+        }
+        return buyerId;
+    }
+
     private Lot createLot(Connection connection, ResultSet resultSet, List<String> images) throws SQLException {
         long id = resultSet.getLong(1);
         String name = resultSet.getString(2);
@@ -280,6 +317,8 @@ public class LotDaoImpl implements LotDao {
         Timestamp finishTime = resultSet.getTimestamp(6);
         long seller = resultSet.getLong(7);
         Lot lot = new Lot(id, name, description, startTime, finishTime, bid, seller, images);
+        long buyerId = checkBuyer(connection, id);
+        lot.setBuyerId(buyerId);
         return lot;
     }
 }

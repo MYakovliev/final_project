@@ -18,19 +18,25 @@
 <body>
 <jsp:include page="support/header.jsp"/>
 <div class="content_container">
+    <a href="${pageContext.request.contextPath}/controller?command=to_profile&user_id=${lot.sellerId}">See the
+        seller</a>
     <c:if test="${error ne null}">
         <p class="error"><fmt:message key="${error}"/></p>
     </c:if>
-        <form action="${pageContext.request.contextPath}/controller" method="post">
-            <input type="hidden" name="command" value="make_bid"/>
-            <input type="hidden" name="lot_id" value="${lot.id}">
-            <span id="lot_name">${lot.name}</span><br/>
-            ${lot.description}<br/><br/><br/>
-            <span id="lot_cost">${lot.currentCost}&dollar;</span><br/>
-            <p class="time">${lot.finishTime.time}</p>
-            <input type="number" min="0.01" step="0.01" name="bid"/>
-            <input type="submit" name="btn" value="make bid"/>
-        </form>
+    <form action="${pageContext.request.contextPath}/controller" method="post">
+        <input type="hidden" name="command" value="make_bid"/>
+        <input type="hidden" name="lot_id" value="${lot.id}">
+        <span id="lot_name">${lot.name}</span><br/>
+        ${lot.description}<br/><br/><br/>
+        <span id="lot_cost">${lot.currentCost}&dollar;</span><br/>
+        <p class="time">${lot.finishTime.time}</p>
+        <input type="number" min="0.01" step="0.01" name="bid"/>
+        <input type="submit" name="btn" value="make bid"/>
+    </form>
+    <c:if test="${lot.buyerId ne 0}">
+        <a href="${pageContext.request.contextPath}/controller?command=to_profile&user_id=${lot.buyerId}">See current
+            buyer</a>
+    </c:if>
 </div>
 <div class="row">
     <c:forEach var="picture" items="${lot.images}">
@@ -47,6 +53,22 @@
              alt="main_image">
     </div>
 </div>
+<c:if test="${user_list.size() ne 0}">
+    <table>
+        <tr>
+            <th>
+                buyer
+            </th>
+        </tr>
+        <c:forEach var="user" items="${user_list}">
+            <tr>
+                <td>
+                        ${user.name}
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</c:if>
 <script src="<c:url value="/js/time_counter.js"/>"></script>
 <script src="<c:url value="/js/magnifier.js"/>"></script>
 <script src="<c:url value="/js/show_picture.js"/>"></script>

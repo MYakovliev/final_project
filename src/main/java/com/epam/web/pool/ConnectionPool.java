@@ -16,7 +16,7 @@ public class ConnectionPool {
     private static final int MAX_POOL_SIZE = Integer.parseInt(DatabaseResourceManager.getParameter("maxPoolSize"));
     private static ConnectionPool instance = new ConnectionPool();
     private BlockingQueue<Connection> freeConnections = new LinkedBlockingDeque<>(MIN_POOL_SIZE);
-    private Queue<Connection> givenConnections = new ArrayDeque<>(MAX_POOL_SIZE);
+    private BlockingQueue<Connection> givenConnections = new LinkedBlockingDeque<>(MAX_POOL_SIZE);
 
     public static ConnectionPool getInstance() {
         return instance;
@@ -45,9 +45,10 @@ public class ConnectionPool {
         } else {
             throw new ConnectionPoolException("connection limit has reached");
         }
-        givenConnections.add(connection);
+        givenConnections.offer(connection);
         return connection;
     }
+
 
     public void releaseConnection(Connection connection) {
         if (!(connection instanceof ProxyConnection)) {

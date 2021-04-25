@@ -21,6 +21,10 @@
     <button class="tablinks" onclick="openTab(event, 'Lots')">Lots</button>
 </div>
 <div id="Users" class="tabcontent">
+    <form action="${pageContext.request.contextPath}/controller?command=search_user_by_name" method="post">
+        <input name="search" type="text" placeholder="<fmt:message key="search"/>" value="${search}"/>
+        <button type="submit">&hookleftarrow;</button>
+    </form>
     <table>
         <tr>
             <th>Id</th>
@@ -39,24 +43,27 @@
                 <td>${user.mail}</td>
                 <td>${user.balance}</td>
                 <td>${user.userRole}</td>
-                <td><c:choose>
-                    <c:when test="${user.banned}"><a
-                            href="${pageContext.request.contextPath}/controller?command=unban_user&user_id=${user.id}&user_active_page=${user_active_page}&lot_active_page=${lot_active_page}">unban</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/controller?command=ban_user&user_id=${user.id}&user_active_page=${user_active_page}&lot_active_page=${lot_active_page}">ban</a>
-                    </c:otherwise>
-                </c:choose>
+                <td>
+                    <c:if test="${user.id ne sessionScope.user.id}">
+                        <c:choose>
+                            <c:when test="${user.banned}"><a
+                                    href="${pageContext.request.contextPath}/controller?command=unban_user&user_id=${user.id}&user_active_page=${user_active_page}&lot_active_page=${lot_active_page}">unban</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="${pageContext.request.contextPath}/controller?command=ban_user&user_id=${user.id}&user_active_page=${user_active_page}&lot_active_page=${lot_active_page}">ban</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:if>
                 </td>
             </tr>
         </c:forEach>
     </table>
     <nav aria-label="Navigation for countries">
-        <c:if test="${user_page_amount} mt 1 ">
+        <c:if test="${user_page_amount > 1}">
             <ul class="pagination">
                 <c:if test="${user_active_page != 1}">
                     <li class="page-item"><a class="page-link"
-                                             href="${pageContext.request.contextPath}/controller?command=${command}&user_page=${user_active_page-1}">Previous</a>
+                                             href="${pageContext.request.contextPath}/controller?command=${user_pagingcommand}&user_page=${user_active_page-1}">Previous</a>
                     </li>
                 </c:if>
 
@@ -69,7 +76,7 @@
                         </c:when>
                         <c:otherwise>
                             <li class="page-item"><a class="page-link"
-                                                     href="${pageContext.request.contextPath}/controller?command=${command}&user_page=${i}">${i}</a>
+                                                     href="${pageContext.request.contextPath}/controller?command=${user_paging_command}&user_page=${i}">${i}</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
@@ -77,7 +84,7 @@
 
                 <c:if test="${user_active_page lt user_page_amount}">
                     <li class="page-item"><a class="page-link"
-                                             href="${pageContext.request.contextPath}/controller?command=${command}&user_page=${user_active_page+1}">Next</a>
+                                             href="${pageContext.request.contextPath}/controller?command=${user_paging_command}&user_page=${user_active_page+1}">Next</a>
                     </li>
                 </c:if>
             </ul>
@@ -86,6 +93,11 @@
 </div>
 
 <div id="Lots" class="tabcontent">
+    <jsp:useBean id="today" class="java.util.Date"/>
+    <form action="${pageContext.request.contextPath}/controller?command=search_lot_by_name" method="post">
+        <input name="search" type="text" placeholder="<fmt:message key="search"/>" value="${search}"/>
+        <button type="submit">&hookleftarrow;</button>
+    </form>
     <table>
         <tr>
             <th>Id</th>
@@ -95,7 +107,7 @@
             <th>current bid</th>
             <th>seller id</th>
             <th>buyer id</th>
-            <th>status</th>
+            <th>submit winner</th>
         </tr>
         <c:forEach var="lot" items="${requestScope.lot_list}">
             <tr>
@@ -107,17 +119,29 @@
                 <td>${lot.finishTime}</td>
                 <td>${lot.currentCost}</td>
                 <td>${lot.sellerId}</td>
-                <td>${lot.buyerId}</td>
-                <td></td>
+                <td><c:choose>
+                    <c:when test="${lot.buyerId eq 0}">
+                        ---
+                    </c:when>
+                    <c:otherwise>
+                        ${lot.buyerId}
+                    </c:otherwise>
+                </c:choose>
+                </td>
+                <td>
+                    <c:if test="${lot.finishTime.before(today) and lot.buyerId ne 0}">
+                        <a href="${pageContext.request.contextPath}/controller?command=submit_winner&lot_id=${lot.id}">&#10004;</a>
+                    </c:if>
+                </td>
             </tr>
         </c:forEach>
     </table>
     <nav aria-label="Navigation for countries">
-        <c:if test="${lot_page_amount} mt 1 ">
+        <c:if test="${lot_page_amount > 1}">
             <ul class="pagination">
                 <c:if test="${lot_active_page != 1}">
                     <li class="page-item"><a class="page-link"
-                                             href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page-1}">Previous</a>
+                                             href="${pageContext.request.contextPath}/controller?command=${lot_paging_command}&lot_page=${lot_active_page-1}">Previous</a>
                     </li>
                 </c:if>
 
@@ -130,7 +154,7 @@
                         </c:when>
                         <c:otherwise>
                             <li class="page-item"><a class="page-link"
-                                                     href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${i}">${i}</a>
+                                                     href="${pageContext.request.contextPath}/controller?command=${lot_paging_command}&lot_page=${i}">${i}</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
@@ -138,7 +162,7 @@
 
                 <c:if test="${lot_active_page lt lot_page_amount}">
                     <li class="page-item"><a class="page-link"
-                                             href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page+1}">Next</a>
+                                             href="${pageContext.request.contextPath}/controller?command=${lot_paging_command}&lot_page=${lot_active_page+1}">Next</a>
                     </li>
                 </c:if>
             </ul>

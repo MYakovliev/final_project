@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tag" uri="/WEB-INF/tld/custom.tld" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<c:set var="page" value="${'/jsp/lots.jsp'}" scope="session"/>
 <html>
 <head>
     <fmt:setLocale value="${sessionScope.lang}"/>
@@ -15,11 +16,11 @@
 <jsp:include page="support/header.jsp"/>
 <div class="add_lot">
     <tag:access role="seller">
-        <a href="${pageContext.request.contextPath}/controller?command=to_lot_edit">Add Lot</a>
+        <a href="${pageContext.request.contextPath}/controller?command=to_lot_edit"><fmt:message key="lots.add_lot"/></a>
     </tag:access>
 </div>
 <form action="${pageContext.request.contextPath}/controller?command=search_lot_by_name" method="post">
-    <input name="search" type="text" placeholder="search" value="${search}"/>
+    <input name="search" type="text" placeholder="<fmt:message key="search"/>" value="${search}"/>
     <button type="submit">&hookleftarrow;</button>
 </form>
 <div class="main_block">
@@ -35,10 +36,10 @@
 </div>
 </table>
 <c:if test="${lot_list.size() == 0}">
-    <div class="not_found">404 Nothing found</div>
+    <div class="not_found"><fmt:message key="lots.nothing_found"/></div>
 </c:if>
 <nav aria-label="Navigation for countries">
-    <c:if test="${lot_page_amount} mt 1 ">
+    <c:if test="${lot_page_amount > 1}">
         <ul class="pagination">
             <c:if test="${lot_active_page != 1}">
                 <li class="page-item"><a class="page-link"

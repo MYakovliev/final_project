@@ -21,4 +21,6 @@ public interface LotDao {
     List<Lot> findLotBySellerId(long sellerId, int start, int amount) throws DaoException;
 
     List<Lot> findActive(int start, int amount) throws DaoException;
+
+    boolean isLotSubmitted(long lotId) throws DaoException;
 }

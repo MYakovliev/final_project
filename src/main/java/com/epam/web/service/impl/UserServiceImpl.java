@@ -146,11 +146,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findBuyersHistory(long lotId, int pageNumber, int amountPerPage) throws ServiceException {
+    public List<User> findBuyersHistory(long lotId) throws ServiceException {
         List<User> users;
         try {
-            int start = (pageNumber - 1) * amountPerPage;
-            users = dao.findBuyersHistory(lotId, start, amountPerPage);
+            users = dao.findBuyersHistory(lotId);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -180,6 +179,17 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         return users;
+    }
+
+    @Override
+    public boolean isTaken(String login) throws ServiceException {
+        boolean result = false;
+        try {
+            result = dao.isTaken(login);
+        } catch (DaoException e) {
+            logger.error(e);
+        }
+        return result;
     }
 
     @Override

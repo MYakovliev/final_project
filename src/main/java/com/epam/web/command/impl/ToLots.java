@@ -41,7 +41,8 @@ public class ToLots implements ActionCommand {
             request.setAttribute(RequestParameter.LOT_LIST, lots);
             request.setAttribute(RequestParameter.LOT_PAGE_AMOUNT, pageAmount);
             request.setAttribute(RequestParameter.LOT_ACTIVE_PAGE, lotPageNumber);
-            request.setAttribute(RequestParameter.COMMAND, COMMAND_TO_PAGING);
+            request.setAttribute(RequestParameter.USER_PAGING_COMMAND, COMMAND_TO_PAGING);
+            request.setAttribute(RequestParameter.LOT_PAGING_COMMAND, COMMAND_TO_PAGING);
             result = CommandResult.createForwardCommandResult(JspPath.LOTS);
         } catch (ServiceException e) {
             logger.error(e);

@@ -1,6 +1,5 @@
 package com.epam.web.service;
 
-import com.epam.web.dao.DaoException;
 import com.epam.web.entity.Lot;
 import com.epam.web.entity.User;
 import com.epam.web.entity.UserRole;
@@ -24,9 +23,11 @@ public interface UserService {
 
     List<User> findUserByName(String name, int pageNumber, int amountPerPage) throws ServiceException;
 
-    List<User> findBuyersHistory(long lotId, int pageNumber, int amountPerPage) throws ServiceException;
+    List<User> findBuyersHistory(long lotId) throws ServiceException;
 
-    boolean isBanned(long userId);
+    boolean isBanned(long userId) throws ServiceException;
 
     List<User> findAll(int pageNumber, int amountPerPage) throws ServiceException;
+
+    boolean isTaken(String login) throws ServiceException;
 }

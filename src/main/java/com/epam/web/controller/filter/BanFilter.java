@@ -2,6 +2,8 @@ package com.epam.web.controller.filter;
 
 import com.epam.web.command.CommandType;
 import com.epam.web.entity.User;
+import com.epam.web.service.ServiceException;
+import com.epam.web.service.UserService;
 import com.epam.web.service.impl.UserServiceImpl;
 import com.epam.web.util.RequestParameter;
 import com.epam.web.util.SessionAttribute;
@@ -17,13 +19,20 @@ import java.io.IOException;
 
 @WebFilter(filterName = "banFilter", urlPatterns = {"/*"})
 public class BanFilter implements Filter {
+    private static UserService service = UserServiceImpl.getInstance();
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpSession session = ((HttpServletRequest) request).getSession();
         User user = (User) session.getAttribute(SessionAttribute.USER);
         if (user != null) {
-            boolean isBanned = UserServiceImpl.getInstance().isBanned(user.getId());
+            boolean isBanned = false;
+            try {
+                isBanned = service.isBanned(user.getId());
+            } catch (ServiceException e) {
+                logger.error(e);
+            }
             if (isBanned) {
                 String command = request.getParameter(RequestParameter.COMMAND);
                 if (command != null && CommandType.valueOf(command.toUpperCase()) != CommandType.LOGOUT) {

@@ -8,10 +8,13 @@
     <fmt:setBundle basename="locale.locale"/>
     <title><fmt:message key="profile.title"/></title>
     <link href="<c:url value="/css/profile.css"/>" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
 </head>
 <body>
 <jsp:include page="support/header.jsp"/>
-<div class="content">
+<div class="container">
     <img src="${user.avatar}"/>
     <span class="name">
         ${user.name}
@@ -21,8 +24,8 @@
     </c:if>
     <span class="mail">${user.mail}</span><br/>
     <div class="block">
-        <span class="won_lots">15${won_lots}</span>
-        <span class="compete_lots">20${compete_lots}</span>
+        <span class="won_lots">${won_lots}</span>
+        <span class="compete_lots">${compete_lots}</span>
     </div>
 </div>
 </body>

@@ -10,6 +10,8 @@ public class RequestParameter {
     public static final String LOT_ACTIVE_PAGE = "lot_active_page";
     public static final String USER_ACTIVE_PAGE = "user_active_page";
     public static final String COMMAND = "command";
+    public static final String USER_PAGING_COMMAND = "user_paging_command";
+    public static final String LOT_PAGING_COMMAND = "lot_paging_command";
     public static final String MAIL = "mail";
     public static final String LOT_LIST = "lot_list";
     public static final String LOGIN = "login";
@@ -21,7 +23,7 @@ public class RequestParameter {
     public static final String LANGUAGE = "lang";
     public static final String LOT_ID = "lot_id";
     public static final String BID = "bid";
-    public static final String USERS_LIST = "user_list";
+    public static final String USER_LIST = "user_list";
     public static final String IMAGE_PATH = "image_path";
     public static final String LOT_PAGE_AMOUNT = "lot_page_amount";
     public static final String USER_PAGE_AMOUNT = "user_page_amount";
@@ -29,6 +31,7 @@ public class RequestParameter {
     public static final String ERROR = "error";
     public static final String OLD_PASSWORD = "old_password";
     public static final String SEARCH = "search";
+    public static final String SUBMITTED = "submitted";
 
     private RequestParameter(){}
 }

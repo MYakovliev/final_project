@@ -14,6 +14,4 @@ public interface AmountDao {
     int findAllUserAmount() throws DaoException;
 
     int findUserByNameAmount(String name) throws DaoException;
-
-    int findBuyersHistoryAmount(long lotId) throws DaoException;
 }
