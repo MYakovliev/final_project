@@ -135,6 +135,12 @@ public class LotServiceImpl implements LotService {
 
     @Override
     public boolean isLotSubmitted(long lotId) throws ServiceException {
-        return false;
+        boolean result = false;
+        try {
+            result = dao.isLotSubmitted(lotId);
+        } catch (DaoException e) {
+            logger.error(e);
+        }
+        return result;
     }
 }
