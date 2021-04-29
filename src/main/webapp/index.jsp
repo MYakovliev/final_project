@@ -8,6 +8,7 @@
 <style>
     body {
         margin-top: 25%;
+        font-size: 35px;
         alignment: center;
         background-color: blanchedalmond;
         text-align: center;

@@ -10,7 +10,8 @@ function readURL(input, imageId, inputId) {
         };
 
         if (inputId != null){
-            $('#'+inputId).css('visibility', 'visible');
+            $('#'+inputId+'Label').css('visibility', 'visible');
+            $('#'+inputId+'Input').css('visibility', 'visible');
         }
 
         reader.readAsDataURL(input.files[0]);

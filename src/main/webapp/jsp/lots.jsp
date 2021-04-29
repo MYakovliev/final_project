@@ -28,7 +28,7 @@
         <div class="lot_block"
              onclick="location.href='${pageContext.request.contextPath}/controller?command=to_lot&lot_id=${lot.id}'">
             <div class="lot_name">${lot.name}</div>
-            <img src="${lot.images.get(0)}" alt="image"/>
+            <img src="${lot.images[0]}" alt="image"/>
             <div class="lot_cost">${lot.currentCost}&dollar;</div>
             <p class="time">${lot.finishTime.time}</p>
         </div>
@@ -43,7 +43,7 @@
         <ul class="pagination">
             <c:if test="${lot_active_page != 1}">
                 <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page-1}"><fmt:message key="paging.previous"/></a>
+                                         href="${pageContext.request.contextPath}/controller?command=${lot_paging_command}&lot_page=${lot_active_page-1}"><fmt:message key="paging.previous"/></a>
                 </li>
             </c:if>
 
@@ -56,7 +56,7 @@
                     </c:when>
                     <c:otherwise>
                         <li class="page-item"><a class="page-link"
-                                                 href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${i}">${i}</a>
+                                                 href="${pageContext.request.contextPath}/controller?command=${lot_paging_command}&lot_page=${i}">${i}</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -64,7 +64,7 @@
 
             <c:if test="${lot_active_page lt lot_page_amount}">
                 <li class="page-item"><a class="page-link"
-                                         href="${pageContext.request.contextPath}/controller?command=${command}&lot_page=${lot_active_page+1}"><fmt:message key="paging.next"/></a>
+                                         href="${pageContext.request.contextPath}/controller?command=${lot_paging_command}&lot_page=${lot_active_page+1}"><fmt:message key="paging.next"/></a>
                 </li>
             </c:if>
         </ul>

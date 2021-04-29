@@ -4,6 +4,7 @@ var elements = [];
 for(var i =0; i < timers.length; i++){
     elements.push(timers[i].innerHTML);
 }
+
 // Update the count down every 1 second
 var x = setInterval(function() {
     // Get todays date and time
@@ -22,8 +23,8 @@ var x = setInterval(function() {
 
 
         // Output the result in an element with id="demo"
-        timers[i].innerHTML = days + " : " + hours + " : "
-            + minutes + " : " + seconds;
+        timers[i].innerHTML = days + "d: " + hours + "h: "
+            + minutes + "m: " + seconds + "s";
         // If the count down is over, write some text
         if (distance < 0) {
             timers[i].innerHTML = "EXPIRED";

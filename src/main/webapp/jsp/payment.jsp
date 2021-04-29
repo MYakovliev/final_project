@@ -65,7 +65,6 @@
                                 <option value="12"><fmt:message key="payment.december"/></option>
                             </select>
                             <select>
-                                <option value="20"> 2020</option>
                                 <option value="21"> 2021</option>
                                 <option value="19"> 2022</option>
                                 <option value="20"> 2023</option>

@@ -23,8 +23,8 @@
     </c:if>
     <form class="register-form" action="register.do" method="post">
         <input type="hidden" name="command" value="register"/>
-        <input type="text" placeholder="<fmt:message key="registration.login"/>" name="login"/>
-        <input type="text" placeholder="<fmt:message key="registration.name"/>" name="name"/>
+        <input type="text" placeholder="<fmt:message key="registration.login"/>" name="login" required pattern="[\wА-Яа-я0-9]{4,35}"/>
+        <input type="text" placeholder="<fmt:message key="registration.name"/>" name="name" required pattern="[\wА-Яа-я]{1,35}"/>
         <input type="password" placeholder="<fmt:message key="registration.password"/>" name="password" required pattern=".{8, 40}"/>
         <input type="text" placeholder="<fmt:message key="registration.email"/>" name="mail" required pattern="([^$@!]{4,20}@\w+\.\w+){,45}"/>
         <select name="role" required>

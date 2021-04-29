@@ -43,17 +43,17 @@
     <br/>
     <label for="1"><fmt:message key="lot_edit.upload_picture"/></label>
     <input id="1" type="file" name="image_path1Input" required
-           onchange="readURL(this, 'image_path1Image', 'image_path2Input')"/>
-    <label for="image_path2Input"><fmt:message key="lot_edit.upload_picture"/></label>
+           onchange="readURL(this, 'image_path1Image', 'image_path2')"/>
+    <label id="image_path2Label" style="visibility: hidden" for="image_path2Input"><fmt:message key="lot_edit.upload_picture"/></label>
     <input type="file" id="image_path2Input" name="image_path2" style="visibility: hidden"
-           onchange="readURL(this, 'image_path2Image', 'image_path3Input')"/>
-    <label for="image_path3Input"><fmt:message key="lot_edit.upload_picture"/></label>
+           onchange="readURL(this, 'image_path2Image', 'image_path3')"/>
+    <label id="image_path3Label" style="visibility: hidden" for="image_path3Input"><fmt:message key="lot_edit.upload_picture"/></label>
     <input type="file" name="image_path3" id="image_path3Input" style="visibility: hidden"
-           onchange="readURL(this, 'image_path3Image', 'image_path4Input')"/>
-    <label for="image_path4Input"><fmt:message key="lot_edit.upload_picture"/></label>
+           onchange="readURL(this, 'image_path3Image', 'image_path4')"/>
+    <label id="image_path4Label" style="visibility: hidden" for="image_path4Input"><fmt:message key="lot_edit.upload_picture"/></label>
     <input type="file" name="image_path4" style="visibility: hidden" id="image_path4Input"
-           onchange="readURL(this, 'image_path4Image', 'image_path5Input')"/>
-    <label for="image_path5Input"><fmt:message key="lot_edit.upload_picture"/></label>
+           onchange="readURL(this, 'image_path4Image', 'image_path5')"/>
+    <label id="image_path5Label" style="visibility: hidden" for="image_path5Input"><fmt:message key="lot_edit.upload_picture"/></label>
     <input type="file" name="image_path5" style="visibility: hidden" id="image_path5Input"
            onchange="readURL(this, 'image_path5Image', null)"/>
     <br/>

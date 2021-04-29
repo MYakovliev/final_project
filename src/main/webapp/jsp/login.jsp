@@ -23,7 +23,7 @@
         </c:if>
         <form class="login-form" action="login.do" method="post">
             <input type="hidden" name="command" value="login"/>
-            <input type="text" placeholder="<fmt:message key="login.login"/>" name="login"/>
+            <input type="text" placeholder="<fmt:message key="login.login"/>" name="login" required pattern="[\wА-Яа-я0-9]{4,35}"/>
             <input type="password" placeholder="<fmt:message key="login.password"/>" name="password"/>
             <input type="submit" name="btn" value="<fmt:message key="login.button"/>"/>
             <p class="message"><fmt:message key="login.ask_to_signup"/> <a
