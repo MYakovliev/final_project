@@ -22,6 +22,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * The command that finds lists of users and lots snd forwards to admin page,
+ * allowed only to admin
+ *
+ * @author Nikita Yakovlev
+ */
 public class ToAdmin implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final UserService userService = UserServiceImpl.getInstance();

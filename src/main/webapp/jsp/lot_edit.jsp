@@ -24,16 +24,16 @@
 <body>
 <form class="container" action="${pageContext.request.contextPath}/upload/" method="post" enctype="multipart/form-data">
     <input type="hidden" name="command" value="add_lot"/>
-    <input type="text" name="name" value="${lot.name}" placeholder="<fmt:message key="lot_edit.name"/>"/>
+    <input type="text" name="name" value="${lot.name}" title="<fmt:message key="lot_edit.name_title"/>" placeholder="<fmt:message key="lot_edit.name"/>" required pattern="[-=:'\.)\s(\wА-Яа-я0-9]{4,45}"/>
     <br/>
     <textarea name="description" placeholder="<fmt:message key="lot_edit.description"/>">${lot.description}</textarea>
     <br/>
     <input type="number" min="0.01" step="0.01" name="bid" value="${lot.currentCost}" placeholder="<fmt:message key="lot_edit.start_bid"/>"/>
     <br/>
     <label for="endTime"><fmt:message key="lot_edit.start_time"/></label>
-    <input id="startTime" type="datetime-local" value="${lot.startTime}" name="startTime"/>
+    <input id="startTime" type="datetime-local" value="${lot.startTime}" name="startTime" title="<fmt:message key="lot_edit.start_time_title"/>"/>
     <label for="endTime"><fmt:message key="lot_edit.finish_time"/></label>
-    <input id="endTime" type="datetime-local" value="${lot.finishTime}" name="endTime"/>
+    <input id="endTime" type="datetime-local" value="${lot.finishTime}" name="endTime" title="<fmt:message key="lot_edit.finish_time_title"/>"/>
     <br/>
     <img src="${lot.images.get(0)}" alt="image" id="image_path1Image" style="visibility: hidden"/>
     <img id="image_path2Image" src="${lot.images.get(1)}" style="visibility: hidden"/>

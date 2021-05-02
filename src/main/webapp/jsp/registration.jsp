@@ -23,9 +23,9 @@
     </c:if>
     <form class="register-form" action="register.do" method="post">
         <input type="hidden" name="command" value="register"/>
-        <input type="text" placeholder="<fmt:message key="registration.login"/>" name="login" required pattern="[\wА-Яа-я0-9]{4,35}"/>
-        <input type="text" placeholder="<fmt:message key="registration.name"/>" name="name" required pattern="[\wА-Яа-я]{1,35}"/>
-        <input type="password" placeholder="<fmt:message key="registration.password"/>" name="password" required pattern=".{8, 40}"/>
+        <input type="text" placeholder="<fmt:message key="registration.login"/>" title="<fmt:message key="registration.login_title"/>" name="login" required pattern="[\wА-Яа-я0-9]{4,35}"/>
+        <input type="text" placeholder="<fmt:message key="registration.name"/>" title="<fmt:message key="registration.name_title"/>" name="name" required pattern="[\wА-Яа-я]{1,35}"/>
+        <input type="password" placeholder="<fmt:message key="registration.password"/>" title="<fmt:message key="registration.password_title"/>" name="password" required pattern=".{8, 40}"/>
         <input type="text" placeholder="<fmt:message key="registration.email"/>" name="mail" required pattern="([^$@!]{4,20}@\w+\.\w+){,45}"/>
         <select name="role" required>
             <option value="" selected disabled hidden><fmt:message key="registration.choose_role"/></option>

@@ -2,6 +2,11 @@ package com.epam.web.command;
 
 import com.epam.web.command.impl.*;
 
+/**
+ * Enum that contain names of all commands, that are called by user, and their realisation
+ *
+ * @author Nikita Yakovlev
+ */
 public enum CommandType {
     REGISTER(new RegisterCommand()),
     LOGIN(new LoginCommand()),
@@ -30,12 +35,22 @@ public enum CommandType {
     SUBMIT_WINNER(new SubmitWinner()),
     TO_SELLER_LOTS(new ToSellerLots());
 
+    /**
+     * enum element constructor
+     *
+     * @param command realisation of a command
+     */
     CommandType(ActionCommand command) {
         this.command = command;
     }
 
     ActionCommand command;
 
+    /**
+     * method to get command realisation
+     *
+     * @return realisation of a command
+     */
     public ActionCommand getCommand() {
         return command;
     }

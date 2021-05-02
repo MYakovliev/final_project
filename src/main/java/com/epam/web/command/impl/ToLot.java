@@ -19,6 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * The command that finds a lot by id and forwards to its page
+ *
+ * @author Nikita Yakovlev
+ */
 public class ToLot implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static LotService service = LotServiceImpl.getInstance();

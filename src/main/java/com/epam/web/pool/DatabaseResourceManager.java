@@ -6,6 +6,11 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Class to get database data from properties file
+ *
+ * @author Nikita Yakovlev
+ */
 public class DatabaseResourceManager {
     private static final Logger logger = LogManager.getLogger();
     private static final Properties properties = new Properties();

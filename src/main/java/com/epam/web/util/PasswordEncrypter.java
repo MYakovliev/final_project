@@ -6,6 +6,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
+/**
+ * util class to encrypt string (password)
+ */
 public class PasswordEncrypter {
     private final static Logger logger = LogManager.getLogger();
     private static final String ALGORITHM = "SHA-1";

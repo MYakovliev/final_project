@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * The command that changes user name, mail and avatar
+ *
+ * @author Nikita Yakovlev
+ */
 public class ChangeUserData implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static UserService service = UserServiceImpl.getInstance();
@@ -37,6 +42,9 @@ public class ChangeUserData implements ActionCommand {
             String name = request.getParameter(RequestParameter.NAME);
             String mail = request.getParameter(RequestParameter.MAIL);
             service.changeUserData(user.getId(), avatar, name, mail);
+            user.setAvatar(avatar);
+            user.setName(name);
+            user.setMail(mail);
         } catch (ServiceException e) {
             result = CommandResult.createRedirectCommandResult(String.format(COMMAND_TO_USER_EDIT, e.getMessage()));
             logger.error(e);

@@ -19,5 +19,7 @@ Status code: ${pageContext.errorData.statusCode}
 Exception: ${pageContext.exception}
 <br/>
 Message from exception: ${pageContext.exception.message}
+<br/>
+Stack trace: ${pageContext.exception.printStackTrace()}
 </body>
 </html>

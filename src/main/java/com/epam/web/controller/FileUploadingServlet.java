@@ -21,12 +21,15 @@ import javax.servlet.http.Part;
 
 import java.util.UUID;
 
+/**
+ * servlet that handles uploading commands
+ */
 @WebServlet(urlPatterns = {"/upload/*"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
         maxRequestSize = 1024 * 1024 * 5 * 5)
 public class FileUploadingServlet extends HttpServlet {
-    private static final String IMAGE_DIRECTORY_NAME = "img" + File.separator + "uploads" + File.separator;
+    private static final String IMAGE_DIRECTORY_NAME =   "img" + File.separator + "uploads" + File.separator;
     private static final String UPLOAD_DIR = "C:" + File.separator + "epam_tasks" +
             File.separator + "demo" + File.separator + "src" + File.separator + "main" + File.separator +
             "webapp" + File.separator + "img" + File.separator + "uploads";
@@ -66,6 +69,14 @@ public class FileUploadingServlet extends HttpServlet {
         process(request, response);
     }
 
+    /**
+     * Method to process command after uploading picture
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name;
 

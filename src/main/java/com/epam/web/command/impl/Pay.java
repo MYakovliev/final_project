@@ -16,6 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 
+/**
+ * The command to add money to user's balance
+ *
+ * @author Nikita Yakovlev
+ */
 public class Pay implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static UserService service = UserServiceImpl.getInstance();

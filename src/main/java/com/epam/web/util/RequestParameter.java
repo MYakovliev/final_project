@@ -1,7 +1,9 @@
 package com.epam.web.util;
 
+/**
+ * Class contains constant fields with names of parameters stored in request
+ */
 public class RequestParameter {
-
     public static final String END_TIME = "endTime";
     public static final String START_TIME = "startTime";
     public static final String DESCRIPTION = "description";

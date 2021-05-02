@@ -12,6 +12,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The command to get to lot edit page
+ *
+ * @author Nikita Yakovlev
+ */
 public class ToLotEdit implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static LotService service = LotServiceImpl.getInstance();

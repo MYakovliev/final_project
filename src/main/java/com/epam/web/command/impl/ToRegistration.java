@@ -6,6 +6,11 @@ import com.epam.web.util.JspPath;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The command that forwards to registration page
+ *
+ * @author Nikita Yakovlev
+ */
 public class ToRegistration implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {

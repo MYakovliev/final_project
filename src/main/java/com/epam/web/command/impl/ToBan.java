@@ -6,6 +6,11 @@ import com.epam.web.util.JspPath;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The command to redirect to ban page
+ *
+ * @author Nikita Yakovlev
+ */
 public class ToBan implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {

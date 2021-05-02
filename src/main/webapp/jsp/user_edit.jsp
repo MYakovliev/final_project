@@ -25,7 +25,7 @@
         <img src="${sessionScope.user.avatar}" id="img"/>
         <label for="1"><fmt:message key="user_edit.upload_image"/></label>
         <input id="1" type="file" name="avatar" onchange="readURL(this, 'img', null)"/>
-        <input type="text" name="name" placeholder="<fmt:message key="user_edit.name"/>" value="${sessionScope.user.name}">
+        <input type="text" name="name" placeholder="<fmt:message key="user_edit.name"/>" title="<fmt:message key="registration.name_title"/>" value="${sessionScope.user.name}">
         <input type="email" name="mail" placeholder="<fmt:message key="user_edit.mail"/>" value="${sessionScope.user.mail}">
         <input type="submit" name="btn" value="<fmt:message key="user_edit.submit"/>"/>
     </form>

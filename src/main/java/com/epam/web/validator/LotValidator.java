@@ -6,15 +6,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+/**
+ * Validator for lot details
+ */
 public class LotValidator {
-    private static final Pattern NAME_PATTERN = Pattern.compile("[-=:'\\.)\\s(\"\\w0-9]{4,45}");
-    private static final int MAX_NAME_LENGTH = 40;
+    private static final Pattern NAME_PATTERN = Pattern.compile("[-=:'\\.)\\s(\"\\wА-Яа-я0-9]{4,40}");
     private static final int MAX_DESCRIPTION_LENGTH = 10000;
 
 
     public static boolean isValidName(String name) {
         Matcher matcher = NAME_PATTERN.matcher(name);
-        boolean result = matcher.matches() && name.length() < MAX_NAME_LENGTH;
+        boolean result = matcher.matches();
         return result;
     }
 

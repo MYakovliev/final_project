@@ -100,7 +100,6 @@ public class LotDaoImpl implements LotDao {
             }
             throw new DaoException(e);
         } finally {
-
             if (statement != null) {
                 try {
                     statement.close();
@@ -114,7 +113,6 @@ public class LotDaoImpl implements LotDao {
                     connection.close();
                 } catch (SQLException e) {
                     logger.error(e);
-                    throw new DaoException(e);
                 }
             }
         }

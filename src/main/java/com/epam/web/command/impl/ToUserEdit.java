@@ -6,6 +6,11 @@ import com.epam.web.util.JspPath;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The command that forwards to page where user can change his data
+ *
+ * @author Nikita Yakovlev
+ */
 public class ToUserEdit implements ActionCommand {
 
     @Override

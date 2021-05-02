@@ -22,6 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * The command that finds a list of lots that contains in their name the word
+ *
+ * @author Nikita Yakovlev
+ */
 public class FindLotsByName implements ActionCommand {
     private static LotService service = LotServiceImpl.getInstance();
     private static AmountService amountService = AmountServiceImpl.getInstance();

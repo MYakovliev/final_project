@@ -19,6 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * The command that forwards to lots page where all lots are hosted by exact seller
+ *
+ * @author Nikita Yakovlev
+ */
 public class ToSellerLots implements ActionCommand {
 
     private static LotService service = LotServiceImpl.getInstance();

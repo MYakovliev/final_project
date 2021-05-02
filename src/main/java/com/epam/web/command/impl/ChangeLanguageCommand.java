@@ -10,6 +10,11 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * The command that changes language in session
+ *
+ * @author Nikita Yakovlev
+ */
 public class ChangeLanguageCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final String REFERER = "referer";

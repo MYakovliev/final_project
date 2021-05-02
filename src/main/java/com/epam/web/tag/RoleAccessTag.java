@@ -7,6 +7,9 @@ import com.epam.web.util.SessionAttribute;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.tagext.TagSupport;
 
+/**
+ * Custom tag to get access to tag body if user has the right role
+ */
 public class RoleAccessTag extends TagSupport {
     private String role;
 

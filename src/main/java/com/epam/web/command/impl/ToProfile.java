@@ -12,6 +12,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The command that forwards to user's profile using user's id
+ *
+ * @author Nikita Yakovlev
+ */
 public class ToProfile implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final UserService service = UserServiceImpl.getInstance();

@@ -6,6 +6,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Class to create connections to database
+ *
+ * @author Nikita Yakovlev
+ */
 public class ConnectionCreator {
     private static final Logger logger = LogManager.getLogger();
     private static final String DRIVER = "driver";

@@ -5,6 +5,11 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Entity class Lot
+ *
+ * @author Nikita Yakovlev
+ */
 public class Lot {
     private long id;
     private String name;

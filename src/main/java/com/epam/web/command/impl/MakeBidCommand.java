@@ -20,6 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
+/**
+ * The command that let the user to make a bid, allowed only to buyer
+ *
+ * @author Nikita Yakovlev
+ */
 public class MakeBidCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static UserService service = UserServiceImpl.getInstance();

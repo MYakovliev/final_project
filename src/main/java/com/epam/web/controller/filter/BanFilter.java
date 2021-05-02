@@ -17,6 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Filter that checks if current user is banned
+ *
+ * @author Nikita Yakovlev
+ */
 @WebFilter(filterName = "banFilter", urlPatterns = {"/*"})
 public class BanFilter implements Filter {
     private static UserService service = UserServiceImpl.getInstance();

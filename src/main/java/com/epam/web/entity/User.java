@@ -3,6 +3,11 @@ package com.epam.web.entity;
 
 import java.math.BigDecimal;
 
+/**
+ * Entity class User
+ *
+ * @author Nikita Yakovlev
+ */
 public class User {
     private long id;
     private String mail;

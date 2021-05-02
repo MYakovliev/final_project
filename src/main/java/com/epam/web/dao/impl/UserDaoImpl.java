@@ -89,7 +89,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(3, login);
             statement.setString(4, password);
             statement.setString(5, role.toString());
-            statement.executeQuery();
+            statement.execute();
         } catch (SQLException | ConnectionPoolException e) {
             logger.error(e);
             throw new DaoException(e);

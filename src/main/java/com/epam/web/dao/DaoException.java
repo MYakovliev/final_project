@@ -1,5 +1,8 @@
 package com.epam.web.dao;
 
+/**
+ * The exception-wrapper for dao layer
+ */
 public class DaoException extends Exception{
     public DaoException(){
         super();

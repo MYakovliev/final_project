@@ -15,6 +15,11 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * The command that let guest to sign in
+ *
+ * @author Nikita Yakovlev
+ */
 public class LoginCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static UserService userServiceImpl = UserServiceImpl.getInstance();

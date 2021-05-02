@@ -8,7 +8,7 @@ import static org.testng.Assert.*;
 public class UserValidatorTest {
     @DataProvider(name = "validName")
     public Object[] createValidName(){
-        return new Object[]{"justName", "Name"};
+        return new Object[]{"justName", "Name", "Царь"};
     }
 
     @DataProvider(name = "invalidName")
@@ -44,6 +44,29 @@ public class UserValidatorTest {
     @DataProvider(name = "invalidPassword")
     public Object[] createInvalidPassword(){
         return new Object[]{"name.co", ""};
+    }
+
+    @DataProvider(name = "validLogin")
+    public Object[] createValidLogin(){
+        return new Object[]{"login", "login45", "43212", "Царь"};
+    }
+
+    @DataProvider(name = "invalidLogin")
+    public Object[] createInvalidLogin(){
+        return new Object[]{"дщпшт-тщ", "<loyih>"};
+    }
+
+
+    @Test(dataProvider = "validLogin")
+    public void testIsValidLogin(String login) {
+        boolean actual = UserValidator.isValidLogin(login);
+        assertTrue(actual);
+    }
+
+    @Test(dataProvider = "invalidLogin")
+    public void testIsInvalidLogin(String login) {
+        boolean actual = UserValidator.isValidLogin(login);
+        assertFalse(actual);
     }
 
     @Test(dataProvider = "validName")

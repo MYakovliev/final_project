@@ -14,6 +14,11 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The command to register user
+ *
+ * @author Nikita Yakovlev
+ */
 public class RegisterCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final String COMMAND_TO_REDIRECT = "/controller?command=login&login=%s&password=%s";

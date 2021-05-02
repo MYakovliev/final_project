@@ -18,6 +18,11 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * The command to submit lot winner and give money to seller's account
+ *
+ * @author Nikita Yakovlev
+ */
 public class SubmitWinner implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static AdminService service = AdminServiceImpl.getInstance();
@@ -34,7 +39,7 @@ public class SubmitWinner implements ActionCommand {
         try {
             if (user != null && user.getUserRole() == UserRole.ADMIN) {
                 Lot lot = lotService.findLotById(lotId);
-                service.submitWinner(lot.getBuyerId(), lot);
+                service.submitWinner(lot);
             }
         } catch (ServiceException e) {
             logger.error(e);

@@ -1,6 +1,9 @@
 package com.epam.web.util;
 
-public class JspPath {
+/**
+ * Paths to jsp files
+ */
+public class  JspPath {
 
     public static final String LOT_EDIT = "/jsp/lot_edit.jsp";
     public static final String LOGIN = "/jsp/login.jsp";

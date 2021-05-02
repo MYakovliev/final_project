@@ -6,6 +6,11 @@ import com.epam.web.util.JspPath;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The command to forward to login page
+ *
+ * @author Nikita Yakovlev
+ */
 public class ToLogin implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {

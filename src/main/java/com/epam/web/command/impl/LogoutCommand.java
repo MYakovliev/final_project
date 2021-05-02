@@ -5,6 +5,11 @@ import com.epam.web.command.CommandResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * The command to sign out
+ *
+ * @author Nikita Yakovlev
+ */
 public class LogoutCommand implements ActionCommand {
     private static final String COMMAND_TO_REDIRECT = "/controller?command=to_lots";
 

@@ -15,6 +15,11 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * The command to unban user by id, allowed only to admin
+ *
+ * @author Nikita Yakovlev
+ */
 public class UnbanUser implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static AdminService service = AdminServiceImpl.getInstance();

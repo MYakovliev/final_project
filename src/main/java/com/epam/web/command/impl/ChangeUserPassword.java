@@ -13,6 +13,11 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * The command that changes user password
+ *
+ * @author Nikita Yakovlev
+ */
 public class ChangeUserPassword implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static UserService service = UserServiceImpl.getInstance();

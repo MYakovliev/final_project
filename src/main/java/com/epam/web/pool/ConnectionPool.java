@@ -5,11 +5,15 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayDeque;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
+/**
+ *  The connection pool stores and gives connections to dao layer
+ *
+ * @author Nikita Yakovlev
+ *
+ */
 public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger();
     private static final int MIN_POOL_SIZE = Integer.parseInt(DatabaseResourceManager.getParameter("minPoolSize"));
@@ -22,6 +26,9 @@ public class ConnectionPool {
         return instance;
     }
 
+    /**
+     * Connection pool constructor that initializes free connections
+     */
     private ConnectionPool() {
         for (int i = 0; i < MIN_POOL_SIZE; i++) {
             Connection connection = ConnectionCreator.createConnection();
@@ -30,6 +37,12 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Method to get connection to database
+     *
+     * @return Connection got from free or created if possible @see java.sql.Connection;
+     * @throws ConnectionPoolException
+     */
     public Connection getConnection() throws ConnectionPoolException {
         Connection connection;
         if (!freeConnections.isEmpty()) {
@@ -50,6 +63,11 @@ public class ConnectionPool {
     }
 
 
+    /**
+     * Method to return connection to connection pool or close it if not possible to return
+     *
+     * @param connection to return
+     */
     public void releaseConnection(Connection connection) {
         if (!(connection instanceof ProxyConnection)) {
             logger.error("connection is not proxy");
@@ -64,6 +82,9 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Method to close connection pool that closes all connections
+     */
     public void destroyPool() {
         try {
             for (int i = 0; i < freeConnections.size() + givenConnections.size(); i++) {

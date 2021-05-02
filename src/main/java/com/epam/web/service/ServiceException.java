@@ -1,5 +1,8 @@
 package com.epam.web.service;
 
+/**
+ * The exception-wrapper for service layer
+ */
 public class ServiceException extends Exception{
     public ServiceException(){
         super();

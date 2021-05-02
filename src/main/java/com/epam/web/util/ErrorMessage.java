@@ -1,5 +1,8 @@
 package com.epam.web.util;
 
+/**
+ * Class contains constant fields as keys for resource bundle when error throws
+ */
 public class ErrorMessage {
     public static final String NOT_BUYER = "not_buyer";
     public static final String NOT_LOGGED_IN = "not_logged_in";

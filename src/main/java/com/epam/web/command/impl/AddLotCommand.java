@@ -18,6 +18,11 @@ import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * The command that creates a new Lot and allowed only to seller
+ *
+ * @author Nikita Yakovlev
+ */
 public class AddLotCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static LotService service = LotServiceImpl.getInstance();
@@ -27,7 +32,7 @@ public class AddLotCommand implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(SessionAttribute.USER);
-        CommandResult result = CommandResult.createForwardCommandResult(COMMAND_TO_REDIRECT);
+        CommandResult result = CommandResult.createRedirectCommandResult(COMMAND_TO_REDIRECT);
         try {
             if (user != null && user.getUserRole() == UserRole.SELLER) {
                 String name = request.getParameter(RequestParameter.NAME);

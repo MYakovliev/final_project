@@ -45,10 +45,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void submitWinner(long userId, Lot lot) throws ServiceException {
+    public void submitWinner(Lot lot) throws ServiceException {
         try {
             if (lot.getFinishTime().after(new Date()) && lot.getBuyerId() != 0) {
-                dao.submitWinner(userId, lot.getId());
+                dao.submitWinner(lot.getBuyerId(), lot.getId());
             }
         } catch (DaoException e) {
             logger.error(e);

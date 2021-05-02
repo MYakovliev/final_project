@@ -3,6 +3,9 @@ package com.epam.web.controller.filter;
 import javax.servlet.*;
 import java.io.IOException;
 
+/**
+ * Filter to set encodings to request and response objects
+ */
 public class CharacterSetFilter implements Filter {
 
     @Override

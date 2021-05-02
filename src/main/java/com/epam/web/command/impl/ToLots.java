@@ -16,11 +16,17 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+
+/**
+ * The command that introduces the main page with active lots
+ *
+ * @author Nikita Yakovlev
+ */
 public class ToLots implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger();
     private static LotService service = LotServiceImpl.getInstance();
     private static AmountService amountService = AmountServiceImpl.getInstance();
-    private static final Logger logger = LogManager.getLogger();
-    private static final int AMOUNT_PER_PAGE = 20;
+    private static final int AMOUNT_PER_PAGE = 5;
     private static final String COMMAND_TO_PAGING = "to_lots";
 
     @Override
@@ -41,7 +47,6 @@ public class ToLots implements ActionCommand {
             request.setAttribute(RequestParameter.LOT_LIST, lots);
             request.setAttribute(RequestParameter.LOT_PAGE_AMOUNT, pageAmount);
             request.setAttribute(RequestParameter.LOT_ACTIVE_PAGE, lotPageNumber);
-            request.setAttribute(RequestParameter.USER_PAGING_COMMAND, COMMAND_TO_PAGING);
             request.setAttribute(RequestParameter.LOT_PAGING_COMMAND, COMMAND_TO_PAGING);
             result = CommandResult.createForwardCommandResult(JspPath.LOTS);
         } catch (ServiceException e) {

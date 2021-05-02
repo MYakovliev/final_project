@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * Class-wrapper for connection
+ */
 public class ProxyConnection implements Connection {
     private Connection connection;
 
@@ -12,10 +15,18 @@ public class ProxyConnection implements Connection {
         this.connection = connection;
     }
 
+    /**
+     * Method to close the connection
+     *
+     * @throws SQLException
+     */
     public void reallyClose() throws SQLException {
         connection.close();
     }
 
+    /**
+     * Method to return connection to connection pool
+     */
     @Override
     public void close() {
         ConnectionPool.getInstance().releaseConnection(this);
